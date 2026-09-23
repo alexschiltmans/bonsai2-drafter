@@ -9,7 +9,8 @@
 Three tiers, and the first one is the reason this file is laid out the way it is.
 
 1. **The format, with no mlx at all.** The safetensors header reader, the metadata
-   validator, the config-shape checks and the load-option checks run under system python3,
+   validator, the check of mlx-lm's quantization block against it, the config-shape checks
+   and the load-option checks run under system python3,
    so `bench/check.sh`'s no-GPU tier covers every rule that decides whether a file is this
    format. These are the checks that stand between a mislabelled artifact and a drafter
    that loads clean and drafts nonsense, so they are the ones that should be cheapest to
@@ -19,12 +20,14 @@ Three tiers, and the first one is the reason this file is laid out the way it is
    reloaded for real through `bench/drafter/export_quantized.py` and the patch. Tensor
    names, shapes, dtypes and exact values; module classes and their quantization
    parameters; the selector and convolution tensors left alone; missing, extra and
-   malformed inputs; the exporter's refusals; source immutability; patch idempotence; and
-   an ordinary bfloat16 checkpoint still loading the way it always did.
+   malformed inputs; the exporter's refusals; source immutability; patch idempotence; an
+   ordinary bfloat16 checkpoint still loading the way it always did; and mlx-lm's own
+   `load_model` reading the artifact through its quantization block to the same model.
 3. **`--source`/`--artifact`: the real pair.** The model-backed check:
    the shipped ft5 checkpoint quantized at load time against the saved artifact loaded
    through the patch, materialized on both sides and compared exactly, in this process and
-   again in a fresh one that cannot read the source directory at all.
+   again in a fresh one that cannot read the source directory at all; and the artifact
+   through mlx-lm's `load_model`, compared the same way.
 """
 
 from __future__ import annotations
@@ -265,6 +268,137 @@ for why, name, dtype in (
     damaged[name]["dtype"] = dtype
     refuses(f"{why} is refused", pq.check_tensor_dtypes, damaged, TINY_MODULES)
 
+print("== 2d. mlx-lm's quantization block beside the repository's")
+#: What the exporter keeps in bfloat16 for the tiny drafter: the convolution and selector
+#: projections, and the two selector codebooks.
+TINY_KEPT = sorted(
+    [f"layers.{i}.{c}.kernel_projection" for i in range(2) for c in ("attention_conv", "mlp_conv")]
+    + ["candidate_selector.hidden_projection", "candidate_selector.predecessor_codebook",
+       "candidate_selector.successor_codebook"])
+TINY_BLOCK: dict[str, Any] = ({"group_size": 64, "bits": 4, "mode": "affine"}
+                              | {path: False for path in TINY_KEPT})
+
+
+def tiny_header() -> dict[str, dict[str, Any]]:
+    """The tensor table the exporter writes for the tiny drafter, down to each tensor's rank.
+
+    Shapes are not the real ones except in the number of dimensions, which is all
+    :func:`pq.kept_matrices` reads: packed weights and their scales and biases, 1-D norms,
+    3-D convolution base kernels, and the 2-D matrices kept in bfloat16.
+    """
+    header = {f"{m}.weight": {"dtype": "U32", "shape": [8, 2]} for m in TINY_MODULES}
+    header |= {f"{m}.{s}": {"dtype": "BF16", "shape": [8, 2]} for m in TINY_MODULES
+               for s in ("scales", "biases")}
+    norms = ["hidden_norm", "norm"] + [
+        f"layers.{i}.{n}" for i in range(2)
+        for n in ("input_layernorm", "post_attention_layernorm", "self_attn.q_norm",
+                  "self_attn.k_norm")]
+    header |= {f"{n}.weight": {"dtype": "BF16", "shape": [128]} for n in norms}
+    header |= {f"layers.{i}.{c}.base_kernel": {"dtype": "BF16", "shape": [2, 2, 128]}
+               for i in range(2) for c in ("attention_conv", "mlp_conv")}
+    header |= {f"layers.{i}.{c}.kernel_projection.weight": {"dtype": "BF16", "shape": [32, 128]}
+               for i in range(2) for c in ("attention_conv", "mlp_conv")}
+    header |= {"candidate_selector.hidden_projection.weight":
+               {"dtype": "BF16", "shape": [64, 128]}}
+    header |= {f"candidate_selector.{k}_codebook": {"dtype": "BF16", "shape": [256, 64]}
+               for k in ("predecessor", "successor")}
+    return header
+
+
+def with_blocks(block: Any = TINY_BLOCK, copy_of: Any = TINY_BLOCK) -> dict[str, Any]:
+    """The tiny config with mlx-lm's block and its copy; None leaves a key out."""
+    cfg = tiny_config()
+    if block is not None:
+        cfg[pq.MLX_QUANTIZATION_KEY] = copy.deepcopy(block)
+    if copy_of is not None:
+        cfg[pq.MLX_QUANTIZATION_COPY_KEY] = copy.deepcopy(copy_of)
+    return cfg
+
+
+TINY_HEADER = tiny_header()
+pq.check_tensor_dtypes(TINY_HEADER, TINY_MODULES)
+check("the tiny header obeys the dtype rule", True)
+check("the kept matrices are the convolution and selector projections and the codebooks",
+      pq.kept_matrices({n: e["shape"] for n, e in TINY_HEADER.items()}, TINY_MODULES)
+      == TINY_KEPT)
+built = pq.mlx_quantization_block(good_meta(), {n: e["shape"] for n, e in TINY_HEADER.items()})
+check("the block the exporter would write", built == TINY_BLOCK, json.dumps(built))
+check("with the parameters first, in the order mlx-lm writes them",
+      list(built)[:3] == ["group_size", "bits", "mode"], str(list(built)[:3]))
+check("both keys, identical, are accepted",
+      pq.validate_mlx_quantization(with_blocks(), good_meta(), TINY_HEADER) == TINY_BLOCK)
+check("the block without its copy is accepted: mlx-lm reads only the block",
+      pq.validate_mlx_quantization(with_blocks(copy_of=None), good_meta(), TINY_HEADER)
+      == TINY_BLOCK)
+check("an artifact with neither is still this format's",
+      pq.validate_mlx_quantization(tiny_config(), good_meta(), TINY_HEADER) is None)
+
+
+def spoiled_block(**changes: Any) -> dict[str, Any]:
+    """TINY_BLOCK with keys changed, or removed where the value is None."""
+    block = dict(TINY_BLOCK)
+    for key, value in changes.items():
+        if value is None:
+            block.pop(key, None)
+        else:
+            block[key] = value
+    return block
+
+
+for why, cfg in (
+        ("the copy without the block (mlx-lm reads it as a Hugging Face block)",
+         with_blocks(block=None)),
+        ("a copy that differs from the block", with_blocks(copy_of=spoiled_block(bits=8))),
+        ("a block that is a list", with_blocks(block=[4, 64], copy_of=None)),
+        ("a block that is a string", with_blocks(block="4bit", copy_of=None)),
+):
+    refuses(f"{why} is refused", pq.validate_mlx_quantization, cfg, good_meta(), TINY_HEADER)
+
+for why, block in (
+        ("8 bits in the block", spoiled_block(bits=8)),
+        ("bits as a string in the block", spoiled_block(bits="4")),
+        ("bits as a float in the block", spoiled_block(bits=4.0)),
+        ("group 128 in the block", spoiled_block(group_size=128)),
+        ("group 32 in the block", spoiled_block(group_size=32)),
+        ("mode mxfp4 in the block", spoiled_block(mode="mxfp4")),
+        ("a block with no bits", spoiled_block(bits=None)),
+        ("a block with no group size", spoiled_block(group_size=None)),
+        ("a block with no mode (mlx-lm's default is not this format's statement)",
+         spoiled_block(mode=None)),
+        ("true for a kept module", spoiled_block(**{"candidate_selector.hidden_projection": True})),
+        ("a dictionary for a kept module",
+         spoiled_block(**{"layers.0.mlp_conv.kernel_projection":
+                          {"group_size": 64, "bits": 4, "mode": "affine"}})),
+        ("false for a module the repository block quantizes", spoiled_block(fc=False)),
+        ("false for a path the rule does not exclude", spoiled_block(norm=False)),
+        ("a kept codebook left unnamed",
+         spoiled_block(**{"candidate_selector.successor_codebook": None})),
+        ("a kept convolution left unnamed",
+         spoiled_block(**{"layers.1.attention_conv.kernel_projection": None})),
+        ("a named path the file has no matrix for",
+         spoiled_block(**{"layers.7.mlp_conv.kernel_projection": False})),
+        ("a malformed path", spoiled_block(**{"layers..mlp_conv": False})),
+        ("a key that is not mlx-lm's", spoiled_block(quant_method="affine")),
+):
+    refuses(f"{why} is refused", pq.validate_mlx_quantization,
+            with_blocks(block, block), good_meta(), TINY_HEADER)
+
+
+class Quantizable:
+    """Stands in for an `nn.Linear` or `nn.Embedding`, which is all mlx-lm's predicate asks."""
+
+    def to_quantized(self) -> None:
+        """Present, which is what counts."""
+
+
+selection = pq.mlx_lm_selection(
+    {"group_size": 64, "bits": 4, "mode": "affine", "named": False},
+    {"named": Quantizable(), "packed": Quantizable(), "plain": Quantizable(), "norm": object()},
+    {"named.scales", "packed.scales", "norm.scales"})
+check("mlx-lm's predicate, restated: a named module gets its entry, an unnamed one is "
+      "quantized when its scales are present and it can be",
+      selection == ["packed"], str(selection))
+
 # --------------------------------------------------------------------------- 3. the config shape
 
 print("== 3. the config shape this format allows")
@@ -367,6 +501,44 @@ with tempfile.TemporaryDirectory() as tmp:
                       {"fc.weight": ("U32", [128, 32])})
     refuses("an unsupported marked artifact fails rather than falling back",
             pq.inspect, unsupported_dir)
+
+    def artifact_dir(name: str, cfg: dict[str, Any]) -> str:
+        """A directory with the tiny artifact's full tensor table and the given config."""
+        path = os.path.join(tmp, name)
+        os.makedirs(path)
+        with open(os.path.join(path, "config.json"), "w") as f:
+            json.dump(cfg, f)
+        write_safetensors(os.path.join(path, "model.safetensors"),
+                          {n: (e["dtype"], e["shape"]) for n, e in TINY_HEADER.items()},
+                          {"format": "mlx"})
+        return path
+
+    both = artifact_dir("both-blocks", with_blocks() | {pq.FORMAT_KEY: good_meta()})
+    config, meta = pq.inspect(both)
+    check("an artifact carrying both blocks comes back validated",
+          meta is not None and config[pq.MLX_QUANTIZATION_KEY] == TINY_BLOCK)
+    check("and an artifact carrying only the repository's block still does",
+          pq.inspect(artifact_dir("own-block", tiny_config() | {pq.FORMAT_KEY: good_meta()}))[1]
+          is not None)
+    refuses("an artifact whose blocks disagree on the bit width is refused", pq.inspect,
+            artifact_dir("disagree-bits", with_blocks(spoiled_block(bits=8), None)
+                         | {pq.FORMAT_KEY: good_meta()}))
+    refuses("an artifact whose blocks disagree on the selection is refused", pq.inspect,
+            artifact_dir("disagree-selection",
+                         with_blocks(spoiled_block(**{"layers.0.self_attn.q_proj": False}), None)
+                         | {pq.FORMAT_KEY: good_meta()}))
+    refuses("an artifact whose mlx-lm block omits a kept matrix is refused", pq.inspect,
+            artifact_dir("incomplete",
+                         with_blocks(spoiled_block(**{"candidate_selector.hidden_projection":
+                                                      None}), None)
+                         | {pq.FORMAT_KEY: good_meta()}))
+    mlx_only = artifact_dir("mlx-lm-only", with_blocks())
+    try:
+        pq.inspect(mlx_only)
+        check("packed tensors with only mlx-lm's block are refused", False, "accepted")
+    except pq.PrequantizedFormatError as exc:
+        check("packed tensors with only mlx-lm's block are refused, saying why",
+              pq.MLX_QUANTIZATION_KEY in str(exc) and pq.FORMAT_KEY in str(exc), str(exc))
 
     broken_dir = os.path.join(tmp, "broken-config")
     os.makedirs(broken_dir)
@@ -480,6 +652,32 @@ with tempfile.TemporaryDirectory() as tmp_link:
 
 
 # --------------------------------------------------------------------------- 5. synthetic models
+
+def load_with_mlx_lm(path: str) -> Any:
+    """The artifact through mlx-lm's own `load_model`, with only the model class supplied.
+
+    This is how a runtime that builds its DFlash 2 drafter through mlx-lm loads one: mlx-lm
+    reads `config.json`, its class predicate reads the ``quantization`` block, `nn.quantize`
+    builds the modules and the load is strict. Nothing of this repository's loader runs;
+    `pq.build_config` only turns the config into the `DFlashConfig` the model class takes,
+    as a runtime's own argument class would.
+    """
+    from pathlib import Path
+
+    from mlx_dspark.dflash_model import DFlashDraftModel
+    from mlx_lm.utils import load_model
+
+    class Arguments:
+        @classmethod
+        def from_dict(cls, config: dict[str, Any]) -> Any:
+            return pq.build_config(config, where=path)
+
+    def classes(config: dict[str, Any]) -> tuple[Any, Any]:
+        return DFlashDraftModel, Arguments
+
+    model, _ = load_model(Path(path), strict=True, get_model_classes=classes)
+    return model
+
 
 def run_gpu_tier() -> None:
     """Export and reload a real, tiny DFlash 2 drafter. Needs mlx and the dspark venv."""
@@ -603,6 +801,44 @@ def run_gpu_tier() -> None:
         check("no target embedding or head was written",
               not [k for k in right if k.startswith(("embed_tokens", "lm_head"))])
 
+        print("== 5a. mlx-lm's convention, read by mlx-lm's own loader")
+        with open(os.path.join(artifact, "config.json")) as f:
+            written = json.load(f)
+        check("the artifact carries mlx-lm's block for exactly these weights",
+              written.get(pq.MLX_QUANTIZATION_KEY) == TINY_BLOCK,
+              json.dumps(written.get(pq.MLX_QUANTIZATION_KEY)))
+        check("and its copy, identical, as mlx-lm writes the pair",
+              written.get(pq.MLX_QUANTIZATION_COPY_KEY) == TINY_BLOCK)
+        check("the manifest records the same block", result["mlx_lm_quantization"] == TINY_BLOCK)
+        check("the source's own config is untouched by it",
+              ex.directory_hashes(source) == source_hashes_before)
+
+        by_mlx_lm = load_with_mlx_lm(artifact)
+        theirs = digest(by_mlx_lm)
+        check("mlx-lm's loader reads the same tensor names", set(theirs) == set(right),
+              str(sorted(set(theirs) ^ set(right))[:5]))
+        check("and the same dtypes, shapes and bytes",
+              all(theirs[k] == right[k] for k in set(theirs) & set(right)),
+              str([k for k in set(theirs) & set(right) if theirs[k] != right[k]][:5]))
+        mlx_lm_quantized = {p: (m.bits, m.group_size, m.mode) for p, m in by_mlx_lm.named_modules()
+                            if isinstance(m, nn.QuantizedLinear)}
+        check("and quantizes the same modules at 4 bits, group 64, affine",
+              mlx_lm_quantized == {p: (4, 64, "affine") for p in TINY_MODULES},
+              str(sorted(mlx_lm_quantized)))
+        check("leaving the convolution and selector projections nn.Linear",
+              sorted(p for p, m in by_mlx_lm.named_modules() if isinstance(m, nn.Linear))
+              == conv_and_selector)
+        # The patch's restatement of mlx-lm's predicate, against mlx-lm itself.
+        from mlx_dspark.dflash_model import DFlashDraftModel
+
+        unquantized = DFlashDraftModel(pq.build_config(tiny_config()))
+        restated = pq.mlx_lm_selection(
+            TINY_BLOCK, dict(tree_flatten(unquantized.leaf_modules(), is_leaf=nn.Module.is_module)),
+            set(pq.checkpoint_header(artifact)))
+        check("the patch's restatement of mlx-lm's predicate selects what mlx-lm selected",
+              restated == sorted(mlx_lm_quantized), str(restated))
+        del by_mlx_lm, unquantized
+
         print("== 5b. the loader's refusals")
         refuses("bfloat16 is refused from a 4-bit artifact", dload.load_dflash, artifact,
                 quantize=False)
@@ -666,7 +902,78 @@ def run_gpu_tier() -> None:
         ):
             refuses(f"{why} is refused", dload.load_dflash, variant(mutate))
 
+        def in_both(edit: Any) -> Any:
+            """A config mutation applied to mlx-lm's block and its copy alike, so the refusal
+            is for the disagreement with the repository block and not between the two."""
+            def mutate(cfg: dict[str, Any], _: str) -> None:
+                for key in (pq.MLX_QUANTIZATION_KEY, pq.MLX_QUANTIZATION_COPY_KEY):
+                    edit(cfg[key])
+            return mutate
+
+        # The artifacts exported before the block existed carry only the repository's own.
+        def without_blocks(cfg: dict[str, Any], _: str) -> None:
+            cfg.pop(pq.MLX_QUANTIZATION_KEY)
+            cfg.pop(pq.MLX_QUANTIZATION_COPY_KEY)
+
+        def fewer_modules_own_block_only(cfg: dict[str, Any], path: str) -> None:
+            # Without mlx-lm's block, whose validator would refuse this first, so that the
+            # rule-against-record comparison is the check that answers.
+            without_blocks(cfg, path)
+            cfg[pq.FORMAT_KEY]["quantized_modules"].remove("fc")
+
+        for why, mutate in (
+                ("mlx-lm's block at 8 bits", in_both(lambda b: b.update(bits=8))),
+                ("mlx-lm's block at group 128", in_both(lambda b: b.update(group_size=128))),
+                ("mlx-lm's block in another mode", in_both(lambda b: b.update(mode="mxfp4"))),
+                ("mlx-lm's block keeping a packed module in bfloat16",
+                 in_both(lambda b: b.update(fc=False))),
+                ("mlx-lm's block no longer naming a kept projection",
+                 in_both(lambda b: b.pop("candidate_selector.hidden_projection"))),
+                ("mlx-lm's block no longer naming a codebook",
+                 in_both(lambda b: b.pop("candidate_selector.predecessor_codebook"))),
+                ("a copy that differs from mlx-lm's block",
+                 lambda cfg, _: cfg[pq.MLX_QUANTIZATION_COPY_KEY].update(group_size=128)),
+                ("the copy without mlx-lm's block",
+                 lambda cfg, _: cfg.pop(pq.MLX_QUANTIZATION_KEY)),
+                ("a module list that misses one, with only the repository's block",
+                 fewer_modules_own_block_only),
+        ):
+            refuses(f"{why} is refused", dload.load_dflash, variant(mutate))
+
+        own_only = variant(without_blocks)
+        check("an artifact with only the repository's block still loads through the patch, "
+              "to the same tensors", digest(dload.load_dflash(own_only)[0]) == right)
+        try:
+            load_with_mlx_lm(own_only)
+            check("and mlx-lm's loader cannot load it: the block is what it reads", False,
+                  "loaded")
+        except ValueError as exc:
+            check("and mlx-lm's loader cannot load it: the block is what it reads",
+                  "parameters not in model" in str(exc), str(exc)[:200])
+
+        # The model-level comparison in `load_prequantized`, with the text check before it
+        # disabled: a block that keeps a packed module must still be refused on the model.
+        original_validate = pq.validate_mlx_quantization
+
+        def lenient(config: dict[str, Any], meta: dict[str, Any], header: Any,
+                    where: str = "artifact") -> dict[str, Any]:
+            return dict(config[pq.MLX_QUANTIZATION_KEY]) | {"fc": False}
+
+        pq.validate_mlx_quantization = lenient
+        try:
+            artifact_config = pq.read_config(artifact)
+            refuses("the model-level check alone refuses a block mlx-lm would read differently",
+                    pq.load_prequantized, artifact, artifact_config,
+                    pq.validate_metadata(pq.marker(artifact_config)))
+        finally:
+            pq.validate_mlx_quantization = original_validate
+
         print("== 5c. the exporter's refusals")
+        declared = os.path.join(tmp, "declared")
+        write_source(declared, tiny_config(),
+                     tiny_config() | {pq.MLX_QUANTIZATION_KEY: {"group_size": 64, "bits": 4}})
+        refuses("a source whose config already declares mlx-lm quantization is refused",
+                ex.export_prequantized, declared, os.path.join(tmp, "declared-out"))
         refuses("an existing output is refused", ex.export_prequantized, source, artifact)
         refuses("an already quantized source is refused", ex.export_prequantized, artifact,
                 os.path.join(tmp, "twice"))
@@ -678,7 +985,7 @@ def run_gpu_tier() -> None:
                 source, os.path.join(tmp, "typo", "out2"))
         check("no refusal left a directory behind",
               not any(os.path.exists(os.path.join(tmp, n))
-                      for n in ("twice", "out1", "typo")))
+                      for n in ("twice", "out1", "typo", "declared-out")))
 
         print("== 5e. nothing but this run's own staging directory is ever removed")
         # A code review's blocking finding, as a test. The staging path used to be a
@@ -975,6 +1282,39 @@ def run_model_tier(source: str, artifact: str) -> None:
               for k in ("predecessor", "successor")))
     check("no target embedding or head is present",
           not [k for k in saved_digest if k.startswith(("embed_tokens", "lm_head"))])
+
+    print("== 6a. mlx-lm's quantization block, and mlx-lm's own loader reading it")
+    artifact_config = pq.read_config(artifact)
+    artifact_meta = pq.validate_metadata(pq.marker(artifact_config), where=artifact)
+    header = pq.checkpoint_header(artifact)
+    block = artifact_config.get(pq.MLX_QUANTIZATION_KEY)
+    check("the artifact carries mlx-lm's block for exactly its weights",
+          block == pq.mlx_quantization_block(artifact_meta,
+                                             {n: e["shape"] for n, e in header.items()}),
+          json.dumps(block))
+    check("and its copy, identical", artifact_config.get(pq.MLX_QUANTIZATION_COPY_KEY) == block)
+    kept = sorted(k for k, v in (block or {}).items() if v is False)
+    check("the block keeps exactly the convolution and selector projections and the codebooks",
+          kept == sorted(convs + selector + [f"candidate_selector.{k}_codebook"
+                                             for k in ("predecessor", "successor")]), str(kept))
+    by_mlx_lm = load_with_mlx_lm(artifact)
+    mlx_lm_classes = {p: type(m).__name__ for p, m in by_mlx_lm.named_modules()
+                      if isinstance(m, nn.Linear | nn.QuantizedLinear)}
+    mlx_lm_quant = {p: (m.bits, m.group_size, m.mode) for p, m in by_mlx_lm.named_modules()
+                    if isinstance(m, nn.QuantizedLinear)}
+    mlx_lm_digest = materialized(by_mlx_lm)
+    del by_mlx_lm
+    mx.clear_cache()
+    check("mlx-lm's loader reads the same tensor names", set(mlx_lm_digest) == set(saved_digest),
+          str(sorted(set(mlx_lm_digest) ^ set(saved_digest))[:5]))
+    mlx_lm_differing = sorted(k for k in set(mlx_lm_digest) & set(saved_digest)
+                              if mlx_lm_digest[k] != saved_digest[k])
+    check("with the same dtypes, shapes and values", not mlx_lm_differing,
+          str(mlx_lm_differing[:5]))
+    check("and the same module classes", mlx_lm_classes == saved_classes,
+          str(sorted(p for p in set(mlx_lm_classes) | set(saved_classes)
+                     if mlx_lm_classes.get(p) != saved_classes.get(p))[:5]))
+    check("and the same bits, group size and mode", mlx_lm_quant == saved_quant)
 
     print("== 6b. bytes on disk")
     source_bytes = sum(os.path.getsize(p) for p in pq.shard_paths(source))

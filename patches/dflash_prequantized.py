@@ -15,15 +15,22 @@ training artifact.
 The format
 ----------
 Repository-specific and explicitly versioned, under the ``bonsai2_prequantized`` key of the
-drafter's own `config.json`. It is deliberately NOT mlx's standard ``quantization`` key: no
-other runtime reads this, and borrowing the standard key would advertise a compatibility
-that does not exist. Everything else in the config is the source's, untouched, because
-`load_dflash` reads that config to build the model.
+drafter's own `config.json`. Everything else in the config is the source's, untouched,
+because `load_dflash` reads that config to build the model.
 
 The key carries the format version, the bit width, the group size, the quantization mode
 *as the pinned implementation produced it* (not as anyone assumed), the module-selection
 rule, the exact list of modules the rule selected, and the `DFlashConfig` the pinned loader
 derived from this config. `bench/drafter/export_quantized.py` writes it.
+
+Beside it, the exporter writes mlx-lm's own ``quantization`` block and the
+``quantization_config`` copy mlx-lm writes with it, in the form `mlx_lm.utils.load_model`
+reads (see :func:`validate_mlx_quantization`). That block is how a runtime that builds its
+DFlash 2 model through mlx-lm's loader learns which modules are packed; it cannot carry the
+rule, the recorded selection or the DFlash config, which is why the repository's own key
+stays. The two describe the same weights, so an artifact whose blocks disagree is refused:
+each reader would otherwise build a different model from the same bytes. An artifact with
+only the repository's block still loads here, since this loader never needed the other.
 
 Why the loader re-derives what the metadata already states
 ----------------------------------------------------------
@@ -94,6 +101,13 @@ PACKED_DTYPES = ("U32", "U16", "U8", "I8", "I32")
 #: What a tensor's dtype must be in a published artifact.
 PACKED_WEIGHT_DTYPE = "uint32"
 UNPACKED_DTYPE = "bfloat16"
+
+#: mlx-lm's key for a quantized checkpoint, and the copy of it that mlx-lm writes beside it
+#: (`quantize_model` and `save_config` in mlx_lm/utils.py both set one equal to the other).
+MLX_QUANTIZATION_KEY = "quantization"
+MLX_QUANTIZATION_COPY_KEY = "quantization_config"
+#: The keys of mlx-lm's block that are parameters. Every other key is a module path.
+MLX_QUANTIZATION_PARAMETERS = ("group_size", "bits", "mode")
 
 
 class PrequantizedFormatError(ValueError):
@@ -307,6 +321,143 @@ def check_tensor_dtypes(header: dict[str, dict[str, Any]], modules: list[str],
             f"{where}: {len(wrong)} tensors have the wrong dtype for this format: {wrong[:5]}")
 
 
+# --------------------------------------------------------------------------- mlx-lm's block
+
+def kept_matrices(shapes: dict[str, list[int]], modules: list[str]) -> list[str]:
+    """The module paths of every matrix the artifact keeps in bfloat16.
+
+    These are the per-module entries of mlx-lm's block, each set to ``false``. mlx-lm's
+    loader would leave these modules alone even unnamed, because it quantizes an unnamed
+    module only when the checkpoint has its `.scales`; naming them states the selection in
+    the config itself, for a reader that does not consult tensor names.
+
+    Every matrix, not every `nn.Linear` of the model this repository builds: the selector
+    codebooks are bare arrays here but an `nn.Embedding` in other DFlash 2 ports, and an
+    `nn.Embedding` is quantizable. Their entries are inert where no module has that path and
+    binding where one does, which is also how the config says that the codebooks stay in
+    bfloat16. A matrix's path is its tensor name without `.weight`, since that is the
+    module path mlx-lm's predicate is called with; a bare array's path is its name.
+    """
+    packed = {f"{m}.weight" for m in modules}
+    kept = []
+    for name, shape in shapes.items():
+        if name in packed or name.endswith(PACKED_SUFFIXES) or len(shape) != 2:
+            continue
+        kept.append(name.removesuffix(".weight"))
+    return sorted(kept)
+
+
+def mlx_quantization_block(meta: dict[str, Any], shapes: dict[str, list[int]]) -> dict[str, Any]:
+    """The block mlx-lm reads, for the weights `meta` and `shapes` describe.
+
+    The parameters first and the per-module entries after, the order `quantize_model`
+    writes them in. `mode` is stated although mlx-lm would default it to affine: the format
+    records the mode the pinned implementation produced, and a reader other than mlx-lm need
+    not share that default.
+    """
+    block: dict[str, Any] = {"group_size": meta["group_size"], "bits": meta["bits"],
+                             "mode": meta["mode"]}
+    block.update({path: False for path in kept_matrices(shapes, meta["quantized_modules"])})
+    return block
+
+
+def validate_mlx_quantization(config: dict[str, Any], meta: dict[str, Any],
+                              header: dict[str, dict[str, Any]],
+                              where: str = "artifact") -> dict[str, Any] | None:
+    """Check mlx-lm's block against the validated repository block, or raise.
+
+    None when the artifact carries neither key. How mlx-lm 0.31's `load_model` reads the
+    block decides what agreement means here. It quantizes with the block's `group_size`,
+    `bits` and `mode` (affine when absent), under a class predicate that returns the block's
+    own entry for a module path it names, leaves a module without `to_quantized` alone, and
+    otherwise quantizes exactly the modules whose `.scales` the checkpoint carries. It reads
+    ``quantization_config`` only when ``quantization`` is absent, and then as a Hugging Face
+    block keyed by `quant_method`.
+
+    So the parameters must equal this format's, a named module may only be kept in bfloat16,
+    and the named modules must be exactly the matrices the file keeps in bfloat16: one too
+    few and a reader that trusts the config over the tensor names quantizes it, one too many
+    or one the repository block quantizes and the two blocks describe different models. A
+    `true` or a dictionary entry is refused rather than compared: the exporter never writes
+    one, and this format describes one configuration, not a range of spellings of it.
+    """
+    block = config.get(MLX_QUANTIZATION_KEY)
+    copy = config.get(MLX_QUANTIZATION_COPY_KEY)
+    if block is None:
+        if copy is not None:
+            raise PrequantizedFormatError(
+                f"{where}: {MLX_QUANTIZATION_COPY_KEY} without {MLX_QUANTIZATION_KEY}. mlx-lm "
+                f"reads that as a Hugging Face block and looks for its quant_method, so the "
+                f"weights it describes are not the ones {FORMAT_KEY} describes.")
+        return None
+    if not isinstance(block, dict):
+        raise PrequantizedFormatError(f"{where}: {MLX_QUANTIZATION_KEY} is not an object")
+    if copy is not None and copy != block:
+        raise PrequantizedFormatError(
+            f"{where}: {MLX_QUANTIZATION_COPY_KEY} differs from {MLX_QUANTIZATION_KEY}. mlx-lm "
+            f"writes the two identical, and a reader of one would build a different model "
+            f"than a reader of the other.")
+    for key in MLX_QUANTIZATION_PARAMETERS:
+        if key not in block:
+            raise PrequantizedFormatError(f"{where}: {MLX_QUANTIZATION_KEY} has no {key!r}")
+        # The type as well as the value: `True == 1` and `4.0 == 4` in Python, and neither
+        # is what mlx-lm would hand to `nn.quantize` for these weights.
+        if type(block[key]) is not type(meta[key]) or block[key] != meta[key]:
+            raise PrequantizedFormatError(
+                f"{where}: {MLX_QUANTIZATION_KEY} says {key} {block[key]!r}, but {FORMAT_KEY} "
+                f"says {meta[key]!r}")
+    entries = {k: v for k, v in block.items() if k not in MLX_QUANTIZATION_PARAMETERS}
+    bad = [k for k in entries if not _valid_module_path(k)]
+    if bad:
+        raise PrequantizedFormatError(
+            f"{where}: malformed module paths in {MLX_QUANTIZATION_KEY}: {bad[:5]}")
+    not_kept = sorted(k for k, v in entries.items() if v is not False)
+    if not_kept:
+        raise PrequantizedFormatError(
+            f"{where}: {MLX_QUANTIZATION_KEY} has entries other than false for {not_kept[:5]}. "
+            f"This format names a module only to keep it in bfloat16.")
+    contradicted = sorted(set(entries) & set(meta["quantized_modules"]))
+    if contradicted:
+        raise PrequantizedFormatError(
+            f"{where}: {MLX_QUANTIZATION_KEY} keeps {contradicted[:5]} in bfloat16, but "
+            f"{FORMAT_KEY} records them as {meta['bits']}-bit")
+    outside = sorted(k for k in entries if not any(frag in k for frag in EXCLUDED_PATH_FRAGMENTS))
+    if outside:
+        raise PrequantizedFormatError(
+            f"{where}: {MLX_QUANTIZATION_KEY} keeps {outside[:5]} in bfloat16, but "
+            f"{SELECTION_RULE} keeps only paths carrying {EXCLUDED_PATH_FRAGMENTS}")
+    kept = kept_matrices({n: e["shape"] for n, e in header.items()}, meta["quantized_modules"])
+    missing, extra = sorted(set(kept) - set(entries)), sorted(set(entries) - set(kept))
+    if missing or extra:
+        raise PrequantizedFormatError(
+            f"{where}: {MLX_QUANTIZATION_KEY} does not name exactly the matrices the file keeps "
+            f"in bfloat16."
+            + (f"\n  kept but not named ({len(missing)}): {missing[:8]}" if missing else "")
+            + (f"\n  named but not a kept matrix ({len(extra)}): {extra[:8]}" if extra else ""))
+    return block
+
+
+def mlx_lm_selection(block: dict[str, Any], leaves: dict[str, Any],
+                     tensor_names: set[str]) -> list[str]:
+    """The modules mlx-lm's `load_model` would quantize, from this block and these tensors.
+
+    Its class predicate, restated for `leaves`, the path-to-module table `nn.quantize` walks:
+    the block's entry for a path it names, nothing for a module without `to_quantized`, and
+    otherwise whether the checkpoint carries the module's `.scales`. `leaves` must be taken
+    before anything is quantized, because a quantized module no longer has `to_quantized`.
+    The `--gpu` test tier compares this against mlx-lm's own loader.
+    """
+    chosen = []
+    for path, module in leaves.items():
+        if path in block:
+            answer = block[path]
+        else:
+            answer = hasattr(module, "to_quantized") and f"{path}.scales" in tensor_names
+        if answer:
+            chosen.append(path)
+    return sorted(chosen)
+
+
 # --------------------------------------------------------------------------- the model
 
 def config_arguments(config: dict[str, Any], where: str = "artifact") -> dict[str, Any]:
@@ -437,6 +588,7 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
     """
     import mlx.core as mx
     from mlx import nn
+    from mlx.utils import tree_flatten
     from mlx_dspark.dflash_model import DFlashDraftModel
 
     cfg = build_config(config, where=path)
@@ -448,7 +600,10 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
             f"config.json than the exporter's loader did. Fields: "
             f"{[(k, recorded.get(k), rebuilt.get(k)) for k in drift[:5]]}")
 
+    header = checkpoint_header(path)
+    block = validate_mlx_quantization(config, meta, header, where=path)
     drafter = DFlashDraftModel(cfg)
+    leaves = dict(tree_flatten(drafter.leaf_modules(), is_leaf=nn.Module.is_module))
     selected = quantize_backbone(drafter, bits=meta["bits"], group_size=meta["group_size"],
                                  mode=meta["mode"])
     expected = sorted(meta["quantized_modules"])
@@ -460,7 +615,6 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
             + (f"\n  recorded but not selected ({len(missing)}): {missing[:8]}" if missing else "")
             + (f"\n  selected but not recorded ({len(extra)}): {extra[:8]}" if extra else ""))
 
-    header = checkpoint_header(path)
     check_tensor_dtypes(header, expected, where=path)
     weights: dict[str, Any] = {}
     for shard in shard_paths(path):
@@ -469,8 +623,6 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
         weights.update(loaded)
     # The same diagnosis upstream makes before loading, for the same reason: a partially
     # loaded drafter runs and accepts nothing, which is worse than an error.
-    from mlx.utils import tree_flatten
-
     model_keys = {k for k, _ in tree_flatten(drafter.parameters())}
     ckpt_keys = set(weights)
     if model_keys != ckpt_keys:
@@ -480,6 +632,21 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
             f"builds."
             + (f"\n  missing in artifact ({len(missing)}): {missing[:8]}" if missing else "")
             + (f"\n  unexpected in artifact ({len(extra)}): {extra[:8]}" if extra else ""))
+    # The rule's question asked of mlx-lm's reading, on the model this build constructed:
+    # the validator compared the two blocks as text, this compares what each makes of the
+    # model. After the name check, so a missing tensor is reported as one.
+    if block is not None:
+        by_mlx_lm = mlx_lm_selection(block, leaves, ckpt_keys)
+        if by_mlx_lm != expected:
+            missing = sorted(set(expected) - set(by_mlx_lm))
+            extra = sorted(set(by_mlx_lm) - set(expected))
+            raise PrequantizedFormatError(
+                f"{path}: mlx-lm would quantize a different module set from "
+                f"{MLX_QUANTIZATION_KEY} than {SELECTION_RULE} selects."
+                + (f"\n  selected but left alone by mlx-lm ({len(missing)}): {missing[:8]}"
+                   if missing else "")
+                + (f"\n  quantized by mlx-lm but not selected ({len(extra)}): {extra[:8]}"
+                   if extra else ""))
     drafter.load_weights(list(weights.items()))
 
     for name in expected:
@@ -510,13 +677,19 @@ def inspect(path: str) -> tuple[dict[str, Any], dict[str, Any] | None]:
     meta = marker(config)
     if meta is None:
         if carries_packed_tensors(checkpoint_header(path)):
+            # mlx-lm's block alone says which modules are packed, but not the selection rule
+            # or the DFlash config this loader checks the model against.
+            also = (f" Its {MLX_QUANTIZATION_KEY} block alone is not enough: this loader "
+                    f"needs both." if MLX_QUANTIZATION_KEY in config else "")
             raise PrequantizedFormatError(
                 f"{path}: the checkpoint carries packed tensors (scales, biases or integer "
                 f"weights) but no {FORMAT_KEY} block in config.json, so nothing states what "
-                f"they mean. Export it with bench/drafter/export_quantized.py, or load the "
-                f"bfloat16 checkpoint.")
+                f"they mean.{also} Export it with bench/drafter/export_quantized.py, or load "
+                f"the bfloat16 checkpoint.")
         return config, None
-    return config, validate_metadata(meta, where=path)
+    meta = validate_metadata(meta, where=path)
+    validate_mlx_quantization(config, meta, checkpoint_header(path), where=path)
+    return config, meta
 
 
 # --------------------------------------------------------------------------- the patch

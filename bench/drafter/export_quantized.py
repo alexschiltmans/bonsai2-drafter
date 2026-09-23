@@ -20,6 +20,10 @@ quantized modules, the `DFlashConfig` — is read back off that model rather tha
 a future mlx-dspark that selects different modules or a different mode produces an artifact
 that says so, and `patches/dflash_prequantized.py` refuses to load it under the old rule.
 
+mlx-lm's own ``quantization`` block is derived from that same record and written beside it
+(:func:`mlx_lm_block`), so a runtime that builds its DFlash 2 model through
+`mlx_lm.utils.load_model` learns from the config which modules are packed.
+
 This script installs no patches: the source is an ordinary bfloat16 checkpoint, so the
 original loader is the one that should answer it. When something else has already installed
 them — the equivalence test does, because it also loads the Bonsai target —
@@ -174,6 +178,29 @@ def describe_quantization(drafter: Any) -> dict[str, Any]:
                if wrongly_excluded else ""))
     return {"bits": bits, "group_size": group_size, "mode": mode,
             "selection_rule": pq.SELECTION_RULE, "quantized_modules": quantized}
+
+
+def mlx_lm_block(drafter: Any, metadata: dict[str, Any], weights: dict[str, Any]) -> dict[str, Any]:
+    """mlx-lm's `quantization` block for these weights, checked against the model they came from.
+
+    `pq.mlx_quantization_block` names every matrix the weights keep in bfloat16. The check
+    runs the other way: every module of the returned model that could still be quantized,
+    which is anything with `to_quantized`, must be one of those names. Otherwise a reader
+    that took the block at its word rather than consulting tensor names would pack a module
+    the pinned loader left alone.
+    """
+    from mlx import nn
+    from mlx.utils import tree_flatten
+
+    block = pq.mlx_quantization_block(metadata, {k: list(v.shape) for k, v in weights.items()})
+    leaves = tree_flatten(drafter.leaf_modules(), is_leaf=nn.Module.is_module)
+    unnamed = sorted(p for p, m in leaves
+                     if hasattr(m, "to_quantized") and block.get(p) is not False)
+    if unnamed:
+        raise pq.PrequantizedFormatError(
+            f"the model keeps quantizable modules in bfloat16 that {pq.MLX_QUANTIZATION_KEY} "
+            f"would not name: {unnamed[:5]}")
+    return block
 
 
 def artifact_tensors(drafter: Any, quantized: list[str]) -> dict[str, Any]:
@@ -382,6 +409,12 @@ def export_prequantized(source: str, output: str) -> dict[str, Any]:
         raise pq.PrequantizedFormatError(
             f"{source}: already carries a {pq.FORMAT_KEY} block. The source of an export is "
             f"the bfloat16 checkpoint, not another artifact.")
+    declared = [k for k in (pq.MLX_QUANTIZATION_KEY, pq.MLX_QUANTIZATION_COPY_KEY)
+                if k in source_config]
+    if declared:
+        raise pq.PrequantizedFormatError(
+            f"{source}: config.json already declares {declared}. The source of an export is a "
+            f"bfloat16 checkpoint, and this exporter writes those keys itself.")
     source_header = pq.checkpoint_header(source)
     if pq.carries_packed_tensors(source_header):
         raise pq.PrequantizedFormatError(
@@ -403,12 +436,17 @@ def export_prequantized(source: str, output: str) -> dict[str, Any]:
         "quantized_modules": quantization["quantized_modules"],
         "dflash_config": pq.config_fields(cfg),
         "note": "A repository-specific format read by patches/dflash_prequantized.py. No "
-                "other runtime interprets this block, and no other runtime can load these "
-                "weights.",
+                "other runtime interprets this block. The quantization block beside it is "
+                "mlx-lm's convention for the same weights.",
     }
     pq.validate_metadata(metadata, where=f"{output} (about to be written)")
+    block = mlx_lm_block(drafter, metadata, weights)
     artifact_config = dict(source_config)
     artifact_config[pq.FORMAT_KEY] = metadata
+    # Both keys, identical, because that is what mlx-lm writes: `quantize_model` and
+    # `save_config` in mlx_lm/utils.py each set `quantization_config` to `quantization`.
+    artifact_config[pq.MLX_QUANTIZATION_KEY] = block
+    artifact_config[pq.MLX_QUANTIZATION_COPY_KEY] = dict(block)
 
     source_hashes = directory_hashes(source)
     manifest: dict[str, Any] = {
@@ -421,6 +459,7 @@ def export_prequantized(source: str, output: str) -> dict[str, Any]:
                    "sha256": source_hashes,
                    "tensors": len(source_header)},
         "quantization": quantization,
+        "mlx_lm_quantization": block,
         "tensors": tensor_table(weights),
     }
 
