@@ -104,10 +104,24 @@ weights on the strength of the code-only gate.
 way: this is a distribution-size change, not a fine-tune and not a speed claim. Its
 gates are the checks below.
 
-The artifact only loads through this repository's patches. `patches/dflash_prequantized.py`
-builds the model, quantizes exactly the modules the pinned loader's rule selects, and then
-loads the packed tensors into them; nothing requantizes. An unmarked bfloat16 checkpoint
-still goes through the original loader untouched.
+mlx-dspark's own `load_dflash` cannot read it, so serving it there needs this repository's
+patches. `patches/dflash_prequantized.py` builds the model, quantizes exactly the modules the
+pinned loader's rule selects, and then loads the packed tensors into them; nothing
+requantizes. An unmarked bfloat16 checkpoint still goes through the original loader
+untouched.
+
+The artifact's `config.json` states its quantization twice, for two kinds of reader. The
+`bonsai2_prequantized` block is this repository's: the format version, the selection rule,
+the modules it selected and the DFlash config, all checked by the patch on every load. Beside
+it is mlx-lm's standard `quantization` block, with the `quantization_config` copy mlx-lm
+writes next to it: `group_size` 64, `bits` 4, `mode` affine, and a `false` entry for every
+matrix kept in bfloat16. Those are the dynamic-convolution and selector projections and both
+selector codebooks; the codebooks are not quantized. A runtime that builds its DFlash 2 model
+through `mlx_lm.utils.load_model` reads that block the way mlx-lm reads any quantized
+checkpoint. The patch refuses an artifact whose two blocks disagree, and still loads one
+exported before the second block existed. There was no 4-bit DFlash 2 convention to follow,
+so this one is a proposal: mlx-lm's quantization block, with the codebooks named explicitly
+because other DFlash 2 ports model them as quantizable `nn.Embedding` modules.
 
 ```bash
 PY=$HOME/.venv-dspark/bin/python
