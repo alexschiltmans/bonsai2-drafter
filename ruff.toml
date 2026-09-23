@@ -1,0 +1,15 @@
+# Lint settings for the Python in this repo. The rule set is ruff's default; what is pinned
+# here is what would otherwise vary by machine. `uvx ruff check .` from the repo root.
+line-length = 100
+target-version = "py312"
+
+[lint]
+extend-select = ["I"]
+# The runners' prompt fixtures are long strings split across lines inside lists, which is
+# exactly the shape ISC004 reads as a missing comma; every one is intended.
+ignore = ["ISC004"]
+
+[lint.per-file-ignores]
+# Runners and tests are run as scripts with an explicit interpreter, never executed directly.
+"bench/**/*.py" = ["EXE001"]
+"bin/*" = ["EXE001"]

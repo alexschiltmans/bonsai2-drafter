@@ -1,0 +1,25 @@
+# The pinned mlx-dspark environment the measurements ran on.
+#
+#   scripts/serve-bonsai2.sh builds it; by hand: UV_PROJECT_ENVIRONMENT=<venv> uv sync --locked
+
+[project]
+name = "bonsai2-drafter-env"
+version = "0"
+# mlx-dspark accepts >=3.10, but both venvs are built on 3.12 because the vllm wheels
+# next door are cp312-only. Matching them keeps one Python across the machine.
+requires-python = "==3.12.*"
+
+dependencies = [
+  # Exact, not >=. The derived verify cap is version behaviour, not configuration: 0.17.2
+  # reads this machine's cost curves and lands near 3, and a pinned 5 measured 49% slower
+  # on decode at chat depth. A minor bump could re-derive that quietly, so it moves only
+  # when someone runs `uv lock --upgrade-package mlx-dspark` and re-measures.
+  "mlx-dspark==0.18.0",
+]
+
+[tool.uv]
+# Nothing here is importable; this project exists to own a lock, not to be installed.
+package = false
+# Resolve for this machine only. Locking for every platform would pull in wheels that
+# cannot exist for MLX, and the lock would stop describing what actually runs.
+environments = ["sys_platform == 'darwin' and platform_machine == 'arm64'"]

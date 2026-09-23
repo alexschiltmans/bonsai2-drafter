@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""mlx-dspark with this repo's patches installed.
+
+Run exactly as `mlx-dspark`; every argument is passed through untouched. The only
+difference is that `patches/` is applied first, before any model loads, which is the only
+moment that works: the kernel dispatch table is read when a model is quantized, and the
+drafter's restore path is bound when a request arrives.
+
+What gets applied, and why each one is not simply an edit inside the venv, is in
+`patches/__init__.py`. Adding a patch needs no change here.
+
+Must run on the venv's interpreter, because the patches import mlx and mlx_dspark:
+
+    ~/.venv-dspark/bin/python bin/mlx-dspark-patched serve --model ...
+
+`scripts/serve-bonsai2.sh` does that for you. For an A/B against stock, run the venv's own
+`mlx-dspark` instead.
+"""
+
+import os
+import sys
+
+# Opt-in thread snapshots for a stalled request; never enable a signal that would
+# otherwise terminate a running server unless the operator explicitly asks for it.
+if os.environ.get("LLM_DSPARK_TRACE") == "1":
+    import faulthandler
+    import signal
+
+    faulthandler.enable()
+    faulthandler.register(signal.SIGUSR1, all_threads=True)
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+import patches  # noqa: E402
+
+patches.install_all()
+
+from mlx_dspark.cli import main  # noqa: E402
+
+if __name__ == "__main__":
+    sys.exit(main())

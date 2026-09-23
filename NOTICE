@@ -1,0 +1,26 @@
+bonsai2-drafter
+Copyright 2026 Alex Schiltmans
+
+Licensed under the Apache License, Version 2.0. See the LICENSE file beside this NOTICE.
+
+This is an independent project. It is not an official Prism ML, Qwen, Inco AI, z-lab or
+mlx-dspark release, and none of them have reviewed or endorsed it.
+
+It works with Bonsai by Prism ML: prism-ml/Ternary-Bonsai-2-27B-mlx-2bit, copyright 2026-present
+Prism ML, Inc., Apache-2.0, built from Qwen3.8-27B, copyright 2026 Alibaba Cloud, Apache-2.0.
+`patches/bonsai_loader.py` reimplements that pack's documented on-disk format (a blockwise
+Walsh-Hadamard rotation and 2-bit, group-128 affine weights). It does not copy Prism ML's
+`runtime/` module, and no model weights are included in this repository.
+
+The patches under `patches/` modify mlx-dspark (https://github.com/ARahim3/mlx-dspark, MIT)
+at runtime, in the installed package's memory, before a model loads. They include no copy of
+mlx-dspark's source. `patches/small_m_2bit.py` adds a 2-bit unpack to mlx-dspark's small-M
+kernel by editing its kernel source string at load time.
+
+The trainer in `bench/drafter/` fine-tunes z-lab/Qwen3.8-27B-DFlash2 (Apache-2.0), a mirror of
+Inco AI's DFlash 2 release. The drafter it produced is published separately on Hugging Face,
+with its own LICENSE and NOTICE.
+
+`bench/drafter/gen_data.py` downloads prompts from sahil2801/CodeAlpaca-20k (CC BY 4.0,
+https://creativecommons.org/licenses/by/4.0/) at run time; none are included here.
+`bench/drafter/general_chat.json` was written for this project.
