@@ -1,0 +1,641 @@
+{
+ "general.name": "Ternary-Bonsai-2-27B-DFlash2-ft5",
+ "tensors": {
+  "selector_hidden.weight": [
+   "77810b7b39f58f0964ec02ffade5cfd7bbfd660ab396e60e31bea4b1f112b3a0",
+   8,
+   [
+    5120,
+    256
+   ]
+  ],
+  "selector_predecessor.weight": [
+   "41d88a42d1b6e25a47e64e08e7034ccb2ec07ebd1675d39be50da290778d6bbf",
+   8,
+   [
+    256,
+    248320
+   ]
+  ],
+  "selector_successor.weight": [
+   "bc0371b4c8ef78e62b47bce68c57dbeb36d3aea458e4b6db4e9ee049520d0f75",
+   8,
+   [
+    256,
+    248320
+   ]
+  ],
+  "fc.weight": [
+   "44e42def7699750dd0ccf41f3078a57d65c6ba95be704863348940a00c6775b4",
+   8,
+   [
+    25600,
+    5120
+   ]
+  ],
+  "enc.output_norm.weight": [
+   "e4e7b7c8e77c5309821fefb2baa0d38880f36c4835254ca8cae9ad40c715d854",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.0.attn_conv_base": [
+   "8f8e25ae2673533aa9a2994dbab6495e6cc8602e9e36434e5cd615d4701dcd67",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.0.attn_conv_proj.weight": [
+   "3cd87b11d96186b8d0667274057fcbf060324366998dbaa28f419f663037fe53",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.0.attn_norm.weight": [
+   "0ce8fefcc0046e3ede966ffd12bc32cfd027f8027beb32483454666e78fcf877",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.0.ffn_down.weight": [
+   "2a63ec8a8c567d32282c84a22d631509bb8d49717aff99fbf2d0853097602527",
+   8,
+   [
+    17408,
+    5120
+   ]
+  ],
+  "blk.0.ffn_gate.weight": [
+   "766aaa47e3bb7d050a71cfc3d368f7d1eab878f28cba635b5cf9e1e4f52a5081",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.0.ffn_up.weight": [
+   "ffcbe02ce039cf10d172a0db0072e638cd346dffea9442e0c39831e8c54f5b54",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.0.ffn_conv_base": [
+   "5226ab6d1324b716793211fb8a11d28031a54b97fecc9ab9acf3bee76a285d28",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.0.ffn_conv_proj.weight": [
+   "de14f4714bb4191d1e036cb5f8cac191b14b77b7d39b4e6f622cadaf8a87f90b",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.0.ffn_norm.weight": [
+   "8262c0b997f89830fd2de2b3d215fb5d0e7e4125404fa8b09f7a39269779d678",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.0.attn_k_norm.weight": [
+   "e35deb7c2e9ae3d291e5da7b8bd3b49d5ff8036bef066063938802ad86eb9562",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.0.attn_k.weight": [
+   "7149b5313c06b4d14f2cfbef452cd59d90caf627ea2e265e05e8702dd5699d1b",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.0.attn_output.weight": [
+   "1529ec78b4d0c38f6346a23ca2b7eacb4f846cb53b41d03eb92d7a5d48c5a666",
+   8,
+   [
+    4096,
+    5120
+   ]
+  ],
+  "blk.0.attn_q_norm.weight": [
+   "735b7b1e5d4aeb4563f67d864b8039f52a6dd4295f44252b7c82f50bceafde5e",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.0.attn_q.weight": [
+   "dfb011ba67bb8694de36dec178972ecf4184e420eb037adf7cf34f25b0493477",
+   8,
+   [
+    5120,
+    4096
+   ]
+  ],
+  "blk.0.attn_v.weight": [
+   "b41b222a8e86a04d66bc4126d5be8fd263810fe70d7586df752e9d74eddaaa5f",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.1.attn_conv_base": [
+   "4f680c1483219c5d307ec0c994a2b4d4187c41864216cf3888cdd76cf08e325f",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.1.attn_conv_proj.weight": [
+   "c83b19c7f7f350bdaa775242b4e144e7d8f7cdfc999ccf3765478073c9f7e34f",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.1.attn_norm.weight": [
+   "8b5dd77c0a24c6a60f7cfc9b560d7171c003ce9a14abb32ef5f41f202f27f874",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.1.ffn_down.weight": [
+   "571463f403955597f2598cfce89af1bfcf4d54fc9517b851cd05803229e6ec45",
+   8,
+   [
+    17408,
+    5120
+   ]
+  ],
+  "blk.1.ffn_gate.weight": [
+   "9f8f1b07ba548ccff9bc6303d148fa701a2bae87fd6e988f70724d237aebba34",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.1.ffn_up.weight": [
+   "88b773f0c1de8e433a8b34a52b382bd88d380a60eb1e790cea66d83f512e95cc",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.1.ffn_conv_base": [
+   "ff8326309317db36b19df2153694538b2faba367f8d991e155c5a3c8997ed1c5",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.1.ffn_conv_proj.weight": [
+   "8dedb7d0e952853c804a1c3be8152864d7509b2f58d65ac08dfdf4f2dc41f799",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.1.ffn_norm.weight": [
+   "c2a2d90fdc4d8abd6b41e8dcfa0778ead5ca9041f704dee267f997199090f583",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.1.attn_k_norm.weight": [
+   "679c90b0506796bcb268efbc85404e30b34a8bcdc0cbfaef9c0b631706152935",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.1.attn_k.weight": [
+   "6018333733135e88d50d99c6b7c6cf2c65f3bd52afe3a50d483ef4b57dae7d84",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.1.attn_output.weight": [
+   "b87ef0b16da634aac05df9634a79be75e7768d23a53ec2b8ee15806847b726c7",
+   8,
+   [
+    4096,
+    5120
+   ]
+  ],
+  "blk.1.attn_q_norm.weight": [
+   "0ab012d760b8d671637b4ef89dfa9b52b165d549ee5259bb48fb913b2233a4d8",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.1.attn_q.weight": [
+   "70be0dc136095528f0f6c7fcf856f48167336565dfbd5888b28a4024f9e45640",
+   8,
+   [
+    5120,
+    4096
+   ]
+  ],
+  "blk.1.attn_v.weight": [
+   "e2015e772cced803d938773ea6d7ccb15303f266bbdaede8120636334bc114fd",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.2.attn_conv_base": [
+   "da92e8620df6b0e6ff83eaa5e53f721ac33ce401b007e3d3af5c8f849ddac33e",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.2.attn_conv_proj.weight": [
+   "a879170abcc758096c9d9c25deacfa8b55666b8d74c5e9145f2e99144c9d5e9f",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.2.attn_norm.weight": [
+   "bad794cf6205b0ed5fd70e098d22db36f532bdac89109705e3d0fac49f0a10ff",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.2.ffn_down.weight": [
+   "f9b8905053f50b694edd04a628a7e0d52c6c7f6a10ed4a7f9c06391d61cd9876",
+   8,
+   [
+    17408,
+    5120
+   ]
+  ],
+  "blk.2.ffn_gate.weight": [
+   "8a408732afc08fa2761ea30c881458f35210b5003183955872dc55a73482448c",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.2.ffn_up.weight": [
+   "fd79ae66cd0142b8b01d52e19595353a512977f1f5d1b2c40863c6d65974c00d",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.2.ffn_conv_base": [
+   "8ca6919eb8c61d7db34503c341e85b7d5d6b47228901e947f118562120e43a78",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.2.ffn_conv_proj.weight": [
+   "6ef7b419401ddd878ea98c360a953e62be2d90fce4677e2b063aef62c70dffa3",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.2.ffn_norm.weight": [
+   "89a2ef8f3a069330faed53d470098f1d6830d19c7d10b358ac02da35c8e89e2a",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.2.attn_k_norm.weight": [
+   "251cb98eaeeb3602803778ab475ff8c72b6883b4f0c42908df6c7332bcd40c44",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.2.attn_k.weight": [
+   "32f1a02e155eac5daacdae4c1f594576ad27b32c6bb1978c1e3c5d9618e96315",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.2.attn_output.weight": [
+   "85a9753cd4ca65bb7f048b168a0026a3ff3db990949a9be01bd87db04b8edea7",
+   8,
+   [
+    4096,
+    5120
+   ]
+  ],
+  "blk.2.attn_q_norm.weight": [
+   "3acdec2d02d247c656e5efcde9a5125f731d0de83e454f1611d21b4063455c17",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.2.attn_q.weight": [
+   "b3012be9102900dcc2418cbe5ef04a41b0ebc92dbf069382622e3f5b890e90fb",
+   8,
+   [
+    5120,
+    4096
+   ]
+  ],
+  "blk.2.attn_v.weight": [
+   "799a7c64335bb1b6b3fac2f9e4d88b744075727ad09cd09d25040cc031676ded",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.3.attn_conv_base": [
+   "7febcaf30ad879936a91ae1940ce62474cd97c8ea19c4459293a0e2b9ddb4788",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.3.attn_conv_proj.weight": [
+   "bba160ec76bc1ea244940577217caeb67ecef0d3e00df6aa0a4545db7ff16e2f",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.3.attn_norm.weight": [
+   "8a08574d502410f25cbe45d2b75b1787caa13b92f8dc6a5e69db53c83255d86c",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.3.ffn_down.weight": [
+   "ee1b256b4c33203741ea6d110d05448308a3190d5a4c2d14910280085f1cc8e1",
+   8,
+   [
+    17408,
+    5120
+   ]
+  ],
+  "blk.3.ffn_gate.weight": [
+   "980a2ef7113410af6295414caf4819af7cc7093435834a86bf3aa88a5952f821",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.3.ffn_up.weight": [
+   "2754dc24e381d41e121758edfb67a77d22141276ed8dd2b824e9c18b7f05c623",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.3.ffn_conv_base": [
+   "164a966ed03cbe83d52fd1a0433be275391b92b83e82b8ceeddaf7a4b8662848",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.3.ffn_conv_proj.weight": [
+   "dd72335917263933a2aa6242483473ab83a97d245914ef7785a16ab4116ec3c2",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.3.ffn_norm.weight": [
+   "66cbc7dd0586c26871ad2f8a0c8b4e6e2a2d6dce2c5e2f05622a51bab7f15b42",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.3.attn_k_norm.weight": [
+   "df4232d0a75b21f461d4ca661c18de428e7c5f20d4d662ffa4fc139c4f4de1af",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.3.attn_k.weight": [
+   "078298e94444d0ebd9022ae0d419e565ae992c7ed93a3184cb0424f1bab153e8",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.3.attn_output.weight": [
+   "3160b781bb228c2ceff08b51670a28e317c9e0a6b558293ae31ca0ed175bbfb7",
+   8,
+   [
+    4096,
+    5120
+   ]
+  ],
+  "blk.3.attn_q_norm.weight": [
+   "9c255e2bf61f35c7d479e41549ed72885636b53a1c6982682591dbca0825abd4",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.3.attn_q.weight": [
+   "428fabdd0235a76b8d5c2321e05a411a2d997f56945ef1cbb36b4182024bab6e",
+   8,
+   [
+    5120,
+    4096
+   ]
+  ],
+  "blk.3.attn_v.weight": [
+   "159c71a03c73dbd73979e2eb64bdac7040db51c0d4acbca7f4abc5db17b62614",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.4.attn_conv_base": [
+   "3c95165607e876386b5cadceb2754006970cc6017d3b81e1bdb3601a924509ed",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.4.attn_conv_proj.weight": [
+   "dce6931847b78572725c48bc4878b6567f4a3597aa174314b32b1a0c9b3b7062",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.4.attn_norm.weight": [
+   "5bedf9b28f3ec30649f4a0424b297695ef573cbe629afe3b2a02cf8d06d4cf6b",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.4.ffn_down.weight": [
+   "b0484b3e8e24a752fa78941c576bb07db99743a257350346f1aef0764ac118ad",
+   8,
+   [
+    17408,
+    5120
+   ]
+  ],
+  "blk.4.ffn_gate.weight": [
+   "85331cce6287152094bdf07dfeb6331ac7f96c55b1e2e3e2269a9d852e4050e3",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.4.ffn_up.weight": [
+   "c280dd4f70137348a23a34775b0ed166d149fc813bcdfcbd471b51c3cdb40a43",
+   8,
+   [
+    5120,
+    17408
+   ]
+  ],
+  "blk.4.ffn_conv_base": [
+   "4b8f22ebd9e8ba9b84923042b98b930b15a2a9b32a6293ac2559a575fb96dd5a",
+   0,
+   [
+    5120,
+    2,
+    2
+   ]
+  ],
+  "blk.4.ffn_conv_proj.weight": [
+   "328ab1ea6a1b3d9c2dba66734470ef173cbae12ef3a449c25e621744a879536d",
+   8,
+   [
+    5120,
+    1280
+   ]
+  ],
+  "blk.4.ffn_norm.weight": [
+   "522382fdf09e508622c8d5f0559d0821cefcb152b2325bc0752fad8bd2149afe",
+   0,
+   [
+    5120
+   ]
+  ],
+  "blk.4.attn_k_norm.weight": [
+   "a52310e2a78752e2bc1855688a434ea5390d1a9fc3d3727e88077e9df646f185",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.4.attn_k.weight": [
+   "555e008ddc10ec39bf0494c04fa1a906bc24cbfc8232770318ee66e8eef2c64f",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "blk.4.attn_output.weight": [
+   "a8a1b67fef4369ce83cc680e924026ef6b623311237f4a52eaeaca909e07db2d",
+   8,
+   [
+    4096,
+    5120
+   ]
+  ],
+  "blk.4.attn_q_norm.weight": [
+   "f844460d74a83d3ba24ef4ef3874b686176fb6e9f35fbe5714c0171d712f2634",
+   0,
+   [
+    128
+   ]
+  ],
+  "blk.4.attn_q.weight": [
+   "4793e4b256158682824bcdeec880ecc0c3239dab53c90eca7658803df52cc64b",
+   8,
+   [
+    5120,
+    4096
+   ]
+  ],
+  "blk.4.attn_v.weight": [
+   "9e526954beb23eccd89302e413dce20cb227f5801389894c83aefd2b1a7d82ba",
+   8,
+   [
+    5120,
+    1024
+   ]
+  ],
+  "output_norm.weight": [
+   "504b3736eabb274a697e9264ef68b1d0923c90764214d01fcace2c721ace3d47",
+   0,
+   [
+    5120
+   ]
+  ]
+ }
+}

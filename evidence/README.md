@@ -20,6 +20,7 @@ ft5 loses.
 | [`throughput-ft5-procreations/`](throughput-ft5-procreations/) | decode speed on mlx-dspark under `BENCHMARK.md` v1, code prompts: ProCreations / ft5 0.9494 greedy, 0.9821 sampled; ft5 accepts more on these prompts at the same round cost |
 | [`mac-stacks-mtplx/`](mac-stacks-mtplx/) | the v2 stack comparison: MTPLX (MTP) against mlx-dspark with ft5 on one Mac, 1.3824 greedy and 1.4580 sampled end to end in MTPLX's favour |
 | [`omlx-probe/`](omlx-probe/) | oMLX serves Bonsai 2 but not DFlash 2 on it; with a one-line routing change ft5 drafts losslessly but decodes about four times slower |
+| [`gguf-fork/`](gguf-fork/) | ft5 as a Q8_0 GGUF: the same tensor layout as z-lab's stock GGUF, and on PrismML's fork with DFlash 2 patched in it drafts with 0.405 of drafts accepted against the stock GGUF's 0.346 (a diagnostic) |
 | [`tools/verify_sanitized.py`](tools/verify_sanitized.py) | the checker described below |
 
 Each group's README lists its files, quotes the claims they support, gives the commands that
