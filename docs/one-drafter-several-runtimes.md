@@ -265,8 +265,8 @@ too.
 ## Limits
 
 Everything was measured on one Apple M4 Pro with 48 GB. Only the pinned mlx-dspark 0.18.0 stack is
-fully validated; the second runtime has acceptance numbers but no throughput, and nothing ran on
-CUDA.
+fully validated; the second runtime has greedy throughput (ft5 1.0716x stock, end to end) but no
+sampled throughput, since it speculates only on greedy requests, and nothing ran on CUDA.
 
 Both drafters scored 13/14 on the quality suite. The failed task asks for an ISO-8601 duration
 parser, and at 8-bit KV the target spends the whole 16,384-token budget reasoning and never
@@ -300,6 +300,8 @@ and the raw per-prompt reports with full token arrays, which are in the reposito
   [Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5](https://huggingface.co/Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5)
 - The 4-bit variant:
   [Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5-mlx-4bit](https://huggingface.co/Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5-mlx-4bit)
+- The same weights as a Q8_0 GGUF for llama.cpp's DFlash 2, validated on PrismML's fork:
+  [Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5-GGUF](https://huggingface.co/Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5-GGUF)
 - The code, [github.com/alexschiltmans/bonsai2-drafter](https://github.com/alexschiltmans/bonsai2-drafter):
   the MLX trainer, the mlx-dspark patches, the rename tool and the protocol, `BENCHMARK.md`.
 - The evaluation prompts and the target's greedy responses to them:
