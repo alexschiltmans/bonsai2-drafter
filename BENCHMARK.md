@@ -98,3 +98,30 @@ comparison, ft5 against naklitechie, in ABBA order; and a sampled HTTP compariso
 ft5, in ABBA order. Its purpose was a publication decision, not a result. **This protocol was
 committed before that screen started.** The screen's numbers are reported separately and labelled as a screen. The benchmark
 re-runs every arm under this protocol and does not reuse them.
+
+## Amendment: version 2
+
+Registered at the git tag `benchmark-v2`; that commit's time is its date. Version 1 above is
+unchanged and still governs every arm it names.
+
+**Reason.** After version 1 was registered, a Mac runtime appeared that serves this target with
+MTP instead of a drafter: MTPLX, with its own kernels for the pack. Version 1 has an MTP arm
+only on the PrismML fork, so it cannot say which way of serving this target is fastest on a Mac.
+
+**Added arm.** MTP on MTPLX 2.12.0 (PyPI), serving
+`Youssofal/Ternary-Bonsai-2-27B-MTPLX-Optimized-Speed` at `03bd60bb82755f2446f5083426dca9708eb8e0fe`, whose
+`model.safetensors` is byte-identical to `prism-ml/Ternary-Bonsai-2-27B-mlx-2bit`'s (sha256
+`130de5925082c168b7866b2e91b52e44abbafc99017e3ca352b77b5b55a269ed`), at the MTP depth and settings
+the pack ships. No tuning run changes them.
+
+**Added comparison.** That arm against mlx-dspark as in version 1, with whichever of ft5 and
+`ProCreations/Ternary-Bonsai-2-27B-DFlash2` has the higher pooled greedy decode rate in the
+version-1 throughput arms run just before it. Measurements 2 and 3 of version 1, in ABBA order,
+with one change: MTPLX's responses carry no decode timer, so this comparison pools end to end
+(completion tokens over client wall-clock seconds) for both arms, and reports mlx-dspark's
+decode pool beside it. Each stack uses its own defaults for the target's chat template; one
+untimed request per stack records whether its answer opens with reasoning.
+
+This is a comparison of two complete serving stacks on one machine, the one exception to
+"throughput is never compared across runtimes". It is reported as such, not as a drafter
+result, and it has no acceptance comparison, since MTP and DFlash 2 count drafts differently.
