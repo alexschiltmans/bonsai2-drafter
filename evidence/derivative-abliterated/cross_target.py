@@ -18,44 +18,51 @@ stratified by category x thinking, seed 7, 10,000 draws, 2.5th and 97.5th percen
 All four reports must have the same prompts, in the same order, and the same settings apart
 from `target`; each pair of reports must have the same drafter.
 """
+from __future__ import annotations
+
 import argparse
 import json
 import random
 import sys
+from collections.abc import Callable, Sequence
+from typing import Any
+
+Report = dict[str, Any]
+Row = dict[str, Any]
 
 DRAWS = 10000
 
 
-def load(path):
+def load(path: str) -> Report:
     with open(path) as f:
         return json.load(f)
 
 
-def acceptance(rows):
+def acceptance(rows: Sequence[Row]) -> float:
     return sum(r["tokens"] for r in rows) / sum(r["rounds"] for r in rows)
 
 
-def strata(rows):
-    groups = {}
+def strata(rows: Sequence[Row]) -> dict[tuple[str, bool], list[int]]:
+    groups: dict[tuple[str, bool], list[int]] = {}
     for i, row in enumerate(rows):
         groups.setdefault((row["category"], row["thinking"]), []).append(i)
     return groups
 
 
-def interval(statistic, groups):
+def interval(statistic: Callable[[list[int]], float], groups: dict[tuple[str, bool], list[int]]) -> list[float]:
     rng = random.Random(7)
     samples = sorted(statistic([rng.choice(g) for g in groups.values() for _ in g]) for _ in range(DRAWS))
     return [samples[int(DRAWS * .025)], samples[min(DRAWS - 1, int(DRAWS * .975))]]
 
 
-def first_difference(a, b):
+def first_difference(a: Sequence[int], b: Sequence[int]) -> int | None:
     for k, (x, y) in enumerate(zip(a, b)):
         if x != y:
             return k
     return min(len(a), len(b)) if len(a) != len(b) else None
 
 
-def change(base, derivative):
+def change(base: Report, derivative: Report) -> dict[str, Any]:
     left, right = base["requests"], derivative["requests"]
     budget = base["settings"]["max_new"]
     same = [i for i, (x, y) in enumerate(zip(left, right))
@@ -80,7 +87,7 @@ def change(base, derivative):
     }
 
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     for name in ("base_stock", "base_tuned", "derivative_stock", "derivative_tuned"):
         ap.add_argument(name)
@@ -100,7 +107,7 @@ def main():
     if bs["drafter"] != ds["drafter"] or bt["drafter"] != dt["drafter"]:
         sys.exit("a drafter differs between the two targets")
 
-    def gain(stock, tuned, idx):
+    def gain(stock: Sequence[Row], tuned: Sequence[Row], idx: Sequence[int]) -> float:
         return acceptance([tuned[i] for i in idx]) / acceptance([stock[i] for i in idx]) - 1
 
     B, T, D, E = (r["requests"] for r in (bs, bt, ds, dt))

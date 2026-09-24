@@ -17,22 +17,23 @@ import contextlib
 import importlib
 import os
 import sys
+from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 import patches
 from patches import kv_group_size as kvg
 
-FAILURES = []
+FAILURES: list[str] = []
 
 
-def check(name, got, want):
+def check(name: str, got: object, want: object) -> None:
     ok = got == want
     print(f"   {'ok  ' if ok else 'FAIL'} {name:<58} {got!r}" + ("" if ok else f" != {want!r}"))
     if not ok:
         FAILURES.append(name)
 
 
-def fresh_install():
+def fresh_install() -> list[patches.Patch]:
     """Reinstall from stock, so ordering and idempotency can both be exercised."""
     for mod, attr in (("mlx_dspark.target", "Target"), ("mlx_dspark.calibrate", "_cache_key")):
         importlib.reload(importlib.import_module(mod))
@@ -43,34 +44,35 @@ with open(os.devnull, "w") as _devnull:
     patches.install_all(stream=_devnull)
 from mlx_dspark import target
 
-cal = importlib.import_module("mlx_dspark.calibrate")
+# mlx-dspark is untyped; the checks below replace and restore attributes on this module
+cal: Any = importlib.import_module("mlx_dspark.calibrate")
 
 
 class Stub:
     pass
 
 
-def layout(kv_bits=8, explicit=None):
+def layout(kv_bits: int = 8, explicit: int | None = None) -> Any:
     """The kv_group_size the Target actually ends up holding."""
     s = Stub()
-    kw = {} if explicit is None else {"kv_group_size": explicit}
+    kw: dict[str, int] = {} if explicit is None else {"kv_group_size": explicit}
     # fails later on is_vlm; kv_group_size is assigned before that, which is all this reads
     with contextlib.suppress(Exception):
         target.Target.__init__(s, model=None, tokenizer=None, kv_bits=kv_bits, **kw)
     return getattr(s, "kv_group_size", None)
 
 
-def key(kv_bits=8):
+def key(kv_bits: int | None = 8) -> str:
     return cal._cache_key("dflash", "org/Target", "org/Drafter", kv_bits=kv_bits)
 
 
-def tag(kv_bits=8):
+def tag(kv_bits: int | None = 8) -> str:
     k = key(kv_bits)
     last = k.rsplit("|", 1)[-1]
     return last if last.startswith("g") else ""
 
 
-def setenv(v):
+def setenv(v: str | None) -> None:
     if v is None:
         os.environ.pop(kvg.ENV, None)
     else:

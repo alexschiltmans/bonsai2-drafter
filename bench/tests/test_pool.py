@@ -8,12 +8,13 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from bench.throughput import pool
 
 
-def leg(label: str, d_tok: int, d_sec: float, e_tok: int, e_sec: float) -> dict:
+def leg(label: str, d_tok: int, d_sec: float, e_tok: int, e_sec: float) -> dict[str, Any]:
     return {"label": label, "pooled_decode_tokens": d_tok, "pooled_decode_seconds": d_sec,
             "pooled_e2e_tokens": e_tok, "pooled_e2e_seconds": e_sec,
             "pooled_decode_tps": d_tok / d_sec if d_sec else 0.0, "pooled_e2e_tps": e_tok / e_sec,
@@ -21,7 +22,7 @@ def leg(label: str, d_tok: int, d_sec: float, e_tok: int, e_sec: float) -> dict:
 
 
 class PoolTest(unittest.TestCase):
-    def write(self, tmp: str, record: dict) -> str:
+    def write(self, tmp: str, record: dict[str, Any]) -> str:
         path = Path(tmp) / f"{record['label']}.json"
         path.write_text(json.dumps(record))
         return str(path)

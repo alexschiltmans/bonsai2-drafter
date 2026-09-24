@@ -52,9 +52,13 @@ in every report) and otherwise a bounded envelope, since a round that crossed th
 committed between `overshoot + 1` and `cap + 1` tokens. On the publication battery's arms the three
 variants moved the gain by under 0.4 points, which is why no rerun was needed to settle this.
 """
+from __future__ import annotations
+
 import argparse
 import json
 import random
+from collections.abc import Sequence
+from typing import Any
 
 CONTRACT = "budgeted-prefix-identity/v2"
 BLOCKING = ("prefix_divergence", "early_stop_mismatch")
@@ -74,7 +78,7 @@ EQUIVALENCE_CONTRACT = "artifact-equivalence/v1"
 EQUIVALENCE_FIELDS = ("response_ids", "finish", "tokens", "rounds", "round_lengths")
 
 
-def _settings(report):
+def _settings(report: dict[str, Any]) -> tuple[int, int]:
     """(budget, block) from the settings, refusing any this file's contracts cannot read.
 
     `aligned` has already required both arms' settings to be equal, so one speaks for both.
@@ -98,7 +102,7 @@ def _settings(report):
     return budget, cap + 1     # one block is the cap's drafts plus the target's own token
 
 
-def _count(value, name):
+def _count(value: object, name: str) -> int:
     """An integer count, refusing the values that arithmetic silently accepts.
 
     `True` is an `int` in Python and `4.0 == 4`, so a report carrying either would pass every
@@ -111,7 +115,7 @@ def _count(value, name):
     return value
 
 
-def _check_row(row, budget, block):
+def _check_row(row: dict[str, Any], budget: int, block: int) -> None:
     """One record, against the loop that produced it. Raises rather than returning a verdict.
 
     The arithmetic follows mlx-dspark 0.18.0 `generate.dflash_generate`, which is worth
@@ -199,7 +203,7 @@ def _check_row(row, budget, block):
             f"{lengths[-1]} committed tokens")
 
 
-def classify(left, right, budget, block):
+def classify(left: dict[str, Any], right: dict[str, Any], budget: int, block: int) -> str:
     """One pair, under the identity half of the contract."""
     before, after = left["response_ids"], right["response_ids"]
     if before == after:
@@ -212,11 +216,12 @@ def classify(left, right, budget, block):
     return "early_stop_mismatch"
 
 
-def acceptance(rows):
+def acceptance(rows: Sequence[dict[str, Any]]) -> float:
     return sum(r["tokens"] for r in rows) / sum(r["rounds"] for r in rows)
 
 
-def _within_budget(rows, budget, block):
+def _within_budget(rows: Sequence[dict[str, Any]], budget: int,
+                   block: int) -> tuple[tuple[float, float], bool] | None:
     """((lo, hi), exact) pooled acceptance with the budget-crossing round dropped, or None.
 
     None when dropping leaves no rounds at all, which a budget under one block can do.
@@ -247,12 +252,13 @@ def _within_budget(rows, budget, block):
     return ((low / denominator, high / denominator), exact) if denominator > 0 else None
 
 
-def _variants(left, right, budget, block):
+def _variants(left: Sequence[dict[str, Any]], right: Sequence[dict[str, Any]], budget: int,
+              block: int) -> dict[str, Any]:
     trimmed = [sum(min(r["tokens"], budget) for r in rows) / sum(r["rounds"] for r in rows)
                for rows in (left, right)]
     stock_within, tuned_within = (_within_budget(rows, budget, block) for rows in (left, right))
     if stock_within is None or tuned_within is None:
-        within = {"stock": None, "tuned": None, "relative_gain": None, "exact": False,
+        within: dict[str, Any] = {"stock": None, "tuned": None, "relative_gain": None, "exact": False,
                   "note": "undefined: a request crossed the budget in its only round"}
     else:
         (stock_lo, stock_hi), stock_exact = stock_within
@@ -274,7 +280,8 @@ def _variants(left, right, budget, block):
     }
 
 
-def aligned(first, second):
+def aligned(first: dict[str, Any], second: dict[str, Any]
+            ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], int, int]:
     """(left, right, budget, block) once both arms are complete, paired and well formed.
 
     Shared by both criteria on purpose. Whether the question is "better" or "the same", a
@@ -301,15 +308,15 @@ def aligned(first, second):
     return left, right, budget, block
 
 
-def compare(stock, tuned, draws=10000):
+def compare(stock: dict[str, Any], tuned: dict[str, Any], draws: int = 10000) -> dict[str, Any]:
     left, right, budget, block = aligned(stock, tuned)
 
-    def gain(indices):
+    def gain(indices: Sequence[int]) -> float:
         return acceptance([right[i] for i in indices]) / acceptance([left[i] for i in indices]) - 1
 
     # Resample prompts as pairs, not rounds as independent observations. Preserve the
     # fixed category/thinking composition so a draw does not change the workload mix.
-    strata = {}
+    strata: dict[tuple[Any, Any], list[int]] = {}
     for i, row in enumerate(left):
         strata.setdefault((row["category"], row["thinking"]), []).append(i)
     rng = random.Random(7)
@@ -345,7 +352,7 @@ def compare(stock, tuned, draws=10000):
                      "Truncated responses are not complete answers: read stock_truncated."}
 
 
-def equivalence(before, after):
+def equivalence(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
     """Are these two arms the same served loop? EQUIVALENCE_CONTRACT, field by field.
 
     Written for the prequantized variant: the fine-tuned drafter and its prequantized
@@ -400,7 +407,7 @@ def equivalence(before, after):
                      "on this fixed prompt suite, not that they are equal in general."}
 
 
-def main():
+def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("stock")
     ap.add_argument("tuned")

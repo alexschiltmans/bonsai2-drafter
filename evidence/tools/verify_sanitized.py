@@ -35,27 +35,31 @@ line added or removed, and no number in a rewritten line that its original line 
 
 `PAIRS.json` is a list of [original, sanitized] paths.
 """
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json
 import os
 import re
 import sys
+from collections.abc import Sequence
+from typing import Any
 
 
-def _text(value):
+def _text(value: Any) -> bool:
     return isinstance(value, str)
 
 
-def _epoch(value):
+def _epoch(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and 1e9 < value < 2e9
 
 
-def _texts(value):
+def _texts(value: Any) -> bool:
     return isinstance(value, list) and all(isinstance(v, str) for v in value)
 
 
-def _revision(value):
+def _revision(value: Any) -> bool:
     return isinstance(value, dict) and all(isinstance(v, (str, bool)) for v in value.values())
 
 
@@ -110,11 +114,11 @@ class Mismatch(Exception):
     pass
 
 
-def _numbers(text):
+def _numbers(text: str) -> list[str]:
     return NUMBER.findall(text)
 
 
-def compare(original, sanitized, where="$"):
+def compare(original: Any, sanitized: Any, where: str = "$") -> int:
     """Raise Mismatch at the first place the copy departs from the rules above."""
     if isinstance(sanitized, dict):
         if not isinstance(original, dict):
@@ -156,7 +160,7 @@ def compare(original, sanitized, where="$"):
     return 0
 
 
-def _leaves(value):
+def _leaves(value: Any) -> int:
     if isinstance(value, dict):
         return sum(_leaves(v) for v in value.values())
     if isinstance(value, list):
@@ -164,7 +168,7 @@ def _leaves(value):
     return 1
 
 
-def _load(path):
+def _load(path: str) -> Any:
     """A JSON file as its value; any other file as its list of lines."""
     with open(path) as f:
         if path.endswith(".json"):
@@ -172,14 +176,14 @@ def _load(path):
         return f.read().split("\n")
 
 
-def check_pair(original_path, sanitized_path):
+def check_pair(original_path: str, sanitized_path: str) -> tuple[int, int]:
     original, sanitized = _load(original_path), _load(sanitized_path)
     removed = compare(original, sanitized)
     return _leaves(sanitized), removed
 
 
-def _sums(directory):
-    listed = {}
+def _sums(directory: str) -> dict[str, str]:
+    listed: dict[str, str] = {}
     with open(os.path.join(directory, "SHA256SUMS")) as f:
         for line in f:
             digest, name = line.rstrip("\n").split(None, 1)
@@ -187,14 +191,14 @@ def _sums(directory):
     return listed
 
 
-def _byte_count(key):
+def _byte_count(key: str | None) -> bool:
     # `range` is a tensor's [start, end) byte offsets inside a model file; a `seed` is a sampler's
     # random seed. Neither is a time, whatever its size.
     return key is not None and ("bytes" in key or key.startswith("allocator") or key == "range"
                                 or "seed" in key)
 
 
-def _json_hits(value, extra, key=None):
+def _json_hits(value: Any, extra: Sequence[re.Pattern[str]], key: str | None = None) -> list[str]:
     """Forbidden matches in a parsed JSON value, read leaf by leaf."""
     if isinstance(value, dict):
         hits = []
@@ -213,7 +217,7 @@ def _json_hits(value, extra, key=None):
     return []
 
 
-def _hits(path, text, extra):
+def _hits(path: str, text: str, extra: Sequence[re.Pattern[str]]) -> list[str]:
     if path.endswith(".json"):
         try:
             return _json_hits(json.loads(text), extra)
@@ -222,14 +226,14 @@ def _hits(path, text, extra):
     return [m.group(0) for rx in (TIMESTAMP, LOCAL, *extra) for m in rx.finditer(text)]
 
 
-def load_patterns(path):
+def load_patterns(path: str) -> list[re.Pattern[str]]:
     """One regular expression per line; blank lines and `#` comments are skipped."""
     with open(path) as f:
         lines = [line.strip() for line in f]
     return [re.compile(line, re.IGNORECASE) for line in lines if line and not line.startswith("#")]
 
 
-def scan(root, extra=()):
+def scan(root: str, extra: Sequence[re.Pattern[str]] = ()) -> list[str]:
     problems = []
     covered = set()
     groups = []
@@ -262,7 +266,7 @@ def scan(root, extra=()):
     return problems
 
 
-def main():
+def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import os
 import sys
+from typing import Any, cast
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
@@ -48,8 +49,8 @@ def check_packing(bits: int) -> None:
     wq_np, sc_np, bi_np = (np.array(a.astype(mx.float32) if a.dtype != mx.uint32 else a)
                            for a in (wq, sc, bi))
     for r in range(8):
-        v = bitstream_unpack(wq_np[r], bits).astype(np.float32)
-        g = np.arange(K) // GROUP
+        v: Any = bitstream_unpack(wq_np[r], bits).astype(np.float32)
+        g: Any = np.arange(K) // GROUP
         got = v * sc_np[r][g] + bi_np[r][g]
         assert np.allclose(got, ref[r], atol=1e-3, rtol=1e-3), f"{bits}-bit packing, row {r}"
     print(f"  packing  {bits}-bit: dense LE bitstream confirmed for all {K} indices x 8 rows")
@@ -67,8 +68,9 @@ def check_kernel(bits: int) -> None:
             ref = mx.quantized_matmul(x, wq, sc, bi, transpose=True,
                                       group_size=GROUP, bits=bits).astype(mx.float32)
             got = smm._mma(x8, wq, sc, bi, M, N, K, bits).astype(mx.float32)
-            diff = mx.max(mx.abs(ref - got)).item()
-            scale = max(mx.max(mx.abs(ref)).item(), 1.0)
+            # mlx types item() as int | float | complex; a max of absolute values is a real float
+            diff = cast(float, mx.max(mx.abs(ref - got)).item())
+            scale = max(cast(float, mx.max(mx.abs(ref)).item()), 1.0)
             worst = max(worst, diff / scale)
             assert diff <= smm._REL_TOL * scale, (
                 f"{bits}-bit kernel {N}x{K} M={M}: rel err {diff/scale:.2e} > {smm._REL_TOL}")

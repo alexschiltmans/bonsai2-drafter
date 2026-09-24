@@ -34,12 +34,13 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any
 
 CODEBOOKS = ("candidate_selector.predecessor_codebook", "candidate_selector.successor_codebook")
 WEIGHTS = "model.safetensors"
 
 
-def read_header(path: Path) -> tuple[int, dict]:
+def read_header(path: Path) -> tuple[int, dict[str, Any]]:
     with path.open("rb") as stream:
         length = struct.unpack("<Q", stream.read(8))[0]
         return length, json.loads(stream.read(length))
@@ -54,7 +55,7 @@ def data_digest(path: Path, header_length: int) -> str:
     return checksum.hexdigest()
 
 
-def renamed(header: dict, to: str) -> dict:
+def renamed(header: dict[str, Any], to: str) -> dict[str, Any]:
     if any(f"{name}.scales" in header for name in CODEBOOKS):
         raise SystemExit("quantized codebooks (.scales/.biases) cannot be renamed losslessly")
     table = ({f"{name}.weight": name for name in CODEBOOKS} if to == "zlab"
@@ -76,7 +77,7 @@ def clone(source: Path, destination: Path) -> None:
     shutil.copyfile(source, destination)
 
 
-def rename(source_dir: Path, destination_dir: Path, to: str) -> dict:
+def rename(source_dir: Path, destination_dir: Path, to: str) -> dict[str, Any]:
     if destination_dir.exists():
         raise SystemExit(f"{destination_dir} exists; refusing to overwrite")
     source = source_dir / WEIGHTS
