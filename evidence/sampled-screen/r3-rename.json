@@ -1,0 +1,14 @@
+{
+ "source_dir": "naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2",
+ "renamed_dir": "naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2 (codebook keys renamed)",
+ "rename": {
+  "candidate_selector.predecessor_codebook.weight": "candidate_selector.predecessor_codebook",
+  "candidate_selector.successor_codebook.weight": "candidate_selector.successor_codebook"
+ },
+ "header_bytes": 8936,
+ "data_section_identical": true,
+ "source_sha256": "eb141d0fb8621cf7a7c81047b83810fa19b8093543bd05529e9478d9555cb8f1",
+ "renamed_sha256": "c96d6f55392d5b9bff0660b6416fb69302561ed0398bfe6f773562ae79227068",
+ "method": "APFS clone (cp -c) then an in-place, same-length header rewrite; tensor data untouched",
+ "why": "r3 names the selector codebooks with an nn.Embedding-style .weight suffix; z-lab's layout, which mlx-dspark's load_dflash checks strictly, does not. Same dtype and shape."
+}

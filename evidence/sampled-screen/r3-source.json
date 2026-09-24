@@ -1,0 +1,13 @@
+{
+ "repo": "naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2",
+ "revision": "3fc0d6ef43e933a20f1e9ee53fac6f56402c0f83",
+ "license": "apache-2.0",
+ "lfs_sha256": {
+  "model.safetensors": "eb141d0fb8621cf7a7c81047b83810fa19b8093543bd05529e9478d9555cb8f1"
+ },
+ "sizes": {
+  "config.json": 1239,
+  "model.safetensors": 3848817904
+ },
+ "config_sha256": "873e3556509b0da06e29654ba00d4944888d4b5e8a33afde25f7eb27d321e980"
+}
