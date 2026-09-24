@@ -101,8 +101,8 @@ weights on the strength of the code-only gate.
 
 `export_quantized.py` writes the 4-bit form of a bfloat16 DFlash 2 drafter once, instead of
 `load_dflash` quantizing it on every start. The bits that reach the GPU are the same either
-way: this is a distribution-size change, not a fine-tune and not a speed claim. The plan,
-its gates and what it is not allowed to claim are in docs/prequantized-ft5-plan.md.
+way: this is a distribution-size change, not a fine-tune and not a speed claim. Its
+gates are the checks below.
 
 The artifact only loads through this repository's patches. `patches/dflash_prequantized.py`
 builds the model, quantizes exactly the modules the pinned loader's rule selects, and then

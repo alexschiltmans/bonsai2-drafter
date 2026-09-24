@@ -21,7 +21,7 @@ Three tiers, and the first one is the reason this file is laid out the way it is
    parameters; the selector and convolution tensors left alone; missing, extra and
    malformed inputs; the exporter's refusals; source immutability; patch idempotence; and
    an ordinary bfloat16 checkpoint still loading the way it always did.
-3. **`--source`/`--artifact`: the real pair.** Phase 3 of docs/prequantized-ft5-plan.md:
+3. **`--source`/`--artifact`: the real pair.** The model-backed check:
    the shipped ft5 checkpoint quantized at load time against the saved artifact loaded
    through the patch, materialized on both sides and compared exactly, in this process and
    again in a fresh one that cannot read the source directory at all.
@@ -864,7 +864,7 @@ def fresh_process_digest(artifact: str, deny: str | None = None) -> dict[str, An
     """Load the artifact in a new interpreter and report a digest of every parameter.
 
     `deny`, when given, is a directory the child must not be able to read. The point is the
-    claim in docs/prequantized-ft5-plan.md that the artifact loads independently of the
+    claim that the artifact loads independently of the
     checkpoint it came from: a child that cannot open the source at all and still loads is
     the only form of that claim worth writing down. `sandbox-exec` does the denying, so
     nothing is deleted or moved, and the deny is probed before it is trusted.

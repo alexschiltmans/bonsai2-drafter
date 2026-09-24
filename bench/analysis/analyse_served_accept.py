@@ -319,7 +319,7 @@ def compare(stock, tuned, draws=10000):
 def equivalence(before, after):
     """Are these two arms the same served loop? EQUIVALENCE_CONTRACT, field by field.
 
-    Written for docs/prequantized-ft5-plan.md: the fine-tuned drafter and its prequantized
+    Written for the prequantized variant: the fine-tuned drafter and its prequantized
     repackaging hold the same weights in the same precision, so at temperature 0 the served
     loop should be indistinguishable, and any difference at all is a finding rather than a
     result. That is the opposite of :func:`compare`, whose gate needs a positive lower bound

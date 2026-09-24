@@ -8,7 +8,7 @@ The ft5 drafter is served at 4 bits but ships as 3.85 GB of bfloat16, which
 `load_dflash` quantizes on every start. The weights that reach the GPU are the same either
 way, so this is a distribution-size change and nothing else: not a fine-tune, not a speed
 claim, and not a checkpoint that can be served without this repository's patches. See
-docs/prequantized-ft5-plan.md and `patches/dflash_prequantized.py`.
+`patches/dflash_prequantized.py` for the format.
 
 How it stays honest
 -------------------

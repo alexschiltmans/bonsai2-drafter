@@ -10,7 +10,7 @@ such, and loaded without a second quantization pass.
 
 It is not a speed change and not a new drafter. The Bonsai target, `bonsai_loader.py` and
 the 2-bit verify kernel are all still required, and the bfloat16 export stays the canonical
-training artifact. See docs/prequantized-ft5-plan.md.
+training artifact.
 
 The format
 ----------
