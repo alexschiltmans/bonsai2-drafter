@@ -16,6 +16,7 @@ prompts at 400 tokens, three repetitions greedy and five at the target's publish
 |---|---|
 | `records/{ft5,pc}-{greedy,sampled}-{a1,a2,b1,b2}.json` | the eight `bench5` records, unchanged: per request, tokens, decode and end-to-end seconds, rounds and finish reason |
 | `machine-state.tsv` | memory pressure, swap, power source and competing inference processes before and after every leg |
+| `records-r3/{ft5,r3}-{greedy,sampled}-{a1,a2,b1,b2}.json`, `machine-state-r3.tsv` | a second ABBA group, ft5 against naklitechie's r3 (`naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2`, its two codebook keys renamed to z-lab's names for mlx-dspark's strict loader; `second-runtime/` shows the renamed copy serves the identical loop) |
 
 ## Claims and how to reproduce them
 
@@ -41,6 +42,23 @@ greedy, from each request's `rounds` and `decode_seconds`), so the difference is
 `bench5`'s prompts are all code generation, ft5's training domain. This does not contradict
 `procreations-drafter/`: ProCreations accepts more on the general chat suite, and the two are
 level on the 40-prompt code suite.
+
+## Against r3
+
+```sh
+R=evidence/throughput-ft5-procreations/records-r3
+for m in greedy sampled; do
+  python3 bench/throughput/pool.py $R/ft5-$m-a1.json $R/ft5-$m-a2.json -- $R/r3-$m-b1.json $R/r3-$m-b2.json
+done
+```
+
+| | ft5 | r3 | r3 / ft5 |
+|---|---|---|---|
+| greedy, pooled decode tok/s | 28.889 (legs 28.967, 28.812) | 26.118 (legs 26.139, 26.097) | **0.9041** |
+| sampled, pooled decode tok/s | 26.830 (legs 26.866, 26.795) | 25.016 (legs 25.094, 24.940) | **0.9324** |
+
+Every leg reads `"clean": true`; truncation is 24 of 30 in both greedy arms, and 36 and 38 of 50
+sampled. ft5's greedy rate in this group is within 0.6% of its rate in the group above.
 
 ## Notes
 
