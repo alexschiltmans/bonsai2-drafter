@@ -1,0 +1,71 @@
+{
+ "contract": "budgeted-prefix-identity/v2",
+ "prompts": 40,
+ "budget": 200,
+ "block": 5,
+ "stock_tokens_per_round": 3.1834430856067732,
+ "tuned_tokens_per_round": 3.242932438907523,
+ "relative_gain": 0.01868711068519402,
+ "paired_95_interval": [0.007095553453169368, 0.030797946803546417],
+ "output_classes": {
+  "identical": 40,
+  "boundary_overshoot": 0,
+  "prefix_divergence": 0,
+  "early_stop_mismatch": 0
+ },
+ "max_overshoot_tokens": 0,
+ "output_mismatches": 0,
+ "stock_truncated": 24,
+ "tuned_truncated": 24,
+ "acceptance_variants": {
+  "whole_rounds": {
+   "stock": 3.1834430856067732,
+   "tuned": 3.242932438907523,
+   "relative_gain": 0.01868711068519402,
+   "note": "the headline metric: every committed token over every round"
+  },
+  "budget_trimmed_numerator": {
+   "stock": 3.1834430856067732,
+   "tuned": 3.242932438907523,
+   "relative_gain": 0.01868711068519402,
+   "note": "trimmed numerator over whole rounds; a mixed metric, sensitivity only"
+  },
+  "complete_rounds_within_budget": {
+   "stock": [3.1834430856067732, 3.1834430856067732],
+   "tuned": [3.242932438907523, 3.242932438907523],
+   "relative_gain": [0.01868711068519402, 0.01868711068519402],
+   "exact": true,
+   "note": "crossing round dropped; an envelope unless round_lengths were recorded"
+  }
+ },
+ "breakdown": [
+  {
+   "field": "category",
+   "value": "unknown",
+   "prompts": 40,
+   "relative_gain": 0.01868711068519402
+  },
+  {
+   "field": "thinking",
+   "value": false,
+   "prompts": 14,
+   "relative_gain": 0.02454991816693952
+  },
+  {
+   "field": "thinking",
+   "value": true,
+   "prompts": 26,
+   "relative_gain": 0.016260162601626105
+  }
+ ],
+ "gate": "pass",
+ "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage. Truncated responses are not complete answers: read stock_truncated.",
+ "baseline_arm": "stock",
+ "candidate_arm": "r3",
+ "runtime_counting_sensitivity": {
+  "base_tokens_per_cycle": 3.165575304022451,
+  "cand_tokens_per_cycle": 3.2213231794383628,
+  "relative_gain": 0.017610661589719134,
+  "paired_95_interval": [0.0057581573896352545, 0.030008826125331067]
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "contract": "budgeted-prefix-identity/v2",
+ "reference": "target_only",
+ "arm": "stock",
+ "prompts": 40,
+ "budget": 1024,
+ "output_classes": {
+  "identical": 21,
+  "boundary_overshoot": 0,
+  "prefix_divergence": 19,
+  "early_stop_mismatch": 0
+ },
+ "output_mismatches": 19,
+ "divergences": [
+  {
+   "prompt_sha256": "4dbfdb471e580f7781ff051dd06e51aa6a2a35a36340878e86a9e052a41ae917",
+   "category": "explanation",
+   "thinking": false,
+   "first_divergent_token": 198
+  },
+  {
+   "prompt_sha256": "80fbc2ff7e6590426feaae61fe603a57af1328938d330104321777373228dd83",
+   "category": "planning",
+   "thinking": false,
+   "first_divergent_token": 233
+  },
+  {
+   "prompt_sha256": "2280f91845b4d69419a57066409c13fa08387bf44f0c4e658d8a2dea364eedda",
+   "category": "planning",
+   "thinking": true,
+   "first_divergent_token": 46
+  },
+  {
+   "prompt_sha256": "d6a993d94e3d12b8eeb0ace4e8e37fef98b291c1d8fb3d73eb5a442856e6c7fa",
+   "category": "planning",
+   "thinking": true,
+   "first_divergent_token": 690
+  },
+  {
+   "prompt_sha256": "63d5293678d545250196a028b4527dceb2e169d705425d6dccdd75c62cc14c5b",
+   "category": "planning",
+   "thinking": false,
+   "first_divergent_token": 271
+  },
+  {
+   "prompt_sha256": "fe537bc221df5ee3092a404022f128ffc54d826dd99d9cbbf0cee52c1d90d8b8",
+   "category": "writing",
+   "thinking": true,
+   "first_divergent_token": 203
+  },
+  {
+   "prompt_sha256": "92c19d33818fbd54eea54e3cbe176fed54b245e451126aa3afdc848648cac14b",
+   "category": "writing",
+   "thinking": true,
+   "first_divergent_token": 141
+  },
+  {
+   "prompt_sha256": "93b08e6bf6543f81bc6946e211e1432ab685a29e8e187b9c052a35009a4b67e6",
+   "category": "reasoning",
+   "thinking": true,
+   "first_divergent_token": 339
+  },
+  {
+   "prompt_sha256": "1addaf364d4f4bc383435f44fefbf49b31e38aa29992cf1485c1fae7bd8da635",
+   "category": "advice",
+   "thinking": false,
+   "first_divergent_token": 508
+  },
+  {
+   "prompt_sha256": "999072998de579d93d3002008898630df6243896ce6255fdda3b9ac81609e45a",
+   "category": "advice",
+   "thinking": true,
+   "first_divergent_token": 343
+  },
+  {
+   "prompt_sha256": "743d912ab2ee916ae2e2d080fc0e1c005c06ec502f520c21a330988ff3de82f2",
+   "category": "advice",
+   "thinking": false,
+   "first_divergent_token": 236
+  },
+  {
+   "prompt_sha256": "af1fb1100da88f42f8ccc0cb2a78f9751a336e2da3a36a1255c7d930c168f53d",
+   "category": "advice",
+   "thinking": true,
+   "first_divergent_token": 47
+  },
+  {
+   "prompt_sha256": "1a60be99bf1180b899db6d59c8797cd12faf44c97e44b09ca8ecc8c8d1d27b61",
+   "category": "advice",
+   "thinking": false,
+   "first_divergent_token": 762
+  },
+  {
+   "prompt_sha256": "82956cc49e9565eaa51eadb4df6919f32c2a34c835dc030be3c8bd9724445dd3",
+   "category": "critical_reading",
+   "thinking": true,
+   "first_divergent_token": 663
+  },
+  {
+   "prompt_sha256": "e21223055bc84b4f48dab208c9872a1f4eb697f9cad94d87c5a661256e78c12e",
+   "category": "critical_reading",
+   "thinking": false,
+   "first_divergent_token": 410
+  },
+  {
+   "prompt_sha256": "80ba53f326461dad6df8fa2d3f6e5068472ce1c7ebbc288675982e90bf5b288c",
+   "category": "critical_reading",
+   "thinking": true,
+   "first_divergent_token": 350
+  },
+  {
+   "prompt_sha256": "63d95b306f8b23d00f352c329c0ea93476de20737b5d1f4510f38a92796b29a3",
+   "category": "critical_reading",
+   "thinking": true,
+   "first_divergent_token": 225
+  },
+  {
+   "prompt_sha256": "d9367e15ca92ddd8f34c48129b0a80b57d092915d27bcf059bf78cf516f8a35b",
+   "category": "language",
+   "thinking": false,
+   "first_divergent_token": 157
+  },
+  {
+   "prompt_sha256": "1b33fb94f9cc5577fff9634d748639cc743633f6a87f0823c2ad80a4037ca772",
+   "category": "language",
+   "thinking": false,
+   "first_divergent_token": 83
+  }
+ ],
+ "note": "compare(target_only, arm) output classes; its gain is meaningless here (the target-only arm has 1-token rounds)"
+}

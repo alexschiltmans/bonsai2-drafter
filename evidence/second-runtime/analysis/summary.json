@@ -1,0 +1,365 @@
+{
+ "contract": "budgeted-prefix-identity/v2",
+ "suites": {
+  "general200": {
+   "arms": {
+    "target": {
+     "drafter": null,
+     "prompts": 40,
+     "tokens_per_round": 1.00533902829685,
+     "runtime_tokens_per_cycle": null,
+     "truncated": 34,
+     "excluded_passes": 0,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 22.188796100709293
+    },
+    "stock": {
+     "drafter": "z-lab/Qwen3.8-27B-DFlash2@50307d4c4cde6860d4eee73e2547cd786fe8e8a4",
+     "prompts": 40,
+     "tokens_per_round": 2.6392005610098175,
+     "runtime_tokens_per_cycle": 2.6272251308900523,
+     "truncated": 33,
+     "excluded_passes": 13,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 23.490421845388454
+    },
+    "ft5": {
+     "drafter": "Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5 (local copy)",
+     "prompts": 40,
+     "tokens_per_round": 2.7713549337260677,
+     "runtime_tokens_per_cycle": 2.7591642228739004,
+     "truncated": 33,
+     "excluded_passes": 12,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 24.673537781766054
+    },
+    "r3": {
+     "drafter": "naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2 (local copy, native codebook names)",
+     "prompts": 40,
+     "tokens_per_round": 2.704635285662954,
+     "runtime_tokens_per_cycle": 2.693381037567084,
+     "truncated": 33,
+     "excluded_passes": 12,
+     "post_stop_tokens": 1,
+     "decode_tokens_per_second_illustrative": 24.083991000688336
+    }
+   },
+   "pairs": {
+    "stock->ft5": {
+     "base": 2.6392005610098175,
+     "cand": 2.7713549337260677,
+     "gain": 0.050073637702503726,
+     "interval": [0.03352559480894013, 0.0682891391209588],
+     "gate": "pass",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": 0.05021994134897367,
+     "runtime_counting_interval": [0.03392330383480813, 0.06792873051224935]
+    },
+    "stock->r3": {
+     "base": 2.6392005610098175,
+     "cand": 2.704635285662954,
+     "gain": 0.024793388429752206,
+     "interval": [0.01703163017031617, 0.032827391457818544],
+     "gate": "pass",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": 0.02518090509229398,
+     "runtime_counting_interval": [0.017427675148135258, 0.03330589197995537]
+    },
+    "ft5->r3": {
+     "base": 2.7713549337260677,
+     "cand": 2.704635285662954,
+     "gain": -0.024074739489759134,
+     "interval": [-0.03826086956521735, -0.010776662950576],
+     "gate": "investigate",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": -0.023841707123288813,
+     "runtime_counting_interval": [-0.03783655723954238, -0.010429966579981742]
+    }
+   },
+   "identity_vs_target": {
+    "stock": {
+     "output_classes": {
+      "identical": 34,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 6,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 6
+    },
+    "ft5": {
+     "output_classes": {
+      "identical": 34,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 6,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 6
+    },
+    "r3": {
+     "output_classes": {
+      "identical": 34,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 6,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 6
+    }
+   }
+  },
+  "code200": {
+   "arms": {
+    "target": {
+     "drafter": null,
+     "prompts": 40,
+     "tokens_per_round": 1.0059532668551867,
+     "runtime_tokens_per_cycle": null,
+     "truncated": 24,
+     "excluded_passes": 0,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 22.20957604179554
+    },
+    "stock": {
+     "drafter": "z-lab/Qwen3.8-27B-DFlash2@50307d4c4cde6860d4eee73e2547cd786fe8e8a4",
+     "prompts": 40,
+     "tokens_per_round": 3.1834430856067732,
+     "runtime_tokens_per_cycle": 3.165575304022451,
+     "truncated": 24,
+     "excluded_passes": 12,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 28.29383645993039
+    },
+    "ft5": {
+     "drafter": "Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5 (local copy)",
+     "prompts": 40,
+     "tokens_per_round": 3.409571788413098,
+     "runtime_tokens_per_cycle": 3.3856928464232117,
+     "truncated": 24,
+     "excluded_passes": 14,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 30.260610453762254
+    },
+    "r3": {
+     "drafter": "naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2 (local copy, native codebook names)",
+     "prompts": 40,
+     "tokens_per_round": 3.242932438907523,
+     "runtime_tokens_per_cycle": 3.2213231794383628,
+     "truncated": 24,
+     "excluded_passes": 14,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 28.795519901970803
+    }
+   },
+   "pairs": {
+    "stock->ft5": {
+     "base": 3.1834430856067732,
+     "cand": 3.409571788413098,
+     "gain": 0.0710327455919395,
+     "interval": [0.052482269503546064, 0.09031556039173005],
+     "gate": "pass",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": 0.06953476738369191,
+     "runtime_counting_interval": [0.051308363263211865, 0.08834486428951571]
+    },
+    "stock->r3": {
+     "base": 3.1834430856067732,
+     "cand": 3.242932438907523,
+     "gain": 0.01868711068519402,
+     "interval": [0.007095553453169368, 0.030797946803546417],
+     "gate": "pass",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": 0.017610661589719134,
+     "runtime_counting_interval": [0.0057581573896352545, 0.030008826125331067]
+    },
+    "ft5->r3": {
+     "base": 3.409571788413098,
+     "cand": 3.242932438907523,
+     "gain": -0.04887398179204594,
+     "interval": [-0.06663685152057242, -0.03116883116883118],
+     "gate": "investigate",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": -0.048548310328415,
+     "runtime_counting_interval": [-0.06627393225331368, -0.030927835051546393]
+    }
+   },
+   "identity_vs_target": {
+    "stock": {
+     "output_classes": {
+      "identical": 36,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 4,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 4
+    },
+    "ft5": {
+     "output_classes": {
+      "identical": 36,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 4,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 4
+    },
+    "r3": {
+     "output_classes": {
+      "identical": 36,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 4,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 4
+    }
+   }
+  },
+  "general1024": {
+   "arms": {
+    "target": {
+     "drafter": null,
+     "prompts": 40,
+     "tokens_per_round": 1.0016016657323616,
+     "runtime_tokens_per_cycle": null,
+     "truncated": 12,
+     "excluded_passes": 0,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 21.960581780646777
+    },
+    "stock": {
+     "drafter": "z-lab/Qwen3.8-27B-DFlash2@50307d4c4cde6860d4eee73e2547cd786fe8e8a4",
+     "prompts": 40,
+     "tokens_per_round": 2.6452370781717214,
+     "runtime_tokens_per_cycle": 2.6412881211345702,
+     "truncated": 12,
+     "excluded_passes": 14,
+     "post_stop_tokens": 0,
+     "decode_tokens_per_second_illustrative": 23.289257065230935
+    },
+    "ft5": {
+     "drafter": "Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5 (local copy)",
+     "prompts": 40,
+     "tokens_per_round": 2.7731751007613075,
+     "runtime_tokens_per_cycle": 2.7708053691275167,
+     "truncated": 12,
+     "excluded_passes": 8,
+     "post_stop_tokens": 1,
+     "decode_tokens_per_second_illustrative": 24.43973998513451
+    },
+    "r3": {
+     "drafter": "naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2 (local copy, native codebook names)",
+     "prompts": 40,
+     "tokens_per_round": 2.7044437165629436,
+     "runtime_tokens_per_cycle": 2.700130804447351,
+     "truncated": 12,
+     "excluded_passes": 15,
+     "post_stop_tokens": 1,
+     "decode_tokens_per_second_illustrative": 23.810870843064766
+    }
+   },
+   "pairs": {
+    "stock->ft5": {
+     "base": 2.6452370781717214,
+     "cand": 2.7731751007613075,
+     "gain": 0.048365427675772565,
+     "interval": [0.03590347263095928, 0.06033004714959289],
+     "gate": "pass",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": 0.04903563793612653,
+     "runtime_counting_interval": [0.03650851782494846, 0.06110939329365528]
+    },
+    "stock->r3": {
+     "base": 2.6452370781717214,
+     "cand": 2.7044437165629436,
+     "gain": 0.022382356152418348,
+     "interval": [0.017398775641713993, 0.027214065276348842],
+     "gate": "pass",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": 0.022278025196094342,
+     "runtime_counting_interval": [0.01727057229935669, 0.02719517909482616]
+    },
+    "ft5->r3": {
+     "base": 2.7731751007613075,
+     "cand": 2.7044437165629436,
+     "gain": -0.02478436510536075,
+     "interval": [-0.03432728763192938, -0.014819506016466089],
+     "gate": "investigate",
+     "output_classes": {
+      "identical": 40,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 0,
+      "early_stop_mismatch": 0
+     },
+     "runtime_counting_gain": -0.02550686723348594,
+     "runtime_counting_interval": [-0.035050640317999204, -0.015551418245537074]
+    }
+   },
+   "identity_vs_target": {
+    "stock": {
+     "output_classes": {
+      "identical": 21,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 19,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 19
+    },
+    "ft5": {
+     "output_classes": {
+      "identical": 21,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 19,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 19
+    },
+    "r3": {
+     "output_classes": {
+      "identical": 21,
+      "boundary_overshoot": 0,
+      "prefix_divergence": 19,
+      "early_stop_mismatch": 0
+     },
+     "divergent_prompts": 19
+    }
+   }
+  }
+ }
+}

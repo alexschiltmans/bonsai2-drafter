@@ -1,0 +1,247 @@
+{
+ "reference": "reports/general200-target.json",
+ "speculative": "reports/general200-stock.json",
+ "budget": 200,
+ "cases": [
+  {
+   "prompt_sha256": "4dbfdb471e580f7781ff051dd06e51aa6a2a35a36340878e86a9e052a41ae917",
+   "category": "explanation",
+   "thinking": false,
+   "position": 198,
+   "target_only_token": 318,
+   "speculative_token": 8524,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [318, 16.2344],
+      [8524, 16.2344],
+      [383, 15.875]
+     ],
+     "logit_target_only_token": 16.2344,
+     "logit_speculative_token": 16.2344,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [8524, 16.2344],
+      [318, 16.2188],
+      [383, 15.875]
+     ],
+     "logit_target_only_token": 16.2188,
+     "logit_speculative_token": 16.2344,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "verify5": {
+     "top3": [
+      [8524, 16.2327],
+      [318, 16.227],
+      [383, 15.8771]
+     ],
+     "logit_target_only_token": 16.227,
+     "logit_speculative_token": 16.2327,
+     "margin_target_only_minus_speculative": -0.0056
+    }
+   }
+  },
+  {
+   "prompt_sha256": "2280f91845b4d69419a57066409c13fa08387bf44f0c4e658d8a2dea364eedda",
+   "category": "planning",
+   "thinking": true,
+   "position": 46,
+   "target_only_token": 4222,
+   "speculative_token": 10229,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [4222, 18.6875],
+      [10229, 18.6875],
+      [1683, 17.7812]
+     ],
+     "logit_target_only_token": 18.6875,
+     "logit_speculative_token": 18.6875,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [4222, 18.6875],
+      [10229, 18.6875],
+      [1683, 17.7812]
+     ],
+     "logit_target_only_token": 18.6875,
+     "logit_speculative_token": 18.6875,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [10229, 18.6905],
+      [4222, 18.6869],
+      [1683, 17.778]
+     ],
+     "logit_target_only_token": 18.6869,
+     "logit_speculative_token": 18.6905,
+     "margin_target_only_minus_speculative": -0.0036
+    }
+   }
+  },
+  {
+   "prompt_sha256": "92c19d33818fbd54eea54e3cbe176fed54b245e451126aa3afdc848648cac14b",
+   "category": "writing",
+   "thinking": true,
+   "position": 141,
+   "target_only_token": 220,
+   "speculative_token": 539,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [220, 16.7031],
+      [539, 16.7031],
+      [506, 14.1953]
+     ],
+     "logit_target_only_token": 16.7031,
+     "logit_speculative_token": 16.7031,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [220, 16.7031],
+      [539, 16.7031],
+      [506, 14.1953]
+     ],
+     "logit_target_only_token": 16.7031,
+     "logit_speculative_token": 16.7031,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [539, 16.7035],
+      [220, 16.6984],
+      [506, 14.1975]
+     ],
+     "logit_target_only_token": 16.6984,
+     "logit_speculative_token": 16.7035,
+     "margin_target_only_minus_speculative": -0.005
+    }
+   }
+  },
+  {
+   "prompt_sha256": "af1fb1100da88f42f8ccc0cb2a78f9751a336e2da3a36a1255c7d930c168f53d",
+   "category": "advice",
+   "thinking": true,
+   "position": 47,
+   "target_only_token": 1534,
+   "speculative_token": 10631,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [1534, 20.5469],
+      [10631, 20.5469],
+      [9183, 18.1094]
+     ],
+     "logit_target_only_token": 20.5469,
+     "logit_speculative_token": 20.5469,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [1534, 20.5469],
+      [10631, 20.5469],
+      [9183, 18.1094]
+     ],
+     "logit_target_only_token": 20.5469,
+     "logit_speculative_token": 20.5469,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [10631, 20.5492],
+      [1534, 20.543],
+      [9183, 18.1132]
+     ],
+     "logit_target_only_token": 20.543,
+     "logit_speculative_token": 20.5492,
+     "margin_target_only_minus_speculative": -0.0063
+    }
+   }
+  },
+  {
+   "prompt_sha256": "d9367e15ca92ddd8f34c48129b0a80b57d092915d27bcf059bf78cf516f8a35b",
+   "category": "language",
+   "thinking": false,
+   "position": 157,
+   "target_only_token": 15433,
+   "speculative_token": 45351,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [45351, 17.0],
+      [15433, 16.9844],
+      [23197, 16.5312]
+     ],
+     "logit_target_only_token": 16.9844,
+     "logit_speculative_token": 17.0,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "decode1": {
+     "top3": [
+      [15433, 17.0],
+      [45351, 17.0],
+      [23197, 16.5469]
+     ],
+     "logit_target_only_token": 17.0,
+     "logit_speculative_token": 17.0,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [45351, 16.9983],
+      [15433, 16.9903],
+      [23197, 16.5394]
+     ],
+     "logit_target_only_token": 16.9903,
+     "logit_speculative_token": 16.9983,
+     "margin_target_only_minus_speculative": -0.008
+    }
+   }
+  },
+  {
+   "prompt_sha256": "1b33fb94f9cc5577fff9634d748639cc743633f6a87f0823c2ad80a4037ca772",
+   "category": "language",
+   "thinking": false,
+   "position": 83,
+   "target_only_token": 2432,
+   "speculative_token": 18770,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [2432, 19.5312],
+      [18770, 19.5312],
+      [760, 18.9531]
+     ],
+     "logit_target_only_token": 19.5312,
+     "logit_speculative_token": 19.5312,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [2432, 19.5312],
+      [18770, 19.5312],
+      [760, 18.9531]
+     ],
+     "logit_target_only_token": 19.5312,
+     "logit_speculative_token": 19.5312,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [2432, 19.5277],
+      [18770, 19.527],
+      [760, 18.9551]
+     ],
+     "logit_target_only_token": 19.5277,
+     "logit_speculative_token": 19.527,
+     "margin_target_only_minus_speculative": 0.0007
+    }
+   }
+  }
+ ]
+}

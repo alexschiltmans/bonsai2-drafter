@@ -1,0 +1,41 @@
+{
+ "contract": "budgeted-prefix-identity/v2",
+ "reference": "target_only",
+ "arm": "r3",
+ "prompts": 40,
+ "budget": 200,
+ "output_classes": {
+  "identical": 36,
+  "boundary_overshoot": 0,
+  "prefix_divergence": 4,
+  "early_stop_mismatch": 0
+ },
+ "output_mismatches": 4,
+ "divergences": [
+  {
+   "prompt_sha256": "69fb9acd9c3da6853c1bcfd53767fbb755fd649da51a09d3f434a0db26e6753f",
+   "category": "unknown",
+   "thinking": true,
+   "first_divergent_token": 68
+  },
+  {
+   "prompt_sha256": "69e036795022873efd961a2708ffcc521607a7731cac6e3b6de15eb4d731df2f",
+   "category": "unknown",
+   "thinking": true,
+   "first_divergent_token": 28
+  },
+  {
+   "prompt_sha256": "842a3af42535afdcfa9bd865acaee83136c136db4196543eb9fc3b4f39737d58",
+   "category": "unknown",
+   "thinking": true,
+   "first_divergent_token": 160
+  },
+  {
+   "prompt_sha256": "9bb07dfafd4ddd6aa5e544b60924a0db637c0bbbdb5b65c370bb5fac1ebb5114",
+   "category": "unknown",
+   "thinking": true,
+   "first_divergent_token": 96
+  }
+ ],
+ "note": "compare(target_only, arm) output classes; its gain is meaningless here (the target-only arm has 1-token rounds)"
+}

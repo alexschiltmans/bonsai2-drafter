@@ -1,0 +1,53 @@
+{
+ "contract": "budgeted-prefix-identity/v2",
+ "reference": "target_only",
+ "arm": "r3",
+ "prompts": 40,
+ "budget": 200,
+ "output_classes": {
+  "identical": 34,
+  "boundary_overshoot": 0,
+  "prefix_divergence": 6,
+  "early_stop_mismatch": 0
+ },
+ "output_mismatches": 6,
+ "divergences": [
+  {
+   "prompt_sha256": "4dbfdb471e580f7781ff051dd06e51aa6a2a35a36340878e86a9e052a41ae917",
+   "category": "explanation",
+   "thinking": false,
+   "first_divergent_token": 198
+  },
+  {
+   "prompt_sha256": "2280f91845b4d69419a57066409c13fa08387bf44f0c4e658d8a2dea364eedda",
+   "category": "planning",
+   "thinking": true,
+   "first_divergent_token": 46
+  },
+  {
+   "prompt_sha256": "92c19d33818fbd54eea54e3cbe176fed54b245e451126aa3afdc848648cac14b",
+   "category": "writing",
+   "thinking": true,
+   "first_divergent_token": 141
+  },
+  {
+   "prompt_sha256": "af1fb1100da88f42f8ccc0cb2a78f9751a336e2da3a36a1255c7d930c168f53d",
+   "category": "advice",
+   "thinking": true,
+   "first_divergent_token": 47
+  },
+  {
+   "prompt_sha256": "d9367e15ca92ddd8f34c48129b0a80b57d092915d27bcf059bf78cf516f8a35b",
+   "category": "language",
+   "thinking": false,
+   "first_divergent_token": 157
+  },
+  {
+   "prompt_sha256": "1b33fb94f9cc5577fff9634d748639cc743633f6a87f0823c2ad80a4037ca772",
+   "category": "language",
+   "thinking": false,
+   "first_divergent_token": 83
+  }
+ ],
+ "note": "compare(target_only, arm) output classes; its gain is meaningless here (the target-only arm has 1-token rounds)"
+}

@@ -1,0 +1,767 @@
+{
+ "reference": "reports/general1024-target.json",
+ "speculative": "reports/general1024-stock.json",
+ "budget": 1024,
+ "cases": [
+  {
+   "prompt_sha256": "4dbfdb471e580f7781ff051dd06e51aa6a2a35a36340878e86a9e052a41ae917",
+   "category": "explanation",
+   "thinking": false,
+   "position": 198,
+   "target_only_token": 318,
+   "speculative_token": 8524,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [318, 16.2344],
+      [8524, 16.2344],
+      [383, 15.875]
+     ],
+     "logit_target_only_token": 16.2344,
+     "logit_speculative_token": 16.2344,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [8524, 16.2344],
+      [318, 16.2188],
+      [383, 15.875]
+     ],
+     "logit_target_only_token": 16.2188,
+     "logit_speculative_token": 16.2344,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "verify5": {
+     "top3": [
+      [8524, 16.2327],
+      [318, 16.227],
+      [383, 15.8771]
+     ],
+     "logit_target_only_token": 16.227,
+     "logit_speculative_token": 16.2327,
+     "margin_target_only_minus_speculative": -0.0056
+    }
+   }
+  },
+  {
+   "prompt_sha256": "80fbc2ff7e6590426feaae61fe603a57af1328938d330104321777373228dd83",
+   "category": "planning",
+   "thinking": false,
+   "position": 233,
+   "target_only_token": 1368,
+   "speculative_token": 8727,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [1368, 16.875],
+      [8727, 16.875],
+      [7261, 16.1406]
+     ],
+     "logit_target_only_token": 16.875,
+     "logit_speculative_token": 16.875,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [1368, 16.875],
+      [8727, 16.875],
+      [7261, 16.1406]
+     ],
+     "logit_target_only_token": 16.875,
+     "logit_speculative_token": 16.875,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [8727, 16.876],
+      [1368, 16.8691],
+      [7261, 16.1429]
+     ],
+     "logit_target_only_token": 16.8691,
+     "logit_speculative_token": 16.876,
+     "margin_target_only_minus_speculative": -0.0068
+    }
+   }
+  },
+  {
+   "prompt_sha256": "2280f91845b4d69419a57066409c13fa08387bf44f0c4e658d8a2dea364eedda",
+   "category": "planning",
+   "thinking": true,
+   "position": 46,
+   "target_only_token": 4222,
+   "speculative_token": 10229,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [4222, 18.6875],
+      [10229, 18.6875],
+      [1683, 17.7812]
+     ],
+     "logit_target_only_token": 18.6875,
+     "logit_speculative_token": 18.6875,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [4222, 18.6875],
+      [10229, 18.6875],
+      [1683, 17.7812]
+     ],
+     "logit_target_only_token": 18.6875,
+     "logit_speculative_token": 18.6875,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [10229, 18.6905],
+      [4222, 18.6869],
+      [1683, 17.778]
+     ],
+     "logit_target_only_token": 18.6869,
+     "logit_speculative_token": 18.6905,
+     "margin_target_only_minus_speculative": -0.0036
+    }
+   }
+  },
+  {
+   "prompt_sha256": "d6a993d94e3d12b8eeb0ace4e8e37fef98b291c1d8fb3d73eb5a442856e6c7fa",
+   "category": "planning",
+   "thinking": true,
+   "position": 690,
+   "target_only_token": 579,
+   "speculative_token": 4138,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [4138, 19.1406],
+      [579, 19.125],
+      [369, 16.7969]
+     ],
+     "logit_target_only_token": 19.125,
+     "logit_speculative_token": 19.1406,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "decode1": {
+     "top3": [
+      [579, 19.125],
+      [4138, 19.125],
+      [369, 16.7969]
+     ],
+     "logit_target_only_token": 19.125,
+     "logit_speculative_token": 19.125,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [4138, 19.1336],
+      [579, 19.1322],
+      [369, 16.7921]
+     ],
+     "logit_target_only_token": 19.1322,
+     "logit_speculative_token": 19.1336,
+     "margin_target_only_minus_speculative": -0.0013
+    }
+   }
+  },
+  {
+   "prompt_sha256": "63d5293678d545250196a028b4527dceb2e169d705425d6dccdd75c62cc14c5b",
+   "category": "planning",
+   "thinking": false,
+   "position": 271,
+   "target_only_token": 264,
+   "speculative_token": 3999,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [3999, 14.3359],
+      [264, 14.3281],
+      [599, 14.2188]
+     ],
+     "logit_target_only_token": 14.3281,
+     "logit_speculative_token": 14.3359,
+     "margin_target_only_minus_speculative": -0.0078
+    },
+    "decode1": {
+     "top3": [
+      [264, 14.3359],
+      [3999, 14.3359],
+      [599, 14.2188]
+     ],
+     "logit_target_only_token": 14.3359,
+     "logit_speculative_token": 14.3359,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [3999, 14.3362],
+      [264, 14.3344],
+      [599, 14.2221]
+     ],
+     "logit_target_only_token": 14.3344,
+     "logit_speculative_token": 14.3362,
+     "margin_target_only_minus_speculative": -0.0017
+    }
+   }
+  },
+  {
+   "prompt_sha256": "fe537bc221df5ee3092a404022f128ffc54d826dd99d9cbbf0cee52c1d90d8b8",
+   "category": "writing",
+   "thinking": true,
+   "position": 203,
+   "target_only_token": 41403,
+   "speculative_token": 83992,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [41403, 17.7031],
+      [83992, 17.7031],
+      [13505, 16.8594]
+     ],
+     "logit_target_only_token": 17.7031,
+     "logit_speculative_token": 17.7031,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [41403, 17.7031],
+      [83992, 17.7031],
+      [13505, 16.8438]
+     ],
+     "logit_target_only_token": 17.7031,
+     "logit_speculative_token": 17.7031,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [83992, 17.7021],
+      [41403, 17.7019],
+      [13505, 16.8511]
+     ],
+     "logit_target_only_token": 17.7019,
+     "logit_speculative_token": 17.7021,
+     "margin_target_only_minus_speculative": -0.0003
+    }
+   }
+  },
+  {
+   "prompt_sha256": "92c19d33818fbd54eea54e3cbe176fed54b245e451126aa3afdc848648cac14b",
+   "category": "writing",
+   "thinking": true,
+   "position": 141,
+   "target_only_token": 220,
+   "speculative_token": 539,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [220, 16.7031],
+      [539, 16.7031],
+      [506, 14.1953]
+     ],
+     "logit_target_only_token": 16.7031,
+     "logit_speculative_token": 16.7031,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [220, 16.7031],
+      [539, 16.7031],
+      [506, 14.1953]
+     ],
+     "logit_target_only_token": 16.7031,
+     "logit_speculative_token": 16.7031,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [539, 16.7035],
+      [220, 16.6984],
+      [506, 14.1975]
+     ],
+     "logit_target_only_token": 16.6984,
+     "logit_speculative_token": 16.7035,
+     "margin_target_only_minus_speculative": -0.005
+    }
+   }
+  },
+  {
+   "prompt_sha256": "93b08e6bf6543f81bc6946e211e1432ab685a29e8e187b9c052a35009a4b67e6",
+   "category": "reasoning",
+   "thinking": true,
+   "position": 339,
+   "target_only_token": 374,
+   "speculative_token": 799,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [374, 17.0],
+      [799, 17.0],
+      [4523, 16.7812]
+     ],
+     "logit_target_only_token": 17.0,
+     "logit_speculative_token": 17.0,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [374, 17.0],
+      [799, 17.0],
+      [4523, 16.7656]
+     ],
+     "logit_target_only_token": 17.0,
+     "logit_speculative_token": 17.0,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [799, 16.9961],
+      [374, 16.9956],
+      [4523, 16.7731]
+     ],
+     "logit_target_only_token": 16.9956,
+     "logit_speculative_token": 16.9961,
+     "margin_target_only_minus_speculative": -0.0005
+    }
+   }
+  },
+  {
+   "prompt_sha256": "1addaf364d4f4bc383435f44fefbf49b31e38aa29992cf1485c1fae7bd8da635",
+   "category": "advice",
+   "thinking": false,
+   "position": 508,
+   "target_only_token": 628,
+   "speculative_token": 2493,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [628, 19.0],
+      [2493, 19.0],
+      [1362, 18.25]
+     ],
+     "logit_target_only_token": 19.0,
+     "logit_speculative_token": 19.0,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [628, 19.0],
+      [2493, 19.0],
+      [1362, 18.25]
+     ],
+     "logit_target_only_token": 19.0,
+     "logit_speculative_token": 19.0,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [2493, 19.0031],
+      [628, 18.9973],
+      [1362, 18.2431]
+     ],
+     "logit_target_only_token": 18.9973,
+     "logit_speculative_token": 19.0031,
+     "margin_target_only_minus_speculative": -0.0057
+    }
+   }
+  },
+  {
+   "prompt_sha256": "999072998de579d93d3002008898630df6243896ce6255fdda3b9ac81609e45a",
+   "category": "advice",
+   "thinking": true,
+   "position": 343,
+   "target_only_token": 9163,
+   "speculative_token": 23312,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [9163, 17.125],
+      [23312, 17.125],
+      [279, 14.3828]
+     ],
+     "logit_target_only_token": 17.125,
+     "logit_speculative_token": 17.125,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [9163, 17.125],
+      [23312, 17.125],
+      [279, 14.3828]
+     ],
+     "logit_target_only_token": 17.125,
+     "logit_speculative_token": 17.125,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [9163, 17.125],
+      [23312, 17.1249],
+      [279, 14.3853]
+     ],
+     "logit_target_only_token": 17.125,
+     "logit_speculative_token": 17.1249,
+     "margin_target_only_minus_speculative": 0.0001
+    }
+   }
+  },
+  {
+   "prompt_sha256": "743d912ab2ee916ae2e2d080fc0e1c005c06ec502f520c21a330988ff3de82f2",
+   "category": "advice",
+   "thinking": false,
+   "position": 236,
+   "target_only_token": 220,
+   "speculative_token": 328,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [220, 17.5469],
+      [328, 17.5469],
+      [426, 16.0156]
+     ],
+     "logit_target_only_token": 17.5469,
+     "logit_speculative_token": 17.5469,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [220, 17.5469],
+      [328, 17.5469],
+      [426, 16.0156]
+     ],
+     "logit_target_only_token": 17.5469,
+     "logit_speculative_token": 17.5469,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [328, 17.5509],
+      [220, 17.5435],
+      [426, 16.0189]
+     ],
+     "logit_target_only_token": 17.5435,
+     "logit_speculative_token": 17.5509,
+     "margin_target_only_minus_speculative": -0.0074
+    }
+   }
+  },
+  {
+   "prompt_sha256": "af1fb1100da88f42f8ccc0cb2a78f9751a336e2da3a36a1255c7d930c168f53d",
+   "category": "advice",
+   "thinking": true,
+   "position": 47,
+   "target_only_token": 1534,
+   "speculative_token": 10631,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [1534, 20.5469],
+      [10631, 20.5469],
+      [9183, 18.1094]
+     ],
+     "logit_target_only_token": 20.5469,
+     "logit_speculative_token": 20.5469,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [1534, 20.5469],
+      [10631, 20.5469],
+      [9183, 18.1094]
+     ],
+     "logit_target_only_token": 20.5469,
+     "logit_speculative_token": 20.5469,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [10631, 20.5492],
+      [1534, 20.543],
+      [9183, 18.1132]
+     ],
+     "logit_target_only_token": 20.543,
+     "logit_speculative_token": 20.5492,
+     "margin_target_only_minus_speculative": -0.0063
+    }
+   }
+  },
+  {
+   "prompt_sha256": "1a60be99bf1180b899db6d59c8797cd12faf44c97e44b09ca8ecc8c8d1d27b61",
+   "category": "advice",
+   "thinking": false,
+   "position": 762,
+   "target_only_token": 13145,
+   "speculative_token": 24347,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [13145, 17.1406],
+      [24347, 17.1406],
+      [14072, 15.8359]
+     ],
+     "logit_target_only_token": 17.1406,
+     "logit_speculative_token": 17.1406,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [24347, 17.1562],
+      [13145, 17.1406],
+      [14072, 15.8438]
+     ],
+     "logit_target_only_token": 17.1406,
+     "logit_speculative_token": 17.1562,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "verify5": {
+     "top3": [
+      [24347, 17.1471],
+      [13145, 17.1432],
+      [14072, 15.8413]
+     ],
+     "logit_target_only_token": 17.1432,
+     "logit_speculative_token": 17.1471,
+     "margin_target_only_minus_speculative": -0.004
+    }
+   }
+  },
+  {
+   "prompt_sha256": "82956cc49e9565eaa51eadb4df6919f32c2a34c835dc030be3c8bd9724445dd3",
+   "category": "critical_reading",
+   "thinking": true,
+   "position": 663,
+   "target_only_token": 1727,
+   "speculative_token": 6187,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [1727, 18.2969],
+      [6187, 18.2969],
+      [17554, 18.2656]
+     ],
+     "logit_target_only_token": 18.2969,
+     "logit_speculative_token": 18.2969,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [1727, 18.2969],
+      [6187, 18.2969],
+      [17554, 18.2656]
+     ],
+     "logit_target_only_token": 18.2969,
+     "logit_speculative_token": 18.2969,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [6187, 18.3028],
+      [1727, 18.2932],
+      [17554, 18.2695]
+     ],
+     "logit_target_only_token": 18.2932,
+     "logit_speculative_token": 18.3028,
+     "margin_target_only_minus_speculative": -0.0096
+    }
+   }
+  },
+  {
+   "prompt_sha256": "e21223055bc84b4f48dab208c9872a1f4eb697f9cad94d87c5a661256e78c12e",
+   "category": "critical_reading",
+   "thinking": false,
+   "position": 410,
+   "target_only_token": 1048,
+   "speculative_token": 9184,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [9184, 16.9844],
+      [1048, 16.9688],
+      [13902, 16.5]
+     ],
+     "logit_target_only_token": 16.9688,
+     "logit_speculative_token": 16.9844,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "decode1": {
+     "top3": [
+      [1048, 16.9688],
+      [9184, 16.9688],
+      [13902, 16.5]
+     ],
+     "logit_target_only_token": 16.9688,
+     "logit_speculative_token": 16.9688,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [9184, 16.9755],
+      [1048, 16.9734],
+      [13902, 16.4972]
+     ],
+     "logit_target_only_token": 16.9734,
+     "logit_speculative_token": 16.9755,
+     "margin_target_only_minus_speculative": -0.0021
+    }
+   }
+  },
+  {
+   "prompt_sha256": "80ba53f326461dad6df8fa2d3f6e5068472ce1c7ebbc288675982e90bf5b288c",
+   "category": "critical_reading",
+   "thinking": true,
+   "position": 350,
+   "target_only_token": 279,
+   "speculative_token": 2228,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [2228, 16.0781],
+      [279, 16.0625],
+      [220, 15.8047]
+     ],
+     "logit_target_only_token": 16.0625,
+     "logit_speculative_token": 16.0781,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "decode1": {
+     "top3": [
+      [2228, 16.0781],
+      [279, 16.0625],
+      [220, 15.7969]
+     ],
+     "logit_target_only_token": 16.0625,
+     "logit_speculative_token": 16.0781,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "verify5": {
+     "top3": [
+      [2228, 16.0746],
+      [279, 16.0707],
+      [220, 15.7999]
+     ],
+     "logit_target_only_token": 16.0707,
+     "logit_speculative_token": 16.0746,
+     "margin_target_only_minus_speculative": -0.0038
+    }
+   }
+  },
+  {
+   "prompt_sha256": "63d95b306f8b23d00f352c329c0ea93476de20737b5d1f4510f38a92796b29a3",
+   "category": "critical_reading",
+   "thinking": true,
+   "position": 225,
+   "target_only_token": 381,
+   "speculative_token": 1048,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [1048, 16.2344],
+      [381, 16.2188],
+      [7936, 16.0312]
+     ],
+     "logit_target_only_token": 16.2188,
+     "logit_speculative_token": 16.2344,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "decode1": {
+     "top3": [
+      [1048, 16.2344],
+      [381, 16.2188],
+      [7936, 16.0312]
+     ],
+     "logit_target_only_token": 16.2188,
+     "logit_speculative_token": 16.2344,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "verify5": {
+     "top3": [
+      [1048, 16.2321],
+      [381, 16.2257],
+      [7936, 16.023]
+     ],
+     "logit_target_only_token": 16.2257,
+     "logit_speculative_token": 16.2321,
+     "margin_target_only_minus_speculative": -0.0063
+    }
+   }
+  },
+  {
+   "prompt_sha256": "d9367e15ca92ddd8f34c48129b0a80b57d092915d27bcf059bf78cf516f8a35b",
+   "category": "language",
+   "thinking": false,
+   "position": 157,
+   "target_only_token": 15433,
+   "speculative_token": 45351,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [45351, 17.0],
+      [15433, 16.9844],
+      [23197, 16.5312]
+     ],
+     "logit_target_only_token": 16.9844,
+     "logit_speculative_token": 17.0,
+     "margin_target_only_minus_speculative": -0.0156
+    },
+    "decode1": {
+     "top3": [
+      [15433, 17.0],
+      [45351, 17.0],
+      [23197, 16.5469]
+     ],
+     "logit_target_only_token": 17.0,
+     "logit_speculative_token": 17.0,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [45351, 16.9983],
+      [15433, 16.9903],
+      [23197, 16.5394]
+     ],
+     "logit_target_only_token": 16.9903,
+     "logit_speculative_token": 16.9983,
+     "margin_target_only_minus_speculative": -0.008
+    }
+   }
+  },
+  {
+   "prompt_sha256": "1b33fb94f9cc5577fff9634d748639cc743633f6a87f0823c2ad80a4037ca772",
+   "category": "language",
+   "thinking": false,
+   "position": 83,
+   "target_only_token": 2432,
+   "speculative_token": 18770,
+   "modes": {
+    "prefill": {
+     "top3": [
+      [2432, 19.5312],
+      [18770, 19.5312],
+      [760, 18.9531]
+     ],
+     "logit_target_only_token": 19.5312,
+     "logit_speculative_token": 19.5312,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "decode1": {
+     "top3": [
+      [2432, 19.5312],
+      [18770, 19.5312],
+      [760, 18.9531]
+     ],
+     "logit_target_only_token": 19.5312,
+     "logit_speculative_token": 19.5312,
+     "margin_target_only_minus_speculative": 0.0
+    },
+    "verify5": {
+     "top3": [
+      [2432, 19.5277],
+      [18770, 19.527],
+      [760, 18.9551]
+     ],
+     "logit_target_only_token": 19.5277,
+     "logit_speculative_token": 19.527,
+     "margin_target_only_minus_speculative": 0.0007
+    }
+   }
+  }
+ ]
+}

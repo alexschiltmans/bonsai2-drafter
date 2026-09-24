@@ -1,0 +1,28 @@
+{
+ "contract": "artifact-equivalence/v1",
+ "identity_contract": "budgeted-prefix-identity/v2",
+ "prompts": 40,
+ "budget": 200,
+ "block": 5,
+ "equal_prompts": 40,
+ "differing_prompts": 0,
+ "field_mismatches": {
+  "response_ids": 0,
+  "finish": 0,
+  "tokens": 0,
+  "rounds": 0,
+  "round_lengths": 0
+ },
+ "differences": [],
+ "output_classes": {
+  "identical": 40,
+  "boundary_overshoot": 0,
+  "prefix_divergence": 0,
+  "early_stop_mismatch": 0
+ },
+ "max_overshoot_tokens": 0,
+ "before_tokens_per_round": 2.704635285662954,
+ "after_tokens_per_round": 2.704635285662954,
+ "gate": "pass",
+ "scope": "exact per-prompt equality of tokens, finish reason, round count and round lengths; decode durations are not compared and no speed claim follows from this. A pass says the two packagings ran the same loop on this fixed prompt suite, not that they are equal in general."
+}
