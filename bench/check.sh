@@ -19,6 +19,7 @@ run "shellcheck"                  uvx --from shellcheck-py shellcheck -S warning
 run "test_served_accept_analysis" python3 bench/tests/test_served_accept_analysis.py
 run "test_dflash_prequantized"    python3 bench/tests/test_dflash_prequantized.py
 run "rename-codebooks --self-test" python3 scripts/rename-codebooks.py --self-test
+run "dflash-mlx adapter --self-test" python3 bench/adapters/dflash_mlx_bonsai2.py --self-test
 if [ "${1:-}" = --gpu ] || [ "${1:-}" = --models ]; then
   run "test_kv_group_patch"       "$PY" bench/tests/test_kv_group_patch.py
   run "test_small_m_5bit"         "$PY" bench/tests/test_small_m_5bit.py

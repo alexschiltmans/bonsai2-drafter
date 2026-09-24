@@ -54,8 +54,18 @@ Each patch degrades to stock mlx-dspark if it cannot apply.
 ### Use it elsewhere
 
 Point any DFlash 2 runtime that serves Bonsai 2 at the drafter, as you would the stock drafter.
-Only mlx-dspark with these patches has been measured. If you run it somewhere else, a report of
-what happened, with acceptance against the stock drafter, is the most useful thing you can send.
+It has been measured on two runtimes that share no serving code:
+
+| runtime | draft cap | general chat, 200 tokens: stock → ft5 |
+| --- | --- | --- |
+| mlx-dspark 0.18.0 with the patches here | 7 | 2.7768 → 3.0403 tokens a round, **+9.49%** (+7.25% to +11.69%) |
+| [dflash-mlx-bonsai2](https://github.com/NakliTechie/dflash-mlx-bonsai2) at `223e0f3` | 4 (its DFlash 2 limit) | 2.6392 → 2.7714, **+5.01%** (+3.35% to +6.83%) |
+
+The second runtime loads the drafter unchanged; its loader maps the codebook names itself. The
+gain is smaller there because a block of five commits at most five tokens a round. Per-runtime
+figures are not comparable with each other, only within a runtime. If you run the drafter
+somewhere else, a report with acceptance against the stock drafter is the most useful thing
+you can send.
 
 ### Move a drafter between runtimes
 
@@ -75,7 +85,8 @@ per-prompt reports (tokens, rounds, finish reason, output token ids, optionally 
 and returns the paired acceptance gain with its interval. It also classifies every unequal pair
 under the contract `budgeted-prefix-identity/v2`. A generator can overshoot its budget by one
 draft block, and that passes. A difference inside the budget is a finding. `served_accept.py`
-writes those reports for mlx-dspark; any runtime that can emit the same fields can be compared.
+writes those reports for mlx-dspark, and `bench/adapters/dflash_mlx_bonsai2.py` writes them for
+dflash-mlx-bonsai2; any runtime that can emit the same fields can be compared.
 `BENCHMARK.md` fixes how comparisons between drafters and runtimes are run and reported.
 
 ## Train a drafter on a Mac
