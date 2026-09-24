@@ -70,6 +70,6 @@ unchanged; `../tools/verify_sanitized.py` proved it pair by pair.
 
 The artifact itself (published on the Hub), the export and tensor-equality logs, the run's
 supervisor status files and snapshot manifest (keyed by local paths; mostly commands and
-machine-state dumps), the server and stage logs. The tensor-equality result the card quotes
-(271 checks) comes from the exporter's own test, `bench/tests/test_dflash_prequantized.py`,
-not from a file here.
+machine-state dumps), the server and stage logs. The card's tensor-equality result is a test
+log, not a measurement record, and is not here; `bench/tests/test_dflash_prequantized.py`
+with `--source` and `--artifact` reruns that check against local copies of both drafters.
