@@ -104,7 +104,10 @@ def schema_errors(value: Any, schema: dict[str, Any], root: dict[str, Any],
             errors.append(f"{path}: {value} must be greater than {schema['exclusiveMinimum']}")
         if "maximum" in schema and value > schema["maximum"]:
             errors.append(f"{path}: {value} is above the maximum {schema['maximum']}")
-    if isinstance(value, str) and "pattern" in schema and not re.search(schema["pattern"], value):
+    # fullmatch, not search: Python's `$` also matches before a final newline, and JSON
+    # Schema's does not. The schema's patterns are anchored at both ends, so nothing else moves.
+    if (isinstance(value, str) and "pattern" in schema
+            and not re.fullmatch(schema["pattern"], value)):
         errors.append(f"{path}: {value[:60]!r} does not match {schema['pattern']}")
     if isinstance(value, list):
         if "minItems" in schema and len(value) < schema["minItems"]:

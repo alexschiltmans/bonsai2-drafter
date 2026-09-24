@@ -176,6 +176,17 @@ class BrokenReportTests(unittest.TestCase):
         self.assertRejected(self.broken(prompt_sha256="ABC"), "does not match",
                             analyser_refuses=False)
 
+    def test_a_hash_with_a_trailing_newline(self) -> None:
+        # Python's `$` matches before a final newline; a pattern here must not.
+        good = minimal()["requests"][0]["prompt_sha256"]
+        self.assertRejected(self.broken(prompt_sha256=good + "\n"), "does not match",
+                            analyser_refuses=False)
+        report = minimal()
+        report["settings"]["corpus_sha256"] = "0" * 64 + "\n"
+        self.assertRejected(report, "$.settings.corpus_sha256", analyser_refuses=False)
+        self.assertEqual(validate.schema_errors("a\n", {"pattern": "^a$"}, {}),
+                         ["$: 'a\\n' does not match ^a$"])
+
     def test_sampled_decoding_is_not_a_report(self) -> None:
         for value in (1.0, 1, False, "0"):
             with self.subTest(value=value):
