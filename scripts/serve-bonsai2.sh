@@ -20,13 +20,16 @@ command -v uv >/dev/null || { echo "needs uv: https://docs.astral.sh/uv/" >&2; e
 VENV=${BONSAI2_VENV:-$PWD/.venv}
 TARGET=prism-ml/Ternary-Bonsai-2-27B-mlx-2bit
 TARGET_REVISION=3f926b415992eaa2ae9dd7b573706494d6bbf787
-DRAFTER=${BONSAI2_DRAFTER:-Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5}
-# The pinned revision belongs to the default drafter only. Another repository, such as the
-# 4-bit variant, has its own commits, so it defaults to main unless a revision is given.
-if [ -n "${BONSAI2_DRAFTER:-}" ]; then
-  DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-main}
+DEFAULT_DRAFTER=Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5
+DEFAULT_DRAFTER_REVISION=2a2c2c1e25e82173729bdf104379ffc50d4222c3
+DRAFTER=${BONSAI2_DRAFTER:-$DEFAULT_DRAFTER}
+# The pinned revision belongs to the default drafter only, whether it is named or left unset.
+# Another repository, such as the 4-bit variant, has its own commits, so it defaults to main
+# unless a revision is given.
+if [ "$DRAFTER" = "$DEFAULT_DRAFTER" ]; then
+  DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-$DEFAULT_DRAFTER_REVISION}
 else
-  DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-2a2c2c1e25e82173729bdf104379ffc50d4222c3}
+  DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-main}
 fi
 
 (cd envs/dspark && UV_PROJECT_ENVIRONMENT="$VENV" uv sync --locked --quiet)
