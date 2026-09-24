@@ -34,7 +34,7 @@ server's own `decode_tokens_per_sec` sit beside each request, but only `decode_s
 the pool. From llama.cpp's `timings`, `predicted_n`, `prompt_n`, `cache_n`, and, when a drafter
 is loaded, `draft_n` and `draft_n_accepted` are recorded. Acceptance on llama.cpp is
 `draft_n_accepted / draft_n`. `target_forwards` there is `predicted_n`, which counts forwards
-only when no drafter is loaded, and `cap` is null.
+only when no drafter is loaded, so a llama.cpp request's `rounds` is null; `cap` is null too.
 
 A response without decode timing adds nothing to the decode pool, on either side: its tokens
 without its seconds would inflate the rate. The run says how many responses that was. A
@@ -47,11 +47,12 @@ per-rep rates and their mean are printed and recorded beside it, never instead o
 ## The record
 
 Per request: rep, prompt, `completion_tokens`, `decode_seconds`, `e2e_seconds`,
-`ttft_seconds`, `prefill_seconds`, `rounds`, `finish_reason` and the server block. Per rep:
-tokens, decode seconds and rate, and the same end to end. Per arm: `pooled_decode_tps`,
-`pooled_decode_tokens`, `pooled_decode_seconds`, the e2e pool, `mean_of_reps_decode_tps`, the
-truncation count (answers that hit the 400-token cap), and the server identity (engine, model
-file name, build, context window) from `/props` or `/health`.
+`ttft_seconds`, `prefill_seconds`, `rounds` (mlx-dspark's `target_forwards`, null on
+llama.cpp), `finish_reason` and the server block. Per rep: tokens, decode seconds and rate, and
+the same end to end. Per arm: `pooled_decode_tps`, `pooled_decode_tokens`,
+`pooled_decode_seconds`, the e2e pool, `mean_of_reps_decode_tps`, the truncation count (answers
+that hit the 400-token cap), and the server identity (engine, model file name, build, context
+window) from `/props` or `/health`.
 
 It carries no timestamps, host names, user names, keys or absolute paths. Timestamp-like keys
 in a server block are dropped and a path is cut to its file name, so the record can be

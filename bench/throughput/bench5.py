@@ -135,8 +135,9 @@ def spec_from_timings(t: dict[str, Any] | None) -> dict[str, Any]:
 
     `decode_seconds` is `predicted_ms / 1000`: llama.cpp's own timer around the generation
     phase, which excludes prompt processing. `ttft_seconds` and `prefill_seconds` are both
-    `prompt_ms / 1000`. `target_forwards` is `predicted_n`, which is the forward count only
-    without a drafter; with one, read `draft_n` and `draft_n_accepted` instead, which are
+    `prompt_ms / 1000`. `target_forwards` is `predicted_n` as reported: the forward count
+    without a drafter, a token count with one, so it is never read as rounds and a llama.cpp
+    request records `rounds` as None. Read `draft_n` and `draft_n_accepted` instead, which are
     copied through when the server reports them. `cap` is None: llama.cpp does not report a
     verify cap."""
     if not t:
@@ -189,7 +190,11 @@ class Turn:
         return float(self.spec.get("ttft_seconds") or 0.0)
 
     @property
-    def rounds(self) -> int:
+    def rounds(self) -> int | None:
+        """Target forwards, from mlx-dspark's block. None on llama.cpp: its only count is
+        `predicted_n`, which is tokens, and one round commits several tokens with a drafter."""
+        if self.spec.get("engine") == "llama.cpp":
+            return None
         return int(self.spec.get("target_forwards") or 0)
 
     @property
@@ -202,11 +207,13 @@ class Turn:
 
     @property
     def tokens_per_round(self) -> float:
-        return self.completion_tokens / self.rounds if self.rounds else 0.0
+        rounds = self.rounds
+        return self.completion_tokens / rounds if rounds else 0.0
 
     @property
     def round_ms(self) -> float:
-        return self.decode_seconds / self.rounds * 1000 if self.rounds else 0.0
+        rounds = self.rounds
+        return self.decode_seconds / rounds * 1000 if rounds else 0.0
 
     @property
     def truncated(self) -> bool:
@@ -438,7 +445,7 @@ def _spec_note(t: Turn) -> str:
         n, acc = s.get("draft_n") or 0, s.get("draft_n_accepted") or 0
         return f"drafted {n} accepted {acc}" + (f" ({acc / n:.0%})" if n else "")
     note = f"accept {s['accept_len']}  cap {s.get('cap')}  " if "accept_len" in s else ""
-    if t.rounds and s.get("engine") != "llama.cpp":
+    if t.rounds:
         note += f"{t.tokens_per_round:4.2f} tok/round  round {t.round_ms:5.1f} ms"
     return note
 
@@ -515,11 +522,14 @@ def run_arm(client: Client, label: str, reps: int, mode: Mode,
     })
     print(f"   POOLED **{rate:5.2f} tok/s decode**   {e2e:5.2f} tok/s e2e   "
           f"mean of reps {mean:5.2f}   spread {lo:.2f}-{hi:.2f} ({pct:.1f}%)")
-    # Rounds are target forwards on mlx-dspark only; llama.cpp's predicted_n counts tokens.
-    rounds = sum(t.rounds for t in all_turns if t.spec.get("engine") != "llama.cpp")
+    # Rounds are target forwards on mlx-dspark only; llama.cpp reports none (rounds is None).
+    # A per-round figure needs a round count for every request in the decode pool.
+    timed = [t for t in all_turns if t.decode_seconds > 0]
+    counted = [r for r in (t.rounds for t in timed) if r]
+    rounds = sum(counted) if counted and len(counted) == len(timed) else 0
     print(f"   {tok} tokens over {sec:.1f}s decode / {wall:.1f}s wall"
           + (f"   tokens/round {tok / rounds:4.2f}   round {sec / rounds * 1000:5.1f} ms"
-             if rounds and rounds == sum(t.rounds for t in all_turns) else ""))
+             if rounds else ""))
     if untimed:
         print(f"   !! {untimed}/{len(all_turns)} responses carried no decode timing "
               f"(no x_mlx_dspark block, no timings object); they are out of the decode pool.")

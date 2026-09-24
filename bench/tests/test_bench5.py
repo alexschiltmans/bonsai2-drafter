@@ -179,7 +179,8 @@ class DerivationTests(unittest.TestCase):
         self.assertAlmostEqual(t.decode_seconds, 2.5)
         self.assertAlmostEqual(t.ttft, 0.3)
         self.assertAlmostEqual(t.prefill_seconds, 0.3)
-        self.assertEqual(t.rounds, 120)
+        self.assertIsNone(t.rounds)            # predicted_n counts tokens, not rounds
+        self.assertEqual((t.tokens_per_round, t.round_ms), (0.0, 0.0))
         self.assertIsNone(spec["cap"])
         self.assertEqual((spec["draft_n"], spec["draft_n_accepted"]), (90, 60))
         self.assertAlmostEqual(t.decode_tps, 48.0)
@@ -268,6 +269,25 @@ class ServedTests(unittest.TestCase):
         self.assertEqual(record["server"]["model"], "bonsai.gguf")
         self.assertIs(record["clean"], True)            # tokens compared on llama.cpp
         self.assertIn("tokens generated", record["contamination"])
+
+    def test_rounds_are_null_on_llama_cpp_and_counted_on_mlx_dspark(self) -> None:
+        # llama.cpp's predicted_n is a token count once a drafter commits several tokens a
+        # round, so it must not reach `rounds` or any per-round figure the runner prints.
+        records, printed = {}, {}
+        for flavour in ("llama", "dspark"):
+            out = io.StringIO()
+            with serve(Mock(flavour)) as url, contextlib.redirect_stdout(out):
+                records[flavour] = bench5.run_arm(bench5.Client(url), "test arm", 1, None)
+            printed[flavour] = out.getvalue()
+        self.assertEqual([r["rounds"] for r in records["llama"]["requests"]], [None] * 5)
+        self.assertEqual([r["rounds"] for r in records["dspark"]["requests"]],
+                         [(100 + 10 * (i % 5)) // 2 for i in range(1, 6)])
+        self.assertNotIn("tok/round", printed["llama"])
+        self.assertNotIn("tokens/round", printed["llama"])
+        self.assertIn("tok/round", printed["dspark"])
+        self.assertIn("tokens/round 2.00", printed["dspark"])
+        written = json.loads(json.dumps(records["llama"]))
+        self.assertIsNone(written["requests"][0]["rounds"])     # null in the JSON record
 
     def test_another_client_is_reported(self) -> None:
         for flavour in ("dspark", "llama"):
