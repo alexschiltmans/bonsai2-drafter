@@ -5,7 +5,8 @@ The fault
 A request whose prompt is SHORTER than the conversation the drafter is already caching,
 while still sharing its prefix, returns HTTP 500 with `ValueError: [full] Negative
 dimensions not allowed` and empties the target's prefix cache, so the retry pays a full
-cold prefill. Reproduced deterministically by a standalone script, and hit 9 times in 84 requests of the tool-call battery.
+cold prefill. Reproduced deterministically by a standalone script, and hit 9 times in 84
+requests of the tool-call battery.
 
 The cause
 ---------

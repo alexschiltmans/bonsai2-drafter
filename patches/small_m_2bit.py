@@ -59,7 +59,8 @@ def kernel_source(src: str) -> str:
     out = src
     for old, new in edits:
         if old not in out:
-            raise RuntimeError(f"small_m_qmm kernel source no longer carries {old!r}, which this patch edits")
+            raise RuntimeError(f"small_m_qmm kernel source no longer carries {old!r}, "
+                               "which this patch edits")
         out = out.replace(old, new)
     return out.replace("__UNPACK__", UNPACK_2BIT)
 

@@ -32,12 +32,17 @@ from mlx_dspark.generate import dflash_generate
 from mlx_dspark.load import load_dflash, load_target
 
 ap = argparse.ArgumentParser()
-ap.add_argument("corpus"); ap.add_argument("drafter")
+ap.add_argument("corpus")
+ap.add_argument("drafter")
 ap.add_argument("--target", default="prism-ml/Ternary-Bonsai-2-27B-mlx-2bit")
-ap.add_argument("--split", default="eval"); ap.add_argument("--max-new", type=int, default=200)
-ap.add_argument("--n", type=int, default=40); ap.add_argument("--bits", type=int, default=4)
-ap.add_argument("--record", default=None, help="write the rows with this drafter's round lengths here")
-ap.add_argument("--report", help="write settings and per-prompt measurements as JSON for paired analysis")
+ap.add_argument("--split", default="eval")
+ap.add_argument("--max-new", type=int, default=200)
+ap.add_argument("--n", type=int, default=40)
+ap.add_argument("--bits", type=int, default=4)
+ap.add_argument("--record", default=None,
+                help="write the rows with this drafter's round lengths here")
+ap.add_argument("--report",
+                help="write settings and per-prompt measurements as JSON for paired analysis")
 args = ap.parse_args()
 if args.n <= 0 or args.max_new <= 0:
     ap.error("n and max-new must be positive")
@@ -73,15 +78,20 @@ acc_all, tok_all, sec_all, rounds_all = [], 0, 0.0, 0
 if args.record:
     open(args.record, "w").close()  # rows are appended as each prompt completes
 for i, r in enumerate(rows):
-    res = dflash_generate(target, tok, drafter, prompt_ids=r["prompt_ids"], apply_chat_template=False,
-                          max_new_tokens=args.max_new, max_draft_tokens=7, temperature=0.0)
+    res = dflash_generate(target, tok, drafter, prompt_ids=r["prompt_ids"],
+                          apply_chat_template=False, max_new_tokens=args.max_new,
+                          max_draft_tokens=7, temperature=0.0)
     try:
         decode = decode_seconds(res.seconds, res.prefill_seconds)
     except ValueError as exc:
         raise SystemExit(f"prompt {i}: {exc}") from None     # the saved report stays incomplete
     a = res.num_tokens / max(1, res.num_rounds)
-    acc_all.append(a); tok_all += res.num_tokens; sec_all += decode; rounds_all += res.num_rounds
-    print(f"[{i+1}/{len(rows)}] think={int(r['thinking'])} {res.num_tokens} tok  {a:.2f} tok/round", flush=True)
+    acc_all.append(a)
+    tok_all += res.num_tokens
+    sec_all += decode
+    rounds_all += res.num_rounds
+    print(f"[{i+1}/{len(rows)}] think={int(r['thinking'])} {res.num_tokens} tok  "
+          f"{a:.2f} tok/round", flush=True)
     measurements.append({
         "prompt_sha256": hashlib.sha256(json.dumps(r["prompt_ids"]).encode()).hexdigest(),
         "category": strata[i][0], "thinking": strata[i][1],
@@ -103,8 +113,10 @@ for i, r in enumerate(rows):
         with open(args.record, "a") as rec:
             rec.write(json.dumps(out) + "\n")
     mx.clear_cache()
-print(f"SERVED {args.drafter}: {tok_all} tok over {rounds_all} rounds = {tok_all/max(1,rounds_all):.3f} tok/round pooled, "
-      f"mean of prompts {sum(acc_all)/len(acc_all):.3f}, decode {tok_all/max(sec_all,1e-9):.1f} tok/s "
-       f"(drafter {'bf16' if args.bits <= 0 else f'{args.bits}-bit'})", flush=True)
+print(f"SERVED {args.drafter}: {tok_all} tok over {rounds_all} rounds = "
+      f"{tok_all/max(1,rounds_all):.3f} tok/round pooled, "
+      f"mean of prompts {sum(acc_all)/len(acc_all):.3f}, "
+      f"decode {tok_all/max(sec_all,1e-9):.1f} tok/s "
+      f"(drafter {'bf16' if args.bits <= 0 else f'{args.bits}-bit'})", flush=True)
 report["complete"] = True
 save_report()

@@ -113,8 +113,8 @@ class ComparisonTests(unittest.TestCase):
         result = analysis.compare(self.stock, self.tuned, 100)
         variants = result["acceptance_variants"]
         tuned_rows = self.tuned["requests"]
-        self.assertEqual(result["tuned_tokens_per_round"],
-                         sum(r["tokens"] for r in tuned_rows) / sum(r["rounds"] for r in tuned_rows))
+        pooled = sum(r["tokens"] for r in tuned_rows) / sum(r["rounds"] for r in tuned_rows)
+        self.assertEqual(result["tuned_tokens_per_round"], pooled)
         self.assertEqual(variants["whole_rounds"]["tuned"], result["tuned_tokens_per_round"])
         # Trimming the numerator lowers it; whole rounds stay in the denominator either way.
         self.assertLess(variants["budget_trimmed_numerator"]["tuned"],
@@ -227,7 +227,7 @@ class EquivalenceTests(unittest.TestCase):
 
     def test_every_compared_field_blocks_and_is_named(self) -> None:
         cases = {
-            "response_ids": {"response_ids": [99] + list(range(1, 8))},
+            "response_ids": {"response_ids": [99, *range(1, 8)]},
             # The same eight tokens, ended by EOS in the final block rather than by the budget.
             "finish": {"finish": "stop"},
             # A tokens-only difference is not constructible: finish=length forces

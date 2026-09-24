@@ -96,7 +96,8 @@ def schema_errors(value: Any, schema: dict[str, Any], root: dict[str, Any],
     if "enum" in schema and not any(_equal(value, option) for option in schema["enum"]):
         errors.append(f"{path}: {json.dumps(value)[:60]} is not one of {schema['enum']}")
     if "const" in schema and not _equal(value, schema["const"]):
-        errors.append(f"{path}: must be {json.dumps(schema['const'])}, got {json.dumps(value)[:60]}")
+        errors.append(f"{path}: must be {json.dumps(schema['const'])}, "
+                      f"got {json.dumps(value)[:60]}")
     if isinstance(value, int | float) and not isinstance(value, bool):
         if "minimum" in schema and value < schema["minimum"]:
             errors.append(f"{path}: {value} is below the minimum {schema['minimum']}")
@@ -116,9 +117,8 @@ def schema_errors(value: Any, schema: dict[str, Any], root: dict[str, Any],
             for index, item in enumerate(value):
                 errors.extend(schema_errors(item, schema["items"], root, f"{path}[{index}]"))
     if isinstance(value, dict):
-        for name in schema.get("required", []):
-            if name not in value:
-                errors.append(f"{path}: missing required field {name!r}")
+        errors.extend(f"{path}: missing required field {name!r}"
+                      for name in schema.get("required", []) if name not in value)
         properties = schema.get("properties", {})
         for name, item in value.items():
             if name in properties:

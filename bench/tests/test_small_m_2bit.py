@@ -63,7 +63,8 @@ sc = np.asarray(s.astype(mx.float32))
 bi = np.asarray(b.astype(mx.float32))
 manual = codes.reshape(8, -1, GROUP) * sc[..., None] + bi[..., None]
 check("16 little-endian 2-bit values per word reproduce mx.dequantize",
-      np.allclose(manual.reshape(8, -1), deq, atol=1e-3), f"max diff {np.abs(manual.reshape(8, -1) - deq).max():.4f}")
+      np.allclose(manual.reshape(8, -1), deq, atol=1e-3),
+      f"max diff {np.abs(manual.reshape(8, -1) - deq).max():.4f}")
 
 # ------------------------------------------------------------------ 3. the kernel
 print("== 3. the kernel")
@@ -80,13 +81,15 @@ for N, K in SHAPES:
     for M in range(smm.M_MIN, smm.M_MAX + 1):
         x = (mx.random.normal((M, K)) * 0.1).astype(mx.bfloat16)
         x8 = x if M == 8 else mx.concatenate([x, mx.zeros((8 - M, K), dtype=x.dtype)], axis=0)
-        ref = mx.quantized_matmul(x, wq, ws, wb, transpose=True, group_size=GROUP, bits=BITS).astype(mx.float32)
+        ref = mx.quantized_matmul(x, wq, ws, wb, transpose=True, group_size=GROUP,
+                                  bits=BITS).astype(mx.float32)
         got = smm._mma(x8, wq, ws, wb, M, N, K, BITS).astype(mx.float32)
         d = float(mx.max(mx.abs(ref - got)).item())  # type: ignore[arg-type]
         scale = float(mx.max(mx.abs(ref)).item())  # type: ignore[arg-type]
         worst = max(worst, d / max(scale, 1.0))
     mx.clear_cache()
-check(f"numerics within upstream's {smm._REL_TOL} tolerance on {len(SHAPES)} shapes, M 6-8", worst <= smm._REL_TOL,
+check(f"numerics within upstream's {smm._REL_TOL} tolerance on {len(SHAPES)} shapes, M 6-8",
+      worst <= smm._REL_TOL,
       f"worst {worst:.4f}")
 
 ql = nn.QuantizedLinear(5120, 17408, bias=False, group_size=GROUP, bits=BITS)

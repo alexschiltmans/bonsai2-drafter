@@ -33,6 +33,8 @@ from typing import cast
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 
+from typing import Any
+
 import mlx.core as mx
 import mlx.optimizers as optim
 from mlx import nn
@@ -59,13 +61,15 @@ row_end = ft.Row(prompt_ids=list(range(10)), response_ids=list(range(100, 106)),
                  split="eval", round_lengths=[4, 3, 8])
 check("an anchor past the last label position is dropped", ft.served_anchors(row_end) == [10, 14],
       str(ft.served_anchors(row_end)))
-check("no round lengths, no served anchors", ft.served_anchors(ft.Row([1, 2], [3, 4, 5], True, "train")) == [])
+check("no round lengths, no served anchors",
+      ft.served_anchors(ft.Row([1, 2], [3, 4, 5], True, "train")) == [])
 check("max_len bounds the served anchors", ft.served_anchors(row, max_len=15) == [10],
       str(ft.served_anchors(row, max_len=15)))
 rng = random.Random(0)
 u = ft.uniform_anchors(row, 8, rng)
 check("uniform anchors lie in [P, L-2]", all(10 <= a <= 28 for a in u) and len(u) == 8, str(u))
-check("uniform anchors are capped by the response length", len(ft.uniform_anchors(row_end, 50, rng)) == 5)
+check("uniform anchors are capped by the response length",
+      len(ft.uniform_anchors(row_end, 50, rng)) == 5)
 
 # ------------------------------------------------------------------ 2. the mask
 print("== 2. the mask")
@@ -88,9 +92,11 @@ bad = [(i, j, c) for i, a in enumerate([3, 9]) for j in range(B) for c in range(
 check("every mask entry follows the rule", not bad, str(bad[:5]))
 m0 = ft.build_mask(anchors, L, B, 0)
 vis0 = cast(list[list[list[bool]]], (m0[:, 0] == 0).tolist())
-check("window 0 means every context row before the anchor", all(vis0[1][j][c] for j in range(B) for c in range(9))
+check("window 0 means every context row before the anchor",
+      all(vis0[1][j][c] for j in range(B) for c in range(9))
       and not any(vis0[1][j][c] for j in range(B) for c in range(9, L)))
-check("the anchor's own row is never visible", not any(vis[i][j][a] for i, a in enumerate([3, 9]) for j in range(B)))
+check("the anchor's own row is never visible",
+      not any(vis[i][j][a] for i, a in enumerate([3, 9]) for j in range(B)))
 
 # ------------------------------------------------------------------ 3. rope
 print("== 3. rope")
@@ -102,7 +108,8 @@ for off in (0, 137, 5000):
     diff = float(mx.max(mx.abs(ref.astype(mx.float32) - got.astype(mx.float32))).item())  # type: ignore[arg-type]
     worst = max(worst, diff / float(mx.max(mx.abs(ref.astype(mx.float32))).item()))  # type: ignore[arg-type]
 # one bfloat16 ulp is 2^-8 = 0.0039 of the value; offset 5000 lands on it
-check("rope_at matches mx.fast.rope within a bfloat16 ulp at three offsets", worst < 5e-3, f"{worst:.4f}")
+check("rope_at matches mx.fast.rope within a bfloat16 ulp at three offsets",
+      worst < 5e-3, f"{worst:.4f}")
 
 # ------------------------------------------------------------------ checkpoints
 # ------------------------------------------------------------------ 3b. accept figures
@@ -114,8 +121,10 @@ check("prefix length is 1 + the run of hits from slot one", pl == [3, 1, 5], str
 check("a miss at slot one commits only the bonus token", pl[1] == 1)
 marg = cast(list[float], (hit.sum(axis=0) / 3).tolist())
 ea = ft.accept_figures(marg)
-check("product of marginals: 1 + 2/3 + 2/3 + 4/9 + 4/9", abs(ea - (1 + 2 / 3 + 2 / 3 + 4 / 9 + 4 / 9)) < 1e-6, f"{ea}")  # float32 marginals
-check("the two figures differ on correlated hits (mean prefix 3.0)", abs(sum(pl) / 3 - 3.0) < 1e-9 and abs(ea - 3.0) > 0.1)
+check("product of marginals: 1 + 2/3 + 2/3 + 4/9 + 4/9",
+      abs(ea - (1 + 2 / 3 + 2 / 3 + 4 / 9 + 4 / 9)) < 1e-6, f"{ea}")  # float32 marginals
+check("the two figures differ on correlated hits (mean prefix 3.0)",
+      abs(sum(pl) / 3 - 3.0) < 1e-9 and abs(ea - 3.0) > 0.1)
 check("an empty accuracy list is the bonus token alone", ft.accept_figures([]) == 1.0)
 
 print("== checkpoints")
@@ -134,7 +143,12 @@ class Tiny(nn.Module):
 tiny = Tiny()
 opt = optim.AdamW(learning_rate=1e-3)
 x = mx.random.normal((2, 4))
-loss_fn = lambda model, x_: (model(x_) ** 2).mean()
+
+
+def loss_fn(model: Any, x_: Any) -> Any:
+    return (model(x_) ** 2).mean()
+
+
 _, grads = nn.value_and_grad(tiny, loss_fn)(tiny, x)
 opt.update(tiny, grads)
 mx.eval(tiny.parameters(), opt.state)
@@ -144,18 +158,22 @@ with tempfile.TemporaryDirectory() as tmp:
     random.seed(123)
     r1 = random.random()
     random.seed(123)
-    ft.save_checkpoint(tiny, opt, {"step": 7, "epoch": 0, "order": [2, 0, 1], "pos": 1, "ema": 0.5, "ea0": 3.0}, ck)
+    ft.save_checkpoint(tiny, opt, {"step": 7, "epoch": 0, "order": [2, 0, 1], "pos": 1,
+                                   "ema": 0.5, "ea0": 3.0}, ck)
     tiny2 = Tiny()
     opt2 = optim.AdamW(learning_rate=1e-3)
     state = ft.load_checkpoint(tiny2, opt2, ck)
     after = dict(tree_flatten(tiny2.parameters()))
     same = all(mx.array_equal(before[k], after[k]).item() for k in before)
     check("adapters round-trip through a checkpoint", same)
-    check("state round-trips", state == {"step": 7, "epoch": 0, "order": [2, 0, 1], "pos": 1, "ema": 0.5, "ea0": 3.0},
+    check("state round-trips",
+          state == {"step": 7, "epoch": 0, "order": [2, 0, 1], "pos": 1, "ema": 0.5, "ea0": 3.0},
           str(state))
     check("the RNG stream resumes where it left off", random.random() == r1)
-    check("optimizer step count round-trips", int(opt2.state["step"].item()) == int(opt.state["step"].item()))
-    check("nothing to load from an empty directory", ft.load_checkpoint(Tiny(), optim.AdamW(1e-3), os.path.join(tmp, "none")) is None)
+    check("optimizer step count round-trips",
+          int(opt2.state["step"].item()) == int(opt.state["step"].item()))
+    check("nothing to load from an empty directory",
+          ft.load_checkpoint(Tiny(), optim.AdamW(1e-3), os.path.join(tmp, "none")) is None)
 
 # ------------------------------------------------------------------ 4. with models
 if "--with-models" in sys.argv[1:]:
@@ -177,10 +195,13 @@ if "--with-models" in sys.argv[1:]:
         ids = tok.encode("Write a Python function that merges two sorted lists. " * 12)
         row = ft.Row(prompt_ids=ids[:40], response_ids=ids[40:], thinking=False, split="eval")
     st = tr.self_test(row)
-    check("top token agrees at every decisive slot of every anchor", st.agree_clear == st.total_clear,
+    check("top token agrees at every decisive slot of every anchor",
+          st.agree_clear == st.total_clear,
           f"{st.agree_clear}/{st.total_clear} (all slots {st.agree}/{st.total})")
-    check("hidden states within bf16 noise of the served forward", st.worst < 0.06, f"{st.worst:.4f}")
-    check("the served forward is decisive at most slots", st.total_clear >= st.total // 2, f"{st.total_clear}/{st.total}")
+    check("hidden states within bf16 noise of the served forward",
+          st.worst < 0.06, f"{st.worst:.4f}")
+    check("the served forward is decisive at most slots",
+          st.total_clear >= st.total // 2, f"{st.total_clear}/{st.total}")
     r = tr.evaluate([row], 16, "uniform", random.Random(0))
     check("evaluate reports every slot", len(r.slot_accuracy) == tr.block - 1 and r.anchors == 16)
     check("prefix accept lies between the bonus token and the block",

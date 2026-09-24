@@ -53,11 +53,10 @@ class Patch:
             if self.applied():
                 return True, "already present"
             self.apply()
-            if self.applied():
-                return True, "installed"
-            return False, "applied but did not take effect"
+            installed = self.applied()
         except Exception as exc:  # noqa: BLE001 - see the docstring
             return False, f"unavailable ({type(exc).__name__}: {exc})"
+        return (True, "installed") if installed else (False, "applied but did not take effect")
 
 
 def registry() -> list[Patch]:

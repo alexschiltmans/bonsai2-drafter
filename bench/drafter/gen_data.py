@@ -39,15 +39,19 @@ ap.add_argument("out")
 ap.add_argument("--n", type=int, default=300)
 ap.add_argument("--eval", type=int, default=40)
 ap.add_argument("--seed", type=int, default=7)
-ap.add_argument("--prompts-json", help="local instruction/input JSON array, used in file order; optional thinking and category")
+ap.add_argument("--prompts-json", help="local instruction/input JSON array, used in file order; "
+                                       "optional thinking and category")
 ap.add_argument("--target", default="prism-ml/Ternary-Bonsai-2-27B-mlx-2bit")
 ap.add_argument("--drafter", default="z-lab/Qwen3.8-27B-DFlash2")
-ap.add_argument("--temperature", type=float, default=1.0, help="0 = greedy: the corpus is then the target's argmax path and the loop's round lengths locate the anchors it drew")
+ap.add_argument("--temperature", type=float, default=1.0,
+                help="0 = greedy: the corpus is then the target's argmax path and the loop's "
+                     "round lengths locate the anchors it drew")
 args = ap.parse_args()
 
 if args.n <= 0 or not 0 <= args.eval <= args.n:
     ap.error("require n > 0 and 0 <= eval <= n")
-source = args.prompts_json or hf_hub_download("sahil2801/CodeAlpaca-20k", "code_alpaca_20k.json", repo_type="dataset")
+source = args.prompts_json or hf_hub_download("sahil2801/CodeAlpaca-20k", "code_alpaca_20k.json",
+                                              repo_type="dataset")
 with open(source) as f:
     src = json.load(f)
 rng = random.Random(args.seed)
@@ -88,7 +92,8 @@ def prompt_ids(text: str, thinking: bool) -> list[int]:
     return [int(t) for t in out]
 
 
-t_all = time.time(); n_tok = 0
+t_all = time.time()
+n_tok = 0
 with open(args.out, "a") as f:
     for i, p in enumerate(prompts):
         if p in done:
@@ -99,16 +104,20 @@ with open(args.out, "a") as f:
         t0 = time.time()
         res = dflash_generate(target, tok, drafter, prompt_ids=ids, apply_chat_template=False,
                               max_new_tokens=1024 if thinking else 400, max_draft_tokens=7,
-                              temperature=args.temperature, top_p=0.95, top_k=20, seed=args.seed + i)
-        dt = time.time() - t0; n_tok += res.num_tokens
+                              temperature=args.temperature, top_p=0.95, top_k=20,
+                              seed=args.seed + i)
+        dt = time.time() - t0
+        n_tok += res.num_tokens
         acc = sum(res.accept_lengths) / max(1, len(res.accept_lengths))
         f.write(json.dumps({"prompt_ids": ids, "response_ids": [int(t) for t in res.token_ids],
                             "thinking": thinking, "finish": res.finish_reason, "prompt": p,
                              "split": split, "temperature": args.temperature,
                              "category": rows[i].get("category", "code"),
                             # committed tokens per served round: cumulative sums locate the anchors
-                            "round_lengths": [int(a) for a in res.accept_lengths]}) + "\n"); f.flush()
-        print(f"[{i+1}/{len(prompts)}] {split} think={int(thinking)} {res.num_tokens} tok in {dt:.0f}s "
+                            "round_lengths": [int(a) for a in res.accept_lengths]}) + "\n")
+        f.flush()
+        print(f"[{i+1}/{len(prompts)}] {split} think={int(thinking)} {res.num_tokens} tok "
+              f"in {dt:.0f}s "
               f"({res.num_tokens/dt:.1f} tok/s, {acc:.2f}/round) finish={res.finish_reason}  "
               f"total {n_tok} tok, {(time.time()-t_all)/60:.0f} min", flush=True)
         mx.clear_cache()

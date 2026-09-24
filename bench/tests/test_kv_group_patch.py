@@ -35,7 +35,7 @@ def check(name: str, got: object, want: object) -> None:
 
 def fresh_install() -> list[patches.Patch]:
     """Reinstall from stock, so ordering and idempotency can both be exercised."""
-    for mod, attr in (("mlx_dspark.target", "Target"), ("mlx_dspark.calibrate", "_cache_key")):
+    for mod, _attr in (("mlx_dspark.target", "Target"), ("mlx_dspark.calibrate", "_cache_key")):
         importlib.reload(importlib.import_module(mod))
     return patches.registry()
 
@@ -115,13 +115,13 @@ for v in ("48", "banana", "32.0"):
     setenv(v)
     try:
         kvg.resolved(strict=True)
-        check(f"{v!r} raises at install", "no exception", "InvalidGroupSize")
-    except kvg.InvalidGroupSize:
-        check(f"{v!r} raises at install", "InvalidGroupSize", "InvalidGroupSize")
+        check(f"{v!r} raises at install", "no exception", "InvalidGroupSizeError")
+    except kvg.InvalidGroupSizeError:
+        check(f"{v!r} raises at install", "InvalidGroupSizeError", "InvalidGroupSizeError")
 setenv("32")
 try:
     check("valid value does not raise at install", kvg.resolved(strict=True), 32)
-except kvg.InvalidGroupSize:
+except kvg.InvalidGroupSizeError:
     check("valid value does not raise at install", "raised", 32)
 
 print("\n== 7. an explicit constructor argument still loses to the override, consistently")
@@ -147,7 +147,7 @@ check("applied() is true", kvg.KVGroupSizePatch().applied(), True)
 
 print("\n== 9. a half-applied patch is refused rather than left in place")
 saved_init, saved_key = target.Target.__init__, cal._cache_key
-target.Target.__init__ = saved_init.__wrapped__ if hasattr(saved_init, "__wrapped__") else saved_init
+target.Target.__init__ = getattr(saved_init, "__wrapped__", saved_init)
 cal._cache_key = lambda *a, **k: ""
 check("applied() detects a missing key wrapper", kvg.KVGroupSizePatch().applied(), False)
 cal._cache_key = saved_key

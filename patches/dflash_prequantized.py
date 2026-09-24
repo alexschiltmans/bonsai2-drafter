@@ -233,7 +233,8 @@ def validate_metadata(meta: Any, where: str = "artifact") -> dict[str, Any]:
             f"{where}: format {name!r} is not {FORMAT_NAME!r} — a different format, not a "
             f"different version of this one")
     version = _require(meta, "format_version", where)
-    if not isinstance(version, int) or isinstance(version, bool) or version not in SUPPORTED_VERSIONS:
+    if (not isinstance(version, int) or isinstance(version, bool)
+            or version not in SUPPORTED_VERSIONS):
         raise PrequantizedFormatError(
             f"{where}: format version {version!r} is not supported by this build "
             f"(supported: {list(SUPPORTED_VERSIONS)})")
@@ -357,7 +358,7 @@ def mlx_quantization_block(meta: dict[str, Any], shapes: dict[str, list[int]]) -
     """
     block: dict[str, Any] = {"group_size": meta["group_size"], "bits": meta["bits"],
                              "mode": meta["mode"]}
-    block.update({path: False for path in kept_matrices(shapes, meta["quantized_modules"])})
+    block.update(dict.fromkeys(kept_matrices(shapes, meta["quantized_modules"]), False))
     return block
 
 
@@ -608,7 +609,8 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
                                  mode=meta["mode"])
     expected = sorted(meta["quantized_modules"])
     if selected != expected:
-        missing, extra = sorted(set(expected) - set(selected)), sorted(set(selected) - set(expected))
+        missing = sorted(set(expected) - set(selected))
+        extra = sorted(set(selected) - set(expected))
         raise PrequantizedFormatError(
             f"{path}: {SELECTION_RULE} selects a different module set than the artifact "
             f"records."
@@ -619,7 +621,8 @@ def load_prequantized(path: str, config: dict[str, Any], meta: dict[str, Any]) -
     weights: dict[str, Any] = {}
     for shard in shard_paths(path):
         loaded = mx.load(shard)
-        assert isinstance(loaded, dict)
+        if not isinstance(loaded, dict):
+            raise TypeError(f"{shard} did not load as a tensor dictionary")
         weights.update(loaded)
     # The same diagnosis upstream makes before loading, for the same reason: a partially
     # loaded drafter runs and accepts nothing, which is worse than an error.

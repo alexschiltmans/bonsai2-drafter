@@ -15,9 +15,10 @@ The measurement contract, version CONTRACT below, in two parts.
 
 **Identity.** Greedy decoding at temperature 0 makes the token path the target's own, so the
 two arms must emit the same answer and differ only in how many rounds it took. Version 1
-compared the whole `response_ids` arrays and, on the publication battery, returned `investigate` on 17 of
-40 non-code prompts, 14 of 40 code prompts and 6 of 40 at the 1024-token budget. Direct
-comparison of those saved arrays found ZERO differing tokens inside the requested budget.
+compared the whole `response_ids` arrays and, on the publication battery, returned
+`investigate` on 17 of 40 non-code prompts, 14 of 40 code prompts and 6 of 40 at the
+1024-token budget. Direct comparison of those saved arrays found ZERO differing tokens
+inside the requested budget.
 Every unequal pair was longer than the budget: the pinned mlx-dspark 0.18.0
 `dflash_generate` tests its budget at the top of the round loop (`while len(out_ids) <
 max_new_tokens`) and then appends the whole committed block, breaking only for EOS, so a
@@ -203,7 +204,8 @@ def _check_row(row: dict[str, Any], budget: int, block: int) -> None:
             f"{lengths[-1]} committed tokens")
 
 
-def classify(left: dict[str, Any], right: dict[str, Any], budget: int, block: int) -> str:
+def classify(left: dict[str, Any], right: dict[str, Any], budget: int,
+             block: int) -> str:  # noqa: ARG001 - the shared per-pair signature
     """One pair, under the identity half of the contract."""
     before, after = left["response_ids"], right["response_ids"]
     if before == after:
@@ -239,14 +241,18 @@ def _within_budget(rows: Sequence[dict[str, Any]], budget: int,
         overshoot = row["tokens"] - budget
         lengths = row.get("round_lengths")
         if overshoot <= 0:
-            low += row["tokens"]; high += row["tokens"]; denominator += row["rounds"]
+            low += row["tokens"]
+            high += row["tokens"]
+            denominator += row["rounds"]
         elif lengths is not None and 1 + sum(lengths) == row["tokens"]:
-            low += row["tokens"] - lengths[-1]; high += row["tokens"] - lengths[-1]
+            low += row["tokens"] - lengths[-1]
+            high += row["tokens"] - lengths[-1]
             denominator += row["rounds"] - 1
         else:
             # The crossing round entered at most budget - 1 tokens in and committed at most
             # one block, so its length is in [overshoot + 1, block].
-            low += row["tokens"] - block; high += row["tokens"] - overshoot - 1
+            low += row["tokens"] - block
+            high += row["tokens"] - overshoot - 1
             denominator += row["rounds"] - 1
             exact = False
     return ((low / denominator, high / denominator), exact) if denominator > 0 else None
@@ -258,8 +264,9 @@ def _variants(left: Sequence[dict[str, Any]], right: Sequence[dict[str, Any]], b
                for rows in (left, right)]
     stock_within, tuned_within = (_within_budget(rows, budget, block) for rows in (left, right))
     if stock_within is None or tuned_within is None:
-        within: dict[str, Any] = {"stock": None, "tuned": None, "relative_gain": None, "exact": False,
-                  "note": "undefined: a request crossed the budget in its only round"}
+        within: dict[str, Any] = {
+            "stock": None, "tuned": None, "relative_gain": None, "exact": False,
+            "note": "undefined: a request crossed the budget in its only round"}
     else:
         (stock_lo, stock_hi), stock_exact = stock_within
         (tuned_lo, tuned_hi), tuned_exact = tuned_within
@@ -373,7 +380,7 @@ def equivalence(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]
     if missing:
         raise ValueError(
             f"{len(missing)} records carry no round_lengths; artifact equivalence needs them")
-    mismatches = {field: 0 for field in EQUIVALENCE_FIELDS}
+    mismatches = dict.fromkeys(EQUIVALENCE_FIELDS, 0)
     differing = []
     classes = dict.fromkeys(
         ("identical", "boundary_overshoot", "prefix_divergence", "early_stop_mismatch"), 0)

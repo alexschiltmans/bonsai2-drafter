@@ -221,8 +221,10 @@ def artifact_tensors(drafter: Any, quantized: list[str]) -> dict[str, Any]:
             f"the model carries target-bound tensors {bound[:5]}; it was bound to a target "
             f"before export, and those weights are the target's, not the drafter's")
     packed = {f"{m}.weight" for m in quantized}
-    wrong = [f"{k}: {v.dtype}" for k, v in sorted(weights.items())
-             if str(v.dtype) != f"mlx.core.{pq.PACKED_WEIGHT_DTYPE if k in packed else pq.UNPACKED_DTYPE}"]
+    def expected(key: str) -> str:
+        return f"mlx.core.{pq.PACKED_WEIGHT_DTYPE if key in packed else pq.UNPACKED_DTYPE}"
+
+    wrong = [f"{k}: {v.dtype}" for k, v in sorted(weights.items()) if str(v.dtype) != expected(k)]
     if wrong:
         raise pq.PrequantizedFormatError(
             f"{len(wrong)} tensors are not the dtype this format saves: {wrong[:5]}")
@@ -499,7 +501,8 @@ def export_prequantized(source: str, output: str) -> dict[str, Any]:
         # because it is the patched loader rebuilding the module structure from config.json
         # alone and having to arrive at the same tensors.
         staged_config, staged_meta = pq.inspect(staging)
-        assert staged_meta is not None
+        if staged_meta is None:
+            raise ValueError(f"{staging} carries no prequantized metadata after staging")
         pq.check_requested(staged_meta, quantize=True, bits=pq.SUPPORTED_BITS,
                            group_size=pq.SUPPORTED_GROUP_SIZE, where=staging)
         pq.check_tensor_dtypes(pq.checkpoint_header(staging), staged_meta["quantized_modules"],

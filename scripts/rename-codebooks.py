@@ -121,7 +121,8 @@ def self_test() -> None:
         header, data = {}, b""
         for index, name in enumerate(names):
             chunk = bytes([index + 1]) * 8
-            header[name] = {"dtype": "BF16", "shape": [2, 2], "data_offsets": [len(data), len(data) + 8]}
+            header[name] = {"dtype": "BF16", "shape": [2, 2],
+                            "data_offsets": [len(data), len(data) + 8]}
             data += chunk
         header["__metadata__"] = {"format": "mlx"}
         blob = json.dumps(header).encode()
@@ -158,7 +159,8 @@ def self_test() -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("source", nargs="?", type=Path)
     parser.add_argument("destination", nargs="?", type=Path)
     parser.add_argument("--to", choices=("zlab", "embedding"))

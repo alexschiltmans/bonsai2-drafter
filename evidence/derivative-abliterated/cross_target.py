@@ -49,14 +49,16 @@ def strata(rows: Sequence[Row]) -> dict[tuple[str, bool], list[int]]:
     return groups
 
 
-def interval(statistic: Callable[[list[int]], float], groups: dict[tuple[str, bool], list[int]]) -> list[float]:
+def interval(statistic: Callable[[list[int]], float],
+             groups: dict[tuple[str, bool], list[int]]) -> list[float]:
     rng = random.Random(7)
-    samples = sorted(statistic([rng.choice(g) for g in groups.values() for _ in g]) for _ in range(DRAWS))
+    samples = sorted(statistic([rng.choice(g) for g in groups.values() for _ in g])
+                     for _ in range(DRAWS))
     return [samples[int(DRAWS * .025)], samples[min(DRAWS - 1, int(DRAWS * .975))]]
 
 
 def first_difference(a: Sequence[int], b: Sequence[int]) -> int | None:
-    for k, (x, y) in enumerate(zip(a, b)):
+    for k, (x, y) in enumerate(zip(a, b, strict=False)):  # the shorter one ends the scan
         if x != y:
             return k
     return min(len(a), len(b)) if len(a) != len(b) else None
@@ -65,25 +67,27 @@ def first_difference(a: Sequence[int], b: Sequence[int]) -> int | None:
 def change(base: Report, derivative: Report) -> dict[str, Any]:
     left, right = base["requests"], derivative["requests"]
     budget = base["settings"]["max_new"]
-    same = [i for i, (x, y) in enumerate(zip(left, right))
+    same = [i for i, (x, y) in enumerate(zip(left, right, strict=True))
             if x["response_ids"][:budget] == y["response_ids"][:budget]
             and (x["finish"] == "length") == (y["finish"] == "length")]
-    firsts = sorted(k for k in (first_difference(x["response_ids"][:budget], y["response_ids"][:budget])
-                                for x, y in zip(left, right)) if k is not None)
+    firsts = sorted(k for k in (first_difference(x["response_ids"][:budget],
+                                                 y["response_ids"][:budget])
+                                for x, y in zip(left, right, strict=True)) if k is not None)
     return {
         "drafter": base["drafter"],
         "base_tokens_per_round": acceptance(left),
         "derivative_tokens_per_round": acceptance(right),
         "relative_change": acceptance(right) / acceptance(left) - 1,
         "paired_95_interval": interval(
-            lambda idx: acceptance([right[i] for i in idx]) / acceptance([left[i] for i in idx]) - 1,
+            lambda idx: (acceptance([right[i] for i in idx])
+                         / acceptance([left[i] for i in idx]) - 1),
             strata(left)),
         "base_truncated": sum(r["finish"] == "length" for r in left),
         "derivative_truncated": sum(r["finish"] == "length" for r in right),
         "prompts": len(left),
         "prompts_same_output_within_budget": len(same),
-        "first_difference_token": ({"min": firsts[0], "median": firsts[len(firsts) // 2], "max": firsts[-1]}
-                                   if firsts else None),
+        "first_difference_token": ({"min": firsts[0], "median": firsts[len(firsts) // 2],
+                                    "max": firsts[-1]} if firsts else None),
     }
 
 
@@ -101,7 +105,8 @@ def main() -> None:
     settings = [{k: v for k, v in r["settings"].items() if k != "target"} for r in (bs, bt, ds, dt)]
     if any(s != settings[0] for s in settings):
         sys.exit("settings other than the target differ")
-    keys = [[(q["prompt_sha256"], q["category"], q["thinking"]) for q in r["requests"]] for r in (bs, bt, ds, dt)]
+    keys = [[(q["prompt_sha256"], q["category"], q["thinking"]) for q in r["requests"]]
+            for r in (bs, bt, ds, dt)]
     if any(k != keys[0] for k in keys):
         sys.exit("prompts, order or strata differ")
     if bs["drafter"] != ds["drafter"] or bt["drafter"] != dt["drafter"]:
@@ -123,7 +128,8 @@ def main() -> None:
             "gain_base": gain_base,
             "gain_derivative": gain_derivative,
             "difference": gain_derivative - gain_base,
-            "difference_95_interval": interval(lambda idx: gain(D, E, idx) - gain(B, T, idx), strata(B)),
+            "difference_95_interval": interval(lambda idx: gain(D, E, idx) - gain(B, T, idx),
+                                               strata(B)),
             "share_of_base_gain_kept": gain_derivative / gain_base,
         },
     }

@@ -59,7 +59,7 @@ _warned: set[str] = set()
 _logged_keys: set[str] = set()
 
 
-class InvalidGroupSize(ValueError):
+class InvalidGroupSizeError(ValueError):
     """The override is set to something unusable. Raised at install, never at request time."""
 
 
@@ -82,7 +82,7 @@ def resolved(strict: bool = False) -> int | None:
         return want
     msg = f"{ENV}={raw!r} is not one of {'/'.join(map(str, VALID))}"
     if strict:
-        raise InvalidGroupSize(msg)
+        raise InvalidGroupSizeError(msg)
     if raw not in _warned:
         _warned.add(raw)
         print(f"  {msg}; using the stock {STOCK}", flush=True)
@@ -114,7 +114,7 @@ class KVGroupSizePatch(Patch):
 
         original_init = target.Target.__init__
 
-        def __init__(self: Any, model: Any, tokenizer: Any, *, kv_bits: int | None = None,
+        def __init__(self: Any, model: Any, tokenizer: Any, *, kv_bits: int | None = None,  # noqa: N807
                      kv_group_size: int = STOCK, **kw: Any) -> None:
             want = resolved()
             if want is not None:

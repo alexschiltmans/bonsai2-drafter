@@ -12,7 +12,8 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP_DIRS = {".git", ".venv", "evidence", "__pycache__", ".mypy_cache", ".ruff_cache", "node_modules"}
+SKIP_DIRS = {".git", ".venv", "evidence", "__pycache__", ".mypy_cache", ".ruff_cache",
+             "node_modules"}
 # The single-character class keeps this line from matching itself.
 PATTERN = re.compile(r"upload-tim[e] = |\b20\d\d-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d")
 

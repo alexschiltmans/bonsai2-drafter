@@ -66,7 +66,8 @@ def fwht(x: mx.array, block: int, signs: mx.array | None, inverse: bool = False)
 class PackedEmbedding(nn.Module):
     """The rotated 2-bit embedding: dequantise the rows, then the inverse transform."""
 
-    def __init__(self, arrays: Sequence[mx.array], block: int, signs: mx.array | None, dtype: mx.Dtype) -> None:
+    def __init__(self, arrays: Sequence[mx.array], block: int, signs: mx.array | None,
+                 dtype: mx.Dtype) -> None:
         super().__init__()
         self.weight, self.scales, self.biases = [mx.array(a) for a in arrays]
         if signs is not None:
@@ -78,7 +79,9 @@ class PackedEmbedding(nn.Module):
         indices = x.reshape(-1)
         out = (mx.dequantize(self.weight[indices], self.scales[indices], self.biases[indices],
                              group_size=128, bits=2).reshape(*shape, -1).astype(self.dtype))
-        return fwht(out, self.block, getattr(self, "signs", None), inverse=True) if self.block else out
+        if not self.block:
+            return out
+        return fwht(out, self.block, getattr(self, "signs", None), inverse=True)
 
 
 class PackedLinear(nn.QuantizedLinear):
@@ -131,7 +134,8 @@ def load_bonsai(path: str) -> tuple[Any, Any]:
     # carries the base family's name, not the pack's.
     model = Model(ModelArgs(model_type=base, text_config=config["text_config"]))
     weights = mx.load(os.path.join(path, "model.safetensors"))
-    assert isinstance(weights, dict)
+    if not isinstance(weights, dict):
+        raise TypeError(f"{path}/model.safetensors did not load as a tensor dictionary")
     lm = model.language_model
     prefix = "language_model." if any(k.startswith("language_model.") for k in weights) else ""
     seen = set()

@@ -76,7 +76,7 @@ class Mock:
 class Handler(BaseHTTPRequestHandler):
     mock: Mock
 
-    def log_message(self, format: str, *args: Any) -> None:
+    def log_message(self, format: str, *args: Any) -> None:  # noqa: A002 - the stdlib's signature
         pass
 
     def _send(self, status: int, payload: bytes, ctype: str = "application/json") -> None:
@@ -339,7 +339,7 @@ class ServedTests(unittest.TestCase):
                     rc = bench5.main(["--base-url", url, "--label", "Stock A1", "--reps", "1"])
                 self.assertEqual(rc, 0)
                 self.assertEqual(os.listdir(tmp), ["bench5-stock-a1.json"])
-                mock.fail = {i: 500 for i in range(len(mock.bodies), len(mock.bodies) + 6)}
+                mock.fail = dict.fromkeys(range(len(mock.bodies), len(mock.bodies) + 6), 500)
                 out = os.path.join(tmp, "all-failed.json")
                 with contextlib.redirect_stdout(io.StringIO()), \
                         contextlib.redirect_stderr(io.StringIO()):

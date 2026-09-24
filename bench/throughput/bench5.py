@@ -37,6 +37,7 @@ published as written.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import http.client
 import io
 import json
@@ -85,9 +86,8 @@ def sampling(mode: Mode) -> dict[str, Any]:
     """
     if mode == "default":
         return {}
-    if mode in (None, "", "greedy"):
+    if mode is None or mode in ("", "greedy"):
         return {"temperature": 0}
-    assert mode is not None
     return {"temperature": float(mode), "top_p": TOP_P, "top_k": TOP_K}
 
 
@@ -309,9 +309,10 @@ def require_server(client: Client) -> None:
     for url in (client.root + "/health", client.base_url + "/models"):
         try:
             client._raw(url, timeout=10)
-            return
         except Exception as e:  # noqa: BLE001 - any failure to answer: try the next probe
             errors.append(f"{url.rsplit('/', 1)[-1]}: {e}")
+        else:
+            return
     sys.exit(f"no server answering at {client.base_url} ({'; '.join(errors)})")
 
 
@@ -344,10 +345,8 @@ def _prometheus(text: str) -> dict[str, float]:
     for line in text.splitlines():
         if line.startswith("llamacpp:"):
             k, _, v = line.partition(" ")
-            try:
+            with contextlib.suppress(ValueError):
                 out[k[len("llamacpp:"):]] = float(v)
-            except ValueError:
-                pass
     return out
 
 

@@ -46,7 +46,8 @@ from bench.drafter import dflash_ft as ft
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("corpus")
     ap.add_argument("out")
     ap.add_argument("--target", default="prism-ml/Ternary-Bonsai-2-27B-mlx-2bit")
@@ -59,10 +60,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     ap.add_argument("--epochs", type=int, default=1)
     ap.add_argument("--gamma", type=float, default=4.0)
     ap.add_argument("--distill-topk", type=int, default=32,
-                    help="soft labels from the target's top-K; 0 = hard labels from the corpus tokens")
-    ap.add_argument("--selector", type=float, default=1.0, help="weight of the selector lattice loss")
+                    help="soft labels from the target's top-K; "
+                         "0 = hard labels from the corpus tokens")
+    ap.add_argument("--selector", type=float, default=1.0,
+                    help="weight of the selector lattice loss")
     ap.add_argument("--selector-codebooks", action="store_true",
-                    help="also train the two [vocab, rank] codebooks (iteration 2 did, and diverged)")
+                    help="also train the two [vocab, rank] codebooks "
+                         "(iteration 2 did, and diverged)")
     ap.add_argument("--eval-every", type=int, default=40)
     ap.add_argument("--eval-mode", choices=("uniform", "served", "mixed"), default=None,
                     help="anchor mode for evaluation (default: the training mode)")
@@ -95,12 +99,13 @@ def main(argv: list[str] | None = None) -> int:
     drafter.bind(target.model)
     tr = ft.Trainer(target, drafter, cfg, gamma=args.gamma, distill_topk=args.distill_topk,
                     selector_weight=args.selector, max_len=args.max_len)
-    print(f"drafter: block {tr.block}, taps {tr.taps}, window {tr.window}, layers {len(drafter.layers)}",
-          flush=True)
+    print(f"drafter: block {tr.block}, taps {tr.taps}, window {tr.window}, "
+          f"layers {len(drafter.layers)}", flush=True)
 
     if args.self_test:
         st = tr.self_test((evals or train)[0])
-        print(f"self-test: top token agreed {st.agree}/{st.total} ({st.agree_clear}/{st.total_clear} where the "
+        print(f"self-test: top token agreed {st.agree}/{st.total} "
+              f"({st.agree_clear}/{st.total_clear} where the "
               f"served margin is >= {st.margin}), worst relative diff {st.worst:.4f}", flush=True)
         print("SELF-TEST", "OK" if st.ok else "FAILED", flush=True)
         return 0 if st.ok else 1
@@ -112,7 +117,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.eval_only:
         r = tr.evaluate(evals, args.anchors, eval_mode, rng)
         print(f"eval-only ({len(evals)} seqs, {r.anchors} {eval_mode} anchors): loss {r.loss:.4f}  "
-              f"slot acc {[round(x, 3) for x in r.slot_accuracy]}  expected accept {r.expected_accept:.2f}  "
+              f"slot acc {[round(x, 3) for x in r.slot_accuracy]}  "
+              f"expected accept {r.expected_accept:.2f}  "
               f"prefix accept {r.prefix_accept:.2f}", flush=True)
         return 0
 
@@ -120,7 +126,8 @@ def main(argv: list[str] | None = None) -> int:
     total_steps = args.epochs * len(train) * args.steps_per_seq
     warm = max(1, int(0.04 * total_steps))
     sched = optim.join_schedules(
-        [optim.linear_schedule(0.0, args.lr, warm), optim.cosine_decay(args.lr, max(1, total_steps - warm))],
+        [optim.linear_schedule(0.0, args.lr, warm),
+         optim.cosine_decay(args.lr, max(1, total_steps - warm))],
         [warm])
     opt = optim.AdamW(learning_rate=sched, weight_decay=0.0)
     grad_fn = nn.value_and_grad(drafter, tr.loss)
@@ -136,7 +143,8 @@ def main(argv: list[str] | None = None) -> int:
     def eval_line(tag: str, rows_: list[ft.Row]) -> ft.EvalResult:
         r = tr.evaluate(rows_, args.anchors, eval_mode, rng)
         say(f"eval {tag} ({len(rows_)} seqs, {r.anchors} {eval_mode} anchors): loss {r.loss:.4f}  "
-            f"slot acc {[round(x, 3) for x in r.slot_accuracy]}  expected accept {r.expected_accept:.2f}  "
+            f"slot acc {[round(x, 3) for x in r.slot_accuracy]}  "
+            f"expected accept {r.expected_accept:.2f}  "
             f"prefix accept {r.prefix_accept:.2f}")
         return r
 
@@ -157,7 +165,8 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         n, missing, extra = ft.export(drafter, src, args.out)
         say(f"export-only from step {resumed['step']}: {n} tensors"
-            + (f"; key mismatch missing {missing[:5]} extra {extra[:5]}" if missing or extra else ""))
+            + (f"; key mismatch missing {missing[:5]} extra {extra[:5]}"
+               if missing or extra else ""))
         return 0
 
     if resumed:
@@ -192,21 +201,24 @@ def main(argv: list[str] | None = None) -> int:
                     step += 1
                     t_steps += 1
                     if not (math.isfinite(lv) and math.isfinite(gv)):
-                        say(f"step {step}: non-finite loss {lv} / gnorm {gv} on len {len(ids)}; step skipped")
+                        say(f"step {step}: non-finite loss {lv} / gnorm {gv} "
+                            f"on len {len(ids)}; step skipped")
                         continue
                     opt.update(drafter, grads)
                     mx.eval(drafter.trainable_parameters(), opt.state)
                     ema = lv if ema is None else 0.95 * ema + 0.05 * lv
                     if step % 5 == 0:
-                        say(f"step {step}/{total_steps}  loss {lv:.4f}  ema {ema:.4f}  gnorm {gv:.2f}  "
-                            f"lr {sched(step):.2e}  len {len(ids)}  {(time.time() - t0) / t_steps:.1f} s/step")
+                        say(f"step {step}/{total_steps}  loss {lv:.4f}  ema {ema:.4f}  "
+                            f"gnorm {gv:.2f}  lr {sched(step):.2e}  len {len(ids)}  "
+                            f"{(time.time() - t0) / t_steps:.1f} s/step")
                     if args.eval_every and step % args.eval_every == 0:
                         eval_line(f"@ {step}", evals[:8])
             pos += 1
             mx.clear_cache()
             if stop["now"] or (args.ckpt_every and pos % args.ckpt_every == 0):
-                ft.save_checkpoint(drafter, opt, {"step": step, "epoch": ep, "order": order, "pos": pos,
-                                                  "ema": ema, "ea0": ea0}, ckpt)
+                state = {"step": step, "epoch": ep, "order": order, "pos": pos,
+                         "ema": ema, "ea0": ea0}
+                ft.save_checkpoint(drafter, opt, state, ckpt)
                 say(f"checkpoint at step {step} (sequence {pos}/{len(order)} of epoch {ep})")
                 if stop["now"]:
                     say("PAUSED")
@@ -218,8 +230,10 @@ def main(argv: list[str] | None = None) -> int:
     r = eval_line("after", evals)
     n, missing, extra = ft.export(drafter, src, args.out)
     say(f"exported {n} tensors to {args.out}"
-        + (f"; key mismatch missing {missing[:5]} extra {extra[:5]}" if missing or extra else ""))
-    say(f"before/after prefix accept {ea0:.2f} (first 8 seqs) -> {r.prefix_accept:.2f} (all {len(evals)} seqs); "
+        + (f"; key mismatch missing {missing[:5]} extra {extra[:5]}"
+           if missing or extra else ""))
+    say(f"before/after prefix accept {ea0:.2f} (first 8 seqs) -> {r.prefix_accept:.2f} "
+        f"(all {len(evals)} seqs); "
         f"compare like for like with --eval-only on the stock drafter")
     say("TRAIN DONE")
     return 0

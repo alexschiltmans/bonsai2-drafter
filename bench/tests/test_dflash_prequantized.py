@@ -65,7 +65,8 @@ def refuses(name: str, fn: Any, *args: Any, **kwargs: Any) -> None:
         check(name, bool(str(exc).strip()), "refused with an empty message")
         return
     except Exception as exc:  # noqa: BLE001 - a different exception is a different answer
-        check(name, False, f"raised {type(exc).__name__} rather than PrequantizedFormatError: {exc}")
+        check(name, False,
+              f"raised {type(exc).__name__} rather than PrequantizedFormatError: {exc}")
         return
     check(name, False, "accepted")
 
@@ -276,7 +277,7 @@ TINY_KEPT = sorted(
     + ["candidate_selector.hidden_projection", "candidate_selector.predecessor_codebook",
        "candidate_selector.successor_codebook"])
 TINY_BLOCK: dict[str, Any] = ({"group_size": 64, "bits": 4, "mode": "affine"}
-                              | {path: False for path in TINY_KEPT})
+                              | dict.fromkeys(TINY_KEPT, False))
 
 
 def tiny_header() -> dict[str, dict[str, Any]]:
@@ -736,7 +737,8 @@ def run_gpu_tier() -> None:
         source_hashes_before = ex.directory_hashes(source)
         source_header = pq.checkpoint_header(source)
         check("mx.save_safetensors writes a header this reader understands",
-              len(source_header) == 36 and all(e["dtype"] == "BF16" for e in source_header.values()),
+              len(source_header) == 36
+              and all(e["dtype"] == "BF16" for e in source_header.values()),
               f"{len(source_header)} tensors")
 
         artifact = os.path.join(tmp, "artifact")
@@ -823,7 +825,7 @@ def run_gpu_tier() -> None:
         mlx_lm_quantized = {p: (m.bits, m.group_size, m.mode) for p, m in by_mlx_lm.named_modules()
                             if isinstance(m, nn.QuantizedLinear)}
         check("and quantizes the same modules at 4 bits, group 64, affine",
-              mlx_lm_quantized == {p: (4, 64, "affine") for p in TINY_MODULES},
+              mlx_lm_quantized == dict.fromkeys(TINY_MODULES, (4, 64, "affine")),
               str(sorted(mlx_lm_quantized)))
         check("leaving the convolution and selector projections nn.Linear",
               sorted(p for p, m in by_mlx_lm.named_modules() if isinstance(m, nn.Linear))

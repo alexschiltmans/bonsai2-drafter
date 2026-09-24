@@ -78,8 +78,8 @@ class Row:
 def load_corpus(path: str | os.PathLike[str], min_response: int = 16) -> list[Row]:
     rows: list[Row] = []
     with open(path) as f:
-        for line in f:
-            line = line.strip()
+        for raw in f:
+            line = raw.strip()
             if not line:
                 continue
             row = Row.from_json(json.loads(line))
@@ -239,8 +239,8 @@ class Trainer:
         vb = attn.v_proj(a).reshape(n, B, KV, D).transpose(0, 2, 1, 3)
         bpos = anchors[:, None] + mx.arange(B)[None, :]      # the head sits at the anchor
         q, kb = rope_at(q, bpos, self.rope_theta), rope_at(kb, bpos, self.rope_theta)
-        keys = mx.concatenate([mx.broadcast_to(kc, (n,) + kc.shape[1:]), kb], axis=2)
-        values = mx.concatenate([mx.broadcast_to(vc, (n,) + vc.shape[1:]), vb], axis=2)
+        keys = mx.concatenate([mx.broadcast_to(kc, (n, *kc.shape[1:])), kb], axis=2)
+        values = mx.concatenate([mx.broadcast_to(vc, (n, *vc.shape[1:])), vb], axis=2)
         out = mx.fast.scaled_dot_product_attention(q, keys, values, scale=attn.scale, mask=mask)
         return attn.o_proj(out.transpose(0, 2, 1, 3).reshape(n, B, -1))
 
@@ -282,7 +282,8 @@ class Trainer:
         """For anchor a and slot j the target predicts token a+1+j from position a+j. Returns
         (top-K ids, renormalised top-K probabilities, argmax) with -1 where invalid."""
         pos = anchors[:, None] + mx.arange(self.block - 1)[None, :]
-        pos = mx.minimum(pos, tlogits.shape[1] - 1)   # past the end there is no row; the weight is 0
+        # past the end there is no row; the weight is 0
+        pos = mx.minimum(pos, tlogits.shape[1] - 1)
         tl = tlogits[0][pos].astype(mx.float32)
         hard = mx.where(valid, mx.argmax(tl, axis=-1).astype(mx.int32), -1)
         k = self.distill_topk
@@ -298,7 +299,8 @@ class Trainer:
         (the anchor for slot 0, the target's argmax at slot s-1 otherwise), as
         ``CandidateSelector.lattice`` builds them for one predecessor. Returns (scores, ids)."""
         sel = self.selector
-        assert sel is not None
+        if sel is None:
+            raise RuntimeError("this drafter has no candidate selector")
         k = int(sel.top_k)
         lg = logits[..., : self.vocab]
         cand = mx.stop_gradient(mx.argpartition(lg, kth=-k, axis=-1)[..., -k:]).astype(mx.int32)
@@ -334,7 +336,8 @@ class Trainer:
         ce = mx.where(valid, ce, 0.0)
         total = (ce * w).sum() / mx.maximum(w.sum(), 1.0)
         if self.selector is not None and self.selector_weight > 0:
-            total = total + self.selector_weight * self.selector_loss(hid, logits, ids_blk, hard, valid)
+            total = total + self.selector_weight * self.selector_loss(hid, logits, ids_blk, hard,
+                                                                      valid)
         return total
 
     # -- batches
@@ -402,7 +405,8 @@ class Trainer:
             _, _, hard = self.slot_targets(tlogits, anc, valid)
             if self.selector is not None:
                 scores, cand = self.selector_scores(hid, logits, blk, hard)
-                pred = mx.take_along_axis(cand, mx.argmax(scores, axis=-1)[..., None], axis=-1)[..., 0]
+                best = mx.argmax(scores, axis=-1)[..., None]
+                pred = mx.take_along_axis(cand, best, axis=-1)[..., 0]
             else:
                 pred = mx.argmax(logits[..., : self.vocab], axis=-1).astype(mx.int32)
             hit = ((pred == hard) & valid).astype(mx.int32)
@@ -414,12 +418,14 @@ class Trainer:
         if not losses:
             return EvalResult(float("nan"), [], float("nan"), float("nan"), 0)
         acc_list = (hits / mx.maximum(tot, 1)).tolist()
-        assert isinstance(acc_list, list)
+        if not isinstance(acc_list, list):
+            raise TypeError("per-slot accuracy did not come back as a list")
         acc = [float(x) for x in acc_list]  # type: ignore[arg-type]
         prefix = 1.0 + float(prefix_sum.item()) / n_anchors  # type: ignore[arg-type]
         return EvalResult(sum(losses) / len(losses), acc, accept_figures(acc), prefix, n_anchors)
 
-    def self_test(self, row: Row, anchors: list[int] | None = None, margin: float = 0.5) -> SelfTest:
+    def self_test(self, row: Row, anchors: list[int] | None = None,
+                  margin: float = 0.5) -> SelfTest:
         """The batched forward against the served one (`forward_hidden` with a fresh cache
         and the context rows before the anchor, as the loop hands them over)."""
         ids = row.ids[: self.max_len]
@@ -429,7 +435,8 @@ class Trainer:
         worst, agree, total, agree_clear, total_clear = 0.0, 0, 0, 0, 0
         for a in anchors:
             blk = mx.array([[ids[a]] + [self.mask_id] * (B - 1)])
-            ref = self.drafter.forward_hidden(blk, fused[:, :a], self.drafter.make_cache(), logits_start=1)
+            ref = self.drafter.forward_hidden(blk, fused[:, :a], self.drafter.make_cache(),
+                                              logits_start=1)
             got = self.drafter_hidden(blk, fused, mx.array([a]))
             d = float(mx.max(mx.abs(ref.astype(mx.float32) - got.astype(mx.float32))).item())  # type: ignore[arg-type]
             m = float(mx.max(mx.abs(ref.astype(mx.float32))).item())  # type: ignore[arg-type]
@@ -448,7 +455,7 @@ class Trainer:
         return SelfTest(worst, agree, total, agree_clear, total_clear, margin)
 
 
-# --------------------------------------------------------------------------- lora, checkpoints, export
+# ------------------------------------------------------------------ lora, checkpoints, export
 
 def attach_lora(drafter: Any, rank: int, *, scale: float = 20.0, selector_projection: bool = True,
                 selector_codebooks: bool = False) -> int:
@@ -495,10 +502,12 @@ def load_checkpoint(drafter: Any, opt: optim.Optimizer, ckpt: str) -> dict[str, 
     with open(st) as f:
         state: dict[str, Any] = json.load(f)
     adapters = mx.load(os.path.join(ckpt, "adapters.safetensors"))
-    assert isinstance(adapters, dict)
+    if not isinstance(adapters, dict):
+        raise TypeError(f"{ckpt}/adapters.safetensors did not load as a tensor dictionary")
     drafter.load_weights(list(adapters.items()), strict=False)
     ostate = mx.load(os.path.join(ckpt, "optimizer.safetensors"))
-    assert isinstance(ostate, dict)
+    if not isinstance(ostate, dict):
+        raise TypeError(f"{ckpt}/optimizer.safetensors did not load as a tensor dictionary")
     opt.state = tree_unflatten(list(ostate.items()))
     rs = state.pop("random")
     random.setstate((rs[0], tuple(rs[1]), rs[2]))
@@ -521,12 +530,14 @@ def export(drafter: Any, src_dir: str, out_dir: str) -> tuple[int, list[str], li
     ref: dict[str, mx.array] = {}
     for st in Path(src_dir).glob("*.safetensors"):
         loaded = mx.load(str(st))
-        assert isinstance(loaded, dict)
+        if not isinstance(loaded, dict):
+            raise TypeError(f"{st} did not load as a tensor dictionary")
         ref.update(loaded)
     missing = sorted(set(ref) - set(weights))
     extra = sorted(set(weights) - set(ref))
     weights = {k: (v.astype(ref[k].dtype) if k in ref else v) for k, v in weights.items()}
     os.makedirs(out_dir, exist_ok=True)
-    mx.save_safetensors(os.path.join(out_dir, "model.safetensors"), weights, metadata={"format": "mlx"})
+    mx.save_safetensors(os.path.join(out_dir, "model.safetensors"), weights,
+                        metadata={"format": "mlx"})
     shutil.copyfile(os.path.join(src_dir, "config.json"), os.path.join(out_dir, "config.json"))
     return len(weights), missing, extra

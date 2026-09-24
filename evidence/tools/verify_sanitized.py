@@ -7,11 +7,11 @@
 
 `scan` needs only the bundle. For every directory holding a SHA256SUMS it checks that each
 listed file hashes as listed and that no file is unlisted, then searches every file for what
-sanitization removes: dates, epoch seconds, home-directory paths and e-mail addresses. In a
-JSON file it reads each value in place: a number between 1e9 and 2e9 counts as epoch seconds
-unless its key names a byte count, a byte range or a seed, and a date or ten-digit number inside the model's own words
-(`answer`, `reasoning`) is content the model wrote, not a record of when it ran. Exit 0 means
-clean.
+sanitization removes: dates, epoch seconds, home-directory paths and e-mail addresses. In a JSON
+file it reads each value in place: a number between 1e9 and 2e9 counts as epoch seconds unless
+its key names a byte count, a byte range or a seed, and a date or ten-digit number inside the
+model's own words (`answer`, `reasoning`) is content the model wrote, not a record of when it
+ran. Exit 0 means clean.
 
 `--extra-patterns FILE` adds regular expressions, one per line (blank lines and lines starting
 with `#` are skipped), matched case-insensitively everywhere. The private names sanitization
@@ -110,7 +110,7 @@ LOCAL = re.compile(r"/User[s]/|/hom[e]/[a-z]|\$HO[M]E|~[/]|"
 MODEL_TEXT = {"answer", "reasoning"}
 
 
-class Mismatch(Exception):
+class MismatchError(Exception):
     pass
 
 
@@ -119,28 +119,28 @@ def _numbers(text: str) -> list[str]:
 
 
 def compare(original: Any, sanitized: Any, where: str = "$") -> int:
-    """Raise Mismatch at the first place the copy departs from the rules above."""
+    """Raise MismatchError at the first place the copy departs from the rules above."""
     if isinstance(sanitized, dict):
         if not isinstance(original, dict):
-            raise Mismatch(f"{where}: object where the original has {type(original).__name__}")
+            raise MismatchError(f"{where}: object where the original has {type(original).__name__}")
         added = set(sanitized) - set(original)
         if added:
-            raise Mismatch(f"{where}: keys added: {sorted(added)}")
+            raise MismatchError(f"{where}: keys added: {sorted(added)}")
         removed = set(original) - set(sanitized)
         illegal = sorted(k for k in removed
                          if k not in REMOVABLE or not REMOVABLE[k](original[k]))
         if illegal:
-            raise Mismatch(f"{where}: keys removed that are not removable: {illegal}")
+            raise MismatchError(f"{where}: keys removed that are not removable: {illegal}")
         return len(removed) + sum(compare(original[key], sanitized[key], f"{where}.{key}")
                                   for key in sanitized)
     if isinstance(sanitized, list):
         if not isinstance(original, list) or len(original) != len(sanitized):
-            raise Mismatch(f"{where}: list length or type differs")
+            raise MismatchError(f"{where}: list length or type differs")
         return sum(compare(a, b, f"{where}[{i}]")
                    for i, (a, b) in enumerate(zip(original, sanitized, strict=True)))
     if isinstance(sanitized, str):
         if not isinstance(original, str):
-            raise Mismatch(f"{where}: string where the original has {type(original).__name__}")
+            raise MismatchError(f"{where}: string where the original has {type(original).__name__}")
         if sanitized != original:
             # A public name written into the copy may bring its own digits; nothing else may.
             # Longest names first, so a name that contains another is not counted twice.
@@ -150,13 +150,13 @@ def compare(original: Any, sanitized: Any, where: str = "$") -> int:
             before = _numbers(original)
             for n in _numbers(rest):
                 if n not in before:
-                    raise Mismatch(f"{where}: rewritten string carries a number ({n}) "
+                    raise MismatchError(f"{where}: rewritten string carries a number ({n}) "
                                    f"the original string did not")
                 before.remove(n)
         return 0
     # numbers, booleans, null: identical type and value
     if type(sanitized) is not type(original) or sanitized != original:
-        raise Mismatch(f"{where}: {original!r} became {sanitized!r}")
+        raise MismatchError(f"{where}: {original!r} became {sanitized!r}")
     return 0
 
 
@@ -257,8 +257,8 @@ def scan(root: str, extra: Sequence[re.Pattern[str]] = ()) -> list[str]:
                 continue
             with open(path, encoding="utf-8", errors="replace") as f:
                 text = f.read()
-            for hit in _hits(path, text, extra):
-                problems.append(f"{path}: forbidden pattern {hit!r}")
+            problems.extend(f"{path}: forbidden pattern {hit!r}"
+                            for hit in _hits(path, text, extra))
             # Anything under a directory that has a SHA256SUMS, at any depth, must be listed.
             in_group = any(path.startswith(group + os.sep) for group in groups)
             if in_group and name != "SHA256SUMS" and path not in covered:
@@ -298,7 +298,7 @@ def main() -> int:
         try:
             leaves, removed = check_pair(original, sanitized)
             print(f"ok    {sanitized}  ({leaves} leaves kept, {removed} fields removed)")
-        except (Mismatch, OSError, ValueError) as exc:
+        except (MismatchError, OSError, ValueError) as exc:
             failed += 1
             print(f"FAIL  {sanitized}: {exc}")
     print(f"pairs: {len(pairs) - failed} ok, {failed} failed")

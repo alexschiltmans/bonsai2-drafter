@@ -1,15 +1,64 @@
-# Lint settings for the Python in this repo. The rule set is ruff's default; what is pinned
-# here is what would otherwise vary by machine. `uvx ruff check .` from the repo root.
+# Lint settings for every Python file in this repo: `uvx ruff@0.16.8 check .` from the repo root
+# (bench/check.sh pins the version, so the rule set cannot drift with a ruff release).
 line-length = 100
 target-version = "py312"
 
 [lint]
-extend-select = ["I"]
-# The runners' prompt fixtures are long strings split across lines inside lists, which is
-# exactly the shape ISC004 reads as a missing comma; every one is intended.
-ignore = ["ISC004"]
+# Explicit rather than ruff's default selection, which changes between releases.
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # import order
+    "N",        # naming
+    "UP",       # modern syntax for the target version
+    "B",        # bugbear
+    "A",        # shadowed builtins
+    "C4",       # comprehensions
+    "SIM",      # simplifications
+    "RET",      # return statements
+    "PIE", "PERF", "FURB", "FLY",
+    "PL",       # pylint
+    "RUF",      # ruff's own, including unused noqa
+    "ARG",      # unused arguments
+    "BLE",      # blind except: every broad catch says why in a noqa
+    "TRY",      # exception handling
+    "S",        # bandit
+    "ERA",      # commented-out code
+    "DTZ",      # naive datetimes
+    "ISC", "Q", "ICN", "PGH", "RSE", "T10", "EXE", "LOG", "G", "TID", "YTT",
+]
+ignore = [
+    # The runners' prompt fixtures are long strings split across lines inside lists, which is
+    # exactly the shape ISC004 reads as a missing comma; every one is intended.
+    "ISC004",
+    # Every refusal in this repo says why in its message; that is the house style, not a smell.
+    "TRY003",
+    # Measurement code compares against constants that are documented where they are used,
+    # and the runners are long procedural scripts; complexity counts would only add noqa.
+    "PLR2004", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
+    # mlx, mlx-lm and mlx-dspark are imported inside functions on purpose: the GPU-free tests
+    # and the patches must import without them.
+    "PLC0415",
+    # Math-style names (L, R, K, N) for matrices and dimensions read better than lowercase.
+    "N803", "N806",
+    # A raise inside a try is how validation hands control to the cleanup below it.
+    "TRY301",
+    # The bootstrap and the synthetic prompts use random for statistics, not for security.
+    "S311",
+    # Subprocess calls pass fixed argument lists to known tools (curl, git, uv), and the HTTP
+    # client talks to a local benchmark server by URL.
+    "S603", "S607", "S310",
+]
 
 [lint.per-file-ignores]
-# Runners and tests are run as scripts with an explicit interpreter, never executed directly.
-"bench/**/*.py" = ["EXE001"]
-"bin/*" = ["EXE001"]
+# Runners and tests are run as scripts with an explicit interpreter, never executed directly,
+# and they insert the repository root on sys.path before importing its packages.
+"bench/**/*.py" = ["EXE001", "E402"]
+"bin/*" = ["EXE001", "E402"]
+"scripts/*" = ["E402"]
+# Tests assert, their stubs mirror the signatures they replace, and custom assertions follow
+# unittest's assertX names.
+"bench/tests/*" = ["EXE001", "E402", "S101", "ARG001", "ARG005", "N802"]
+# Their --self-test modes assert, like the tests.
+"bench/adapters/dflash_mlx_bonsai2.py" = ["EXE001", "E402", "S101"]
+"scripts/rename-codebooks.py" = ["E402", "S101"]
