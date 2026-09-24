@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Served-acceptance report",
+  "description": "One arm of a served-acceptance measurement: one drafter (or none) on one runtime, one prompt corpus, one budget. bench/REPORTS.md is the specification; this schema covers the per-field rules. The cross-field rules (token accounting, round chronology, unique prompts, a complete arm) are in REPORTS.md and are enforced by bench/analysis/validate_report.py and by the analyser. Counts must be JSON integer literals: the analyser refuses 4.0 and true where it expects a count, so 'integer' here means an integer literal, not any integral number.",
+  "type": "object",
+  "required": ["drafter", "settings", "complete", "requests"],
+  "properties": {
+    "drafter": {
+      "description": "Label of the drafter. null only for an arm without a drafter (the target's own autoregressive path). Not read by the analyser.",
+      "type": ["string", "null"]
+    },
+    "settings": {"$ref": "#/$defs/settings"},
+    "complete": {
+      "description": "false until every prompt's record has been written. Writers save the partial report as they go; the analyser refuses an arm that is not complete.",
+      "type": "boolean"
+    },
+    "requests": {
+      "description": "One record per prompt, in corpus order. Paired arms must list the same prompts in the same order.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/request"}
+    },
+    "mode": {
+      "description": "Adapter-specific, optional (dflash-mlx-bonsai2). 'speculative' for a drafter arm, 'target_only' for the target's autoregressive path.",
+      "enum": ["speculative", "target_only"]
+    },
+    "arm": {
+      "description": "Adapter-specific, optional (dflash-mlx-bonsai2). Per-arm details that must not be in settings because they legitimately differ between paired arms: paths, file hashes, load time. Not read by the analyser.",
+      "type": "object"
+    },
+    "summary": {
+      "description": "Adapter-specific, optional (dflash-mlx-bonsai2, written with complete=true). Pooled figures for a reader; the analyser recomputes everything from requests and does not read this.",
+      "type": "object",
+      "properties": {
+        "tokens_per_round": {"type": "number"},
+        "runtime_tokens_per_cycle": {"type": ["number", "null"]},
+        "decode_tokens_per_second": {"type": "number"},
+        "wall_seconds": {"type": "number"}
+      }
+    }
+  },
+  "$defs": {
+    "settings": {
+      "description": "Everything two paired arms must share. The analyser compares the whole object for equality and refuses the pair on any difference, so per-arm details (paths, hashes, timings) belong elsewhere. Writers add their own keys; only max_new, cap and temperature are required.",
+      "type": "object",
+      "required": ["max_new", "cap", "temperature"],
+      "properties": {
+        "max_new": {
+          "description": "The requested token budget, counting the prefill's own token.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cap": {
+          "description": "The most drafts one block can carry. One block is cap + 1 tokens: the drafts plus the target's own token from the same verify pass.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "temperature": {
+          "description": "Both contracts assume greedy decoding. The analyser does not read this key; both writers always record 0.",
+          "const": 0
+        },
+        "target": {"description": "Label of the target model, with its revision where known.", "type": "string"},
+        "split": {"description": "The corpus split the prompts were taken from.", "type": "string"},
+        "kv_bits": {"description": "KV cache precision in bits, or null for an unquantized cache.", "type": ["integer", "null"]},
+        "bits": {"description": "mlx-dspark: the drafter's served precision in bits; 0 is bf16.", "type": "integer"},
+        "runtime": {"description": "dflash-mlx-bonsai2: the runtime's name.", "type": "string"},
+        "runtime_version": {"type": "string"},
+        "runtime_commit": {"type": ["string", "null"]},
+        "corpus_sha256": {"description": "sha256 of the corpus file, lowercase hex.", "type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "block_tokens": {"description": "dflash-mlx-bonsai2: the effective block, cap + 1.", "type": "integer", "minimum": 2},
+        "block_tokens_requested": {"type": "integer", "minimum": 1},
+        "stop_token_ids": {"type": "array", "items": {"type": "integer"}}
+      }
+    },
+    "request": {
+      "description": "One prompt's record.",
+      "type": "object",
+      "required": ["prompt_sha256", "category", "thinking", "tokens", "rounds", "finish", "response_ids", "decode_seconds"],
+      "properties": {
+        "prompt_sha256": {
+          "description": "sha256 of the UTF-8 bytes of Python's json.dumps(prompt_ids) with default separators, i.e. '[1, 2, 3]', as lowercase hex. Must be unique within a report.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "category": {
+          "description": "The prompt's stratum for the bootstrap and the breakdown; 'unknown' when the corpus row has none.",
+          "type": "string"
+        },
+        "thinking": {
+          "description": "Whether the templated prompt enables thinking. A stratum, like category.",
+          "type": "boolean"
+        },
+        "tokens": {
+          "description": "Emitted tokens, counting the prefill's own token. Equals len(response_ids).",
+          "type": "integer",
+          "minimum": 2
+        },
+        "rounds": {
+          "description": "Speculative rounds (verify passes that emitted at least one token). The prefill's token belongs to no round.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "round_lengths": {
+          "description": "Optional; required by the equivalence contract. Tokens each round committed: the drafts it accepted plus the target's own token. Length equals rounds.",
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "integer", "minimum": 1}
+        },
+        "finish": {
+          "description": "'length' when the run stopped on the budget, 'stop' when it stopped on a stop token.",
+          "enum": ["length", "stop"]
+        },
+        "response_ids": {
+          "description": "The emitted token ids, in order, starting with the prefill's own token and ending at the first stop token if there is one.",
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "integer"}
+        },
+        "decode_seconds": {
+          "description": "Wall time after prefill. Carried for throughput readers; no contract compares it.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "prefill_seconds": {
+          "description": "Adapter-specific, optional (dflash-mlx-bonsai2).",
+          "type": "number",
+          "minimum": 0
+        },
+        "prompt_tokens": {
+          "description": "Adapter-specific, optional (dflash-mlx-bonsai2). len(prompt_ids).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "runtime": {
+          "description": "Adapter-specific, optional (dflash-mlx-bonsai2). The runtime loop's own per-pass record, unmapped, so its native bookkeeping can be recomputed. Not read by the analyser.",
+          "type": "object",
+          "properties": {
+            "passes": {"type": "integer", "minimum": 0},
+            "committed_tokens": {"type": "integer", "minimum": 0},
+            "acceptance": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+            "block_lens": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+            "excluded_passes": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+            "post_stop_tokens": {"type": "integer", "minimum": 0},
+            "tokens_per_cycle": {"type": "number"},
+            "peak_memory_gb": {"type": ["number", "null"]}
+          }
+        }
+      }
+    }
+  }
+}

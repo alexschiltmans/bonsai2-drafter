@@ -17,6 +17,7 @@ run "ruff"                        uvx ruff check .
 run "mypy --strict"               uvx mypy --python-executable "$PY"
 run "shellcheck"                  uvx --from shellcheck-py shellcheck -S warning bench/check.sh scripts/serve-bonsai2.sh
 run "test_served_accept_analysis" python3 bench/tests/test_served_accept_analysis.py
+run "test_report_schema"          python3 bench/tests/test_report_schema.py
 run "test_dflash_prequantized"    python3 bench/tests/test_dflash_prequantized.py
 run "rename-codebooks --self-test" python3 scripts/rename-codebooks.py --self-test
 run "dflash-mlx adapter --self-test" python3 bench/adapters/dflash_mlx_bonsai2.py --self-test
