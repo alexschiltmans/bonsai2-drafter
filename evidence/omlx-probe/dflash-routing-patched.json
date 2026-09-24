@@ -1,0 +1,31 @@
+{
+ "seconds": 41.650113105773926,
+ "response": {
+  "id": "chatcmpl-a0f4adc0",
+  "object": "chat.completion",
+  "model": "bonsai2",
+  "choices": [
+   {
+    "index": 0,
+    "message": {
+     "role": "assistant",
+     "content": "We need answer user: \"Write a Python function that parses an ISO-8601 duration string like P3DT4H5M into a timedelta. Include a docstring and handle invalid input.\"\n\nNeed produce final with code. Need think about robust parsing. ISO-8601 duration: P[n]Y[n]M[n]D[T[n]H[n]M[n]S] maybe fractional seconds? Need handle invalid input. Could use regex. Need convert to timedelta. Python timedelta supports days, seconds, microseconds. Years/months not directly. Need decide how to handle Y/M. ISO-8601 duration includes years and months. To convert to timedelta, need approximate? Could raise ValueError for years/months? But user says like P3DT4H5M. Could support P... with D,H,M,S and maybe fractional seconds. If Y/M present, maybe convert using average? Better to be explicit: support days/hours/minutes"
+    },
+    "finish_reason": "length"
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 88,
+   "completion_tokens": 200,
+   "total_tokens": 288,
+   "input_tokens": 88,
+   "output_tokens": 200,
+   "prompt_tokens_details": {
+    "cached_tokens": 83
+   },
+   "model_load_duration": 2.22,
+   "total_time": 39.4
+  }
+ },
+ "text": "\n<<content>>\nWe need answer user: \"Write a Python function that parses an ISO-8601 duration string like P3DT4H5M into a timedelta. Include a docstring and handle invalid input.\"\n\nNeed produce final with code. Need think about robust parsing. ISO-8601 duration: P[n]Y[n]M[n]D[T[n]H[n]M[n]S] maybe fractional seconds? Need handle invalid input. Could use regex. Need convert to timedelta. Python timedelta supports days, seconds, microseconds. Years/months not directly. Need decide how to handle Y/M. ISO-8601 duration includes years and months. To convert to timedelta, need approximate? Could raise ValueError for years/months? But user says like P3DT4H5M. Could support P... with D,H,M,S and maybe fractional seconds. If Y/M present, maybe convert using average? Better to be explicit: support days/hours/minutes"
+}

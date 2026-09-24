@@ -17,6 +17,9 @@ ft5 loses.
 | [`fork-probe/`](fork-probe/) | PrismML's llama.cpp fork on Metal: no drafter 20.56, MTP 11.70, DFlash 2 7.10 tok/s |
 | [`procreations-drafter/`](procreations-drafter/) | ProCreations' fine-tune on both MLX runtimes: it accepts more than ft5 on general chat (+3.90% [+2.62, +5.14] on dflash-mlx-bonsai2 under `BENCHMARK.md`, +1.83% in a matched comparison on mlx-dspark) and is level on code; no overlap between the eval prompts and its training corpus |
 | [`derivative-abliterated/`](derivative-abliterated/) | ft5 on BoldingBuilds' abliterated derivative (98 of 851 tensors edited): stock → ft5 +7.34% [+5.89, +8.77] on general chat and +10.09% on code, not significantly below its gain on the base target |
+| [`throughput-ft5-procreations/`](throughput-ft5-procreations/) | decode speed on mlx-dspark under `BENCHMARK.md` v1, code prompts: ProCreations / ft5 0.9494 greedy, 0.9821 sampled; ft5 accepts more on these prompts at the same round cost |
+| [`mac-stacks-mtplx/`](mac-stacks-mtplx/) | the v2 stack comparison: MTPLX (MTP) against mlx-dspark with ft5 on one Mac, 1.3824 greedy and 1.4580 sampled end to end in MTPLX's favour |
+| [`omlx-probe/`](omlx-probe/) | oMLX serves Bonsai 2 but not DFlash 2 on it; with a one-line routing change ft5 drafts losslessly but decodes about four times slower |
 | [`tools/verify_sanitized.py`](tools/verify_sanitized.py) | the checker described below |
 
 Each group's README lists its files, quotes the claims they support, gives the commands that
@@ -86,10 +89,12 @@ identical in type and value at the same place, every list keeps its length, ever
 is one of the listed timestamp, path or provenance fields holding the kind of value that field
 holds, and every rewritten string carries no number the original string did not (digits inside
 a public model name excepted). It compares the text log line by line under the same rules. It
-needs the originals, so only their keeper can run it; it was run on all 146 sanitized data files
-in this bundle (145 JSON files and the text log), and all 146 passed. The analyses in
-`procreations-drafter/` and `derivative-abliterated/` have no private original: the published
-analyser and `derivative-abliterated/cross_target.py` wrote them from files in this bundle. It is published so the rules it
+needs the originals, so only their keeper can run it; it was run on all 150 sanitized data files
+in this bundle (149 JSON files and the text log), and all 150 passed. Some files have no private
+original: the analyses in `procreations-drafter/` and `derivative-abliterated/`, which the
+published analyser and `derivative-abliterated/cross_target.py` wrote from files in this bundle,
+and the `bench5` records in `throughput-ft5-procreations/` and `mac-stacks-mtplx/`, which are
+published as `bench5` wrote them. It is published so the rules it
 enforces can be read, and so anyone given an original can rerun it.
 
 The Markdown files were written for this bundle. `ft5-publication-battery/reanalysis-v2/NOTES.md`

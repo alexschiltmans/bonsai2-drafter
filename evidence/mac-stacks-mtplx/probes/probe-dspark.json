@@ -1,0 +1,59 @@
+{
+ "summary": {
+  "reasoning_field_nonempty": true,
+  "content_opens_with_think_tag": false,
+  "content_head": "",
+  "reasoning_head": "We need answer user: \"Write a Python function that parses an ISO-8601 duration string like P3DT4H5M into a timedelta. Include a docstring and handle invalid inp",
+  "usage": {
+   "prompt_tokens": 88,
+   "completion_tokens": 98,
+   "total_tokens": 186,
+   "prompt_tokens_details": {
+    "cached_tokens": 0
+   }
+  },
+  "finish_reason": "length"
+ },
+ "response": {
+  "id": "chatcmpl-eadbde3ee01841b390aa28c2f3bd324e",
+  "object": "chat.completion",
+  "model": "local",
+  "choices": [
+   {
+    "index": 0,
+    "message": {
+     "role": "assistant",
+     "content": "",
+     "reasoning_content": "We need answer user: \"Write a Python function that parses an ISO-8601 duration string like P3DT4H5M into a timedelta. Include a docstring and handle invalid input.\"\n\nNeed produce final with code. Need think about robust parsing. ISO-8601 duration: P[n]Y[n]M[n]D[T[n]H[n]M[n]S] maybe fractional seconds? Need handle invalid input. Could use regex. Need"
+    },
+    "finish_reason": "length"
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 88,
+   "completion_tokens": 98,
+   "total_tokens": 186,
+   "prompt_tokens_details": {
+    "cached_tokens": 0
+   }
+  },
+  "x_mlx_dspark": {
+   "mode": "dflash",
+   "accept_len": 4.261,
+   "tokens_per_sec": 25.6,
+   "decode_tokens_per_sec": 33.2,
+   "target_forwards": 24,
+   "cap": 7,
+   "prompt_tokens": 88,
+   "cached_tokens": 0,
+   "completion_tokens": 98,
+   "context_tokens": 186,
+   "prefill_seconds": 0.881,
+   "decode_seconds": 2.949,
+   "ttft_seconds": 0.881,
+   "prefill_tokens_per_sec": 99.9,
+   "ceiling_tokens_per_sec": 29.1,
+   "roofline_ratio": 1.142
+  }
+ }
+}
