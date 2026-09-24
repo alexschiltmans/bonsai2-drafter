@@ -1,0 +1,679 @@
+{
+ "gguf_url": "https://huggingface.co/ProCreations/Ternary-Bonsai-2-27B-DFlash2/resolve/4cfb6ad03268fed0f60ca96c1a659c0b1c77e50b/Bonsai-2-27B-DFlash2-Q8_0.gguf",
+ "gguf_version": 3,
+ "gguf_tensors": 81,
+ "gguf_data_start": 10949504,
+ "gguf_kv": {
+  "general.architecture": "dflash",
+  "general.type": "model",
+  "general.name": "Best",
+  "general.size_label": "1.9B",
+  "dflash.block_count": 5,
+  "dflash.context_length": 262144,
+  "dflash.embedding_length": 5120,
+  "dflash.feed_forward_length": 17408,
+  "dflash.attention.head_count": 32,
+  "dflash.attention.head_count_kv": 8,
+  "dflash.attention.causal": false,
+  "dflash.rope.freq_base": 10000000.0,
+  "dflash.attention.layer_norm_rms_epsilon": 9.999999974752427e-07,
+  "dflash.attention.key_length": 128,
+  "dflash.attention.value_length": 128,
+  "dflash.block_size": 8,
+  "dflash.conv_kernel_size": 2,
+  "dflash.conv_group_size": 16,
+  "dflash.selector_rank": 256,
+  "dflash.selector_top_k": 16,
+  "dflash.target_layers": [6, 20, 34, 48, 62],
+  "dflash.attention.sliding_window": 2048,
+  "dflash.attention.sliding_window_pattern": [true, true, true, true, true],
+  "dflash.rope.dimension_sections": [64, 0, 0, 0],
+  "tokenizer.ggml.model": "gpt2",
+  "tokenizer.ggml.pre": "qwen35",
+  "tokenizer.ggml.eos_token_id": 248046,
+  "tokenizer.ggml.padding_token_id": 248044,
+  "tokenizer.ggml.bos_token_id": 248044,
+  "tokenizer.chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- set sysns = namespace(count=0, text='') %}\n{%- for message in messages %}\n    {%- if sysns.count == loop.index0 and (message.role == 'system' or message.role == 'developer') %}\n        {%- set sys_content = render_content(message.content, false, true)|trim %}\n        {%- if sys_content %}\n            {%- set sysns.text = sysns.text + ('\\n' if sysns.text else '') + sys_content %}\n        {%- endif %}\n        {%- set sysns.count = sysns.count + 1 %}\n    {%- endif %}\n{%- endfor %}\n{%- set num_sys = sysns.count %}\n{%- set merged_system = sysns.text %}\n{%- set reasoning_instructions = '' %}\n{%- if enable_thinking is undefined or enable_thinking is true %}\n    {%- set resolved_reasoning_effort = reasoning_effort|default('xhigh') %}\n    {%- if resolved_reasoning_effort == 'high' %}\n        {%- set resolved_reasoning_effort = 'xhigh' %}\n    {%- endif %}\n    {%- if resolved_reasoning_effort not in ('xhigh', 'medium', 'low') %}\n        {{- raise_exception('Unexpected reasoning effort ' ~ reasoning_effort ~ '. Supported types are xhigh (default), medium, and low.') }}\n    {%- endif %}\n    {%- if resolved_reasoning_effort == 'xhigh' %}\n        {%- set reasoning_instructions = 'Reasoning effort is set to xhigh. Please think carefully through the task, validate key assumptions, consider plausible alternatives, and prioritize correctness, consistency, and clarity in the final answer.' %}\n    {%- elif resolved_reasoning_effort == 'low' %}\n        {%- set reasoning_instructions = 'Reasoning effort is set to low. Keep your thinking brief and focused, moving directly to the conclusion without unnecessary elaboration.' %}\n    {%- endif %}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if reasoning_instructions %}\n        {{- reasoning_instructions + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if merged_system %}\n        {{- '\\n\\n' + merged_system }}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if merged_system %}\n        {{- '<|im_start|>system\\n' + (reasoning_instructions + '\\n\\n' if reasoning_instructions else '')  + merged_system + '<|im_end|>\\n' }}\n    {%- elif reasoning_instructions %}\n        {{- '<|im_start|>system\\n' + reasoning_instructions + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if loop.index0 >= num_sys %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" or message.role == \"developer\" %}\n        {{- raise_exception('System message must be at the beginning.') }}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if preserve_thinking is undefined or preserve_thinking is true or loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if tool_call.name is not defined or tool_call.name is none %}\n                    {{- raise_exception('Tool call is missing a function name.') }}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is mapping %}\n                    {%- for args_name, args_value in tool_call.arguments|items %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | string if args_value is string else args_value | tojson | safe %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- elif tool_call.arguments is string %}\n                    {%- if tool_call.arguments|trim %}\n                        {{- raise_exception('Tool call arguments for function \"' + (tool_call.name | string) + '\" were passed as a JSON string. Parse them into an object before calling apply_chat_template.') }}\n                    {%- endif %}\n                {%- elif tool_call.arguments is defined and tool_call.arguments is not none %}\n                    {{- raise_exception('Tool call arguments for function \"' + (tool_call.name | string) + '\" must be an object/mapping or a JSON string.') }}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- else %}\n        {{- '<think>\\n' }}\n    {%- endif %}\n{%- endif %}\n{#- Unsloth fixes - developer role, merged system messages, tool calling #}",
+  "tokenizer.ggml.mask_token_id": 248070,
+  "general.quantization_version": 2,
+  "general.file_type": 7
+ },
+ "gguf_tensor_names": ["blk.0.attn_conv_base", "blk.0.attn_conv_proj.weight", "blk.0.attn_k.weight", "blk.0.attn_k_norm.weight", "blk.0.attn_norm.weight", "blk.0.attn_output.weight", "blk.0.attn_q.weight", "blk.0.attn_q_norm.weight", "blk.0.attn_v.weight", "blk.0.ffn_conv_base", "blk.0.ffn_conv_proj.weight", "blk.0.ffn_down.weight", "blk.0.ffn_gate.weight", "blk.0.ffn_norm.weight", "blk.0.ffn_up.weight", "blk.1.attn_conv_base", "blk.1.attn_conv_proj.weight", "blk.1.attn_k.weight", "blk.1.attn_k_norm.weight", "blk.1.attn_norm.weight", "blk.1.attn_output.weight", "blk.1.attn_q.weight", "blk.1.attn_q_norm.weight", "blk.1.attn_v.weight", "blk.1.ffn_conv_base", "blk.1.ffn_conv_proj.weight", "blk.1.ffn_down.weight", "blk.1.ffn_gate.weight", "blk.1.ffn_norm.weight", "blk.1.ffn_up.weight", "blk.2.attn_conv_base", "blk.2.attn_conv_proj.weight", "blk.2.attn_k.weight", "blk.2.attn_k_norm.weight", "blk.2.attn_norm.weight", "blk.2.attn_output.weight", "blk.2.attn_q.weight", "blk.2.attn_q_norm.weight", "blk.2.attn_v.weight", "blk.2.ffn_conv_base", "blk.2.ffn_conv_proj.weight", "blk.2.ffn_down.weight", "blk.2.ffn_gate.weight", "blk.2.ffn_norm.weight", "blk.2.ffn_up.weight", "blk.3.attn_conv_base", "blk.3.attn_conv_proj.weight", "blk.3.attn_k.weight", "blk.3.attn_k_norm.weight", "blk.3.attn_norm.weight", "blk.3.attn_output.weight", "blk.3.attn_q.weight", "blk.3.attn_q_norm.weight", "blk.3.attn_v.weight", "blk.3.ffn_conv_base", "blk.3.ffn_conv_proj.weight", "blk.3.ffn_down.weight", "blk.3.ffn_gate.weight", "blk.3.ffn_norm.weight", "blk.3.ffn_up.weight", "blk.4.attn_conv_base", "blk.4.attn_conv_proj.weight", "blk.4.attn_k.weight", "blk.4.attn_k_norm.weight", "blk.4.attn_norm.weight", "blk.4.attn_output.weight", "blk.4.attn_q.weight", "blk.4.attn_q_norm.weight", "blk.4.attn_v.weight", "blk.4.ffn_conv_base", "blk.4.ffn_conv_proj.weight", "blk.4.ffn_down.weight", "blk.4.ffn_gate.weight", "blk.4.ffn_norm.weight", "blk.4.ffn_up.weight", "enc.output_norm.weight", "fc.weight", "output_norm.weight", "selector_hidden.weight", "selector_predecessor.weight", "selector_successor.weight"],
+ "gguf_type_counts": {
+  "0": 32,
+  "8": 49
+ },
+ "gguf_vs_safetensors": [
+  {
+   "hf": "layers.0.self_attn.v_proj.weight",
+   "gguf": "blk.0.attn_v.weight",
+   "gguf_type": 8,
+   "shape": [1024, 5120],
+   "q8_blocks": 163840,
+   "scale_bytes_equal_frac": 1.0,
+   "quant_bytes_equal_frac": 1.0,
+   "max_quant_step_diff": 0,
+   "dequant_rel_rmse_vs_bf16": 0.005381894763559103,
+   "dequant_max_abs_err_over_half_step": 1.0746269226074219
+  },
+  {
+   "hf": "layers.2.self_attn.k_proj.weight",
+   "gguf": "blk.2.attn_k.weight",
+   "gguf_type": 8,
+   "shape": [1024, 5120],
+   "q8_blocks": 163840,
+   "scale_bytes_equal_frac": 1.0,
+   "quant_bytes_equal_frac": 1.0,
+   "max_quant_step_diff": 0,
+   "dequant_rel_rmse_vs_bf16": 0.005412039812654257,
+   "dequant_max_abs_err_over_half_step": 1.0746269226074219
+  },
+  {
+   "hf": "layers.4.self_attn.v_proj.weight",
+   "gguf": "blk.4.attn_v.weight",
+   "gguf_type": 8,
+   "shape": [1024, 5120],
+   "q8_blocks": 163840,
+   "scale_bytes_equal_frac": 1.0,
+   "quant_bytes_equal_frac": 1.0,
+   "max_quant_step_diff": 0,
+   "dequant_rel_rmse_vs_bf16": 0.005388879217207432,
+   "dequant_max_abs_err_over_half_step": 1.0746269226074219
+  },
+  {
+   "hf": "layers.0.input_layernorm.weight",
+   "gguf": "blk.0.attn_norm.weight",
+   "gguf_type": 0,
+   "shape": [5120],
+   "exact_equal": true,
+   "max_abs_diff": 0.0
+  },
+  {
+   "hf": "layers.3.post_attention_layernorm.weight",
+   "gguf": "blk.3.ffn_norm.weight",
+   "gguf_type": 0,
+   "shape": [5120],
+   "exact_equal": true,
+   "max_abs_diff": 0.0
+  }
+ ],
+ "stock_q8_0_roundtrip_rel_rmse_layers.0.v_proj": 0.0053796605207026005,
+ "vs_stock": [
+  {
+   "name": "candidate_selector.hidden_projection.weight",
+   "norm_stock": 14.953499063586404,
+   "norm_pc": 14.938522786307233,
+   "rel_diff": 0.02239640507824514,
+   "identical": false
+  },
+  {
+   "name": "candidate_selector.predecessor_codebook",
+   "norm_stock": 7246.3246589348355,
+   "norm_pc": 7246.324658548249,
+   "rel_diff": 1.0292886394739897e-05,
+   "identical": false
+  },
+  {
+   "name": "candidate_selector.successor_codebook",
+   "norm_stock": 521.7476225780343,
+   "norm_pc": 521.7436022717558,
+   "rel_diff": 0.0007631455890272153,
+   "identical": false
+  },
+  {
+   "name": "fc.weight",
+   "norm_stock": 1991.4245868394803,
+   "norm_pc": 1991.3940819849274,
+   "rel_diff": 0.0019385487571225333,
+   "identical": false
+  },
+  {
+   "name": "hidden_norm.weight",
+   "norm_stock": 59.11028126347832,
+   "norm_pc": 59.11039296180442,
+   "rel_diff": 0.00011740394940012091,
+   "identical": false
+  },
+  {
+   "name": "layers.0.attention_conv.base_kernel",
+   "norm_stock": 103.778785365346,
+   "norm_pc": 103.77880049400049,
+   "rel_diff": 0.0003340181590397027,
+   "identical": false
+  },
+  {
+   "name": "layers.0.attention_conv.kernel_projection.weight",
+   "norm_stock": 62.925634691546975,
+   "norm_pc": 62.92385140186975,
+   "rel_diff": 0.009346990151899118,
+   "identical": false
+  },
+  {
+   "name": "layers.0.input_layernorm.weight",
+   "norm_stock": 39.379277436722845,
+   "norm_pc": 39.379273833587575,
+   "rel_diff": 3.7711444763298705e-05,
+   "identical": false
+  },
+  {
+   "name": "layers.0.mlp.down_proj.weight",
+   "norm_stock": 1218.024070440489,
+   "norm_pc": 1218.0033961422066,
+   "rel_diff": 0.002111852865668297,
+   "identical": false
+  },
+  {
+   "name": "layers.0.mlp.gate_proj.weight",
+   "norm_stock": 1169.131866012768,
+   "norm_pc": 1169.1122506118643,
+   "rel_diff": 0.0020130764698025115,
+   "identical": false
+  },
+  {
+   "name": "layers.0.mlp.up_proj.weight",
+   "norm_stock": 1173.8909385992363,
+   "norm_pc": 1173.8709919641356,
+   "rel_diff": 0.002169247032366715,
+   "identical": false
+  },
+  {
+   "name": "layers.0.mlp_conv.base_kernel",
+   "norm_stock": 103.97998852542185,
+   "norm_pc": 103.97999794923109,
+   "rel_diff": 0.0003334369960840232,
+   "identical": false
+  },
+  {
+   "name": "layers.0.mlp_conv.kernel_projection.weight",
+   "norm_stock": 107.6649173199916,
+   "norm_pc": 107.66057847622756,
+   "rel_diff": 0.0075299670505900446,
+   "identical": false
+  },
+  {
+   "name": "layers.0.post_attention_layernorm.weight",
+   "norm_stock": 31.448238227680548,
+   "norm_pc": 31.448250998887662,
+   "rel_diff": 0.00013934123163708288,
+   "identical": false
+  },
+  {
+   "name": "layers.0.self_attn.k_norm.weight",
+   "norm_stock": 18.094957169763788,
+   "norm_pc": 18.094957169763788,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.0.self_attn.k_proj.weight",
+   "norm_stock": 301.7597832318416,
+   "norm_pc": 301.74843932480746,
+   "rel_diff": 0.002478075986387558,
+   "identical": false
+  },
+  {
+   "name": "layers.0.self_attn.o_proj.weight",
+   "norm_stock": 503.3109309890404,
+   "norm_pc": 503.29814305280865,
+   "rel_diff": 0.0030551009222270346,
+   "identical": false
+  },
+  {
+   "name": "layers.0.self_attn.q_norm.weight",
+   "norm_stock": 18.234491316841947,
+   "norm_pc": 18.234491316841947,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.0.self_attn.q_proj.weight",
+   "norm_stock": 531.3325454353721,
+   "norm_pc": 531.3244977112076,
+   "rel_diff": 0.0026139316512465254,
+   "identical": false
+  },
+  {
+   "name": "layers.0.self_attn.v_proj.weight",
+   "norm_stock": 223.64813551381008,
+   "norm_pc": 223.64076281578943,
+   "rel_diff": 0.003326136074180302,
+   "identical": false
+  },
+  {
+   "name": "layers.1.attention_conv.base_kernel",
+   "norm_stock": 103.57534133282287,
+   "norm_pc": 103.5753473657636,
+   "rel_diff": 0.0003595325502001685,
+   "identical": false
+  },
+  {
+   "name": "layers.1.attention_conv.kernel_projection.weight",
+   "norm_stock": 110.24737845120768,
+   "norm_pc": 110.24069837138914,
+   "rel_diff": 0.007297634941530053,
+   "identical": false
+  },
+  {
+   "name": "layers.1.input_layernorm.weight",
+   "norm_stock": 67.22442576743707,
+   "norm_pc": 67.22443180376091,
+   "rel_diff": 3.248313554706308e-05,
+   "identical": false
+  },
+  {
+   "name": "layers.1.mlp.down_proj.weight",
+   "norm_stock": 1246.7967097398478,
+   "norm_pc": 1246.7745934814345,
+   "rel_diff": 0.002123870618702007,
+   "identical": false
+  },
+  {
+   "name": "layers.1.mlp.gate_proj.weight",
+   "norm_stock": 1193.4786418984606,
+   "norm_pc": 1193.4573470358218,
+   "rel_diff": 0.0020644541096790075,
+   "identical": false
+  },
+  {
+   "name": "layers.1.mlp.up_proj.weight",
+   "norm_stock": 1256.2632945413427,
+   "norm_pc": 1256.2423627977093,
+   "rel_diff": 0.002048494574983261,
+   "identical": false
+  },
+  {
+   "name": "layers.1.mlp_conv.base_kernel",
+   "norm_stock": 105.01134341178837,
+   "norm_pc": 105.01130821378638,
+   "rel_diff": 0.00034602224533138853,
+   "identical": false
+  },
+  {
+   "name": "layers.1.mlp_conv.kernel_projection.weight",
+   "norm_stock": 111.61842858814418,
+   "norm_pc": 111.61364565641968,
+   "rel_diff": 0.0070892389002431815,
+   "identical": false
+  },
+  {
+   "name": "layers.1.post_attention_layernorm.weight",
+   "norm_stock": 36.865847742652726,
+   "norm_pc": 36.86585896669703,
+   "rel_diff": 0.00012191615215938002,
+   "identical": false
+  },
+  {
+   "name": "layers.1.self_attn.k_norm.weight",
+   "norm_stock": 18.36636006687275,
+   "norm_pc": 18.36636006687275,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.1.self_attn.k_proj.weight",
+   "norm_stock": 297.10223436362463,
+   "norm_pc": 297.0962698181502,
+   "rel_diff": 0.002346983889388546,
+   "identical": false
+  },
+  {
+   "name": "layers.1.self_attn.o_proj.weight",
+   "norm_stock": 564.6422501537488,
+   "norm_pc": 564.6284389587928,
+   "rel_diff": 0.0029175362678045924,
+   "identical": false
+  },
+  {
+   "name": "layers.1.self_attn.q_norm.weight",
+   "norm_stock": 18.392127741346403,
+   "norm_pc": 18.392127741346403,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.1.self_attn.q_proj.weight",
+   "norm_stock": 594.1524974885621,
+   "norm_pc": 594.1425960883107,
+   "rel_diff": 0.00217227270897547,
+   "identical": false
+  },
+  {
+   "name": "layers.1.self_attn.v_proj.weight",
+   "norm_stock": 270.52776900962914,
+   "norm_pc": 270.52077916541026,
+   "rel_diff": 0.003543340780344938,
+   "identical": false
+  },
+  {
+   "name": "layers.2.attention_conv.base_kernel",
+   "norm_stock": 103.73147567033462,
+   "norm_pc": 103.73150300172064,
+   "rel_diff": 0.0003751805599822546,
+   "identical": false
+  },
+  {
+   "name": "layers.2.attention_conv.kernel_projection.weight",
+   "norm_stock": 108.20729041844032,
+   "norm_pc": 108.20023966024385,
+   "rel_diff": 0.007593296303253595,
+   "identical": false
+  },
+  {
+   "name": "layers.2.input_layernorm.weight",
+   "norm_stock": 69.97297108479876,
+   "norm_pc": 69.97297632521881,
+   "rel_diff": 3.1207194727101226e-05,
+   "identical": false
+  },
+  {
+   "name": "layers.2.mlp.down_proj.weight",
+   "norm_stock": 1256.053526299859,
+   "norm_pc": 1256.0292316475854,
+   "rel_diff": 0.002268996810110847,
+   "identical": false
+  },
+  {
+   "name": "layers.2.mlp.gate_proj.weight",
+   "norm_stock": 1183.0935176701314,
+   "norm_pc": 1183.0696746905205,
+   "rel_diff": 0.0021488431010764013,
+   "identical": false
+  },
+  {
+   "name": "layers.2.mlp.up_proj.weight",
+   "norm_stock": 1272.3733830263725,
+   "norm_pc": 1272.3511731993228,
+   "rel_diff": 0.0020699998534883745,
+   "identical": false
+  },
+  {
+   "name": "layers.2.mlp_conv.base_kernel",
+   "norm_stock": 105.43093268033661,
+   "norm_pc": 105.43091545945538,
+   "rel_diff": 0.00036569308808212454,
+   "identical": false
+  },
+  {
+   "name": "layers.2.mlp_conv.kernel_projection.weight",
+   "norm_stock": 112.7416315554331,
+   "norm_pc": 112.73711579759397,
+   "rel_diff": 0.007251776100463931,
+   "identical": false
+  },
+  {
+   "name": "layers.2.post_attention_layernorm.weight",
+   "norm_stock": 36.372518544911756,
+   "norm_pc": 36.372585020035096,
+   "rel_diff": 0.00013857946298642405,
+   "identical": false
+  },
+  {
+   "name": "layers.2.self_attn.k_norm.weight",
+   "norm_stock": 20.993956831662462,
+   "norm_pc": 20.993956831662462,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.2.self_attn.k_proj.weight",
+   "norm_stock": 293.49848250951646,
+   "norm_pc": 293.49242665766195,
+   "rel_diff": 0.0022818833472933184,
+   "identical": false
+  },
+  {
+   "name": "layers.2.self_attn.o_proj.weight",
+   "norm_stock": 613.1503264879588,
+   "norm_pc": 613.1353361956598,
+   "rel_diff": 0.002602384090866339,
+   "identical": false
+  },
+  {
+   "name": "layers.2.self_attn.q_norm.weight",
+   "norm_stock": 20.911659447513248,
+   "norm_pc": 20.911659447513248,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.2.self_attn.q_proj.weight",
+   "norm_stock": 610.7561434337588,
+   "norm_pc": 610.7474374842104,
+   "rel_diff": 0.002026158633280462,
+   "identical": false
+  },
+  {
+   "name": "layers.2.self_attn.v_proj.weight",
+   "norm_stock": 311.22268154449654,
+   "norm_pc": 311.2146521680307,
+   "rel_diff": 0.002686197734951798,
+   "identical": false
+  },
+  {
+   "name": "layers.3.attention_conv.base_kernel",
+   "norm_stock": 103.29157048534144,
+   "norm_pc": 103.29160444579477,
+   "rel_diff": 0.000404310826032519,
+   "identical": false
+  },
+  {
+   "name": "layers.3.attention_conv.kernel_projection.weight",
+   "norm_stock": 106.35798224200919,
+   "norm_pc": 106.35215779111286,
+   "rel_diff": 0.007912664803002165,
+   "identical": false
+  },
+  {
+   "name": "layers.3.input_layernorm.weight",
+   "norm_stock": 83.64235540232315,
+   "norm_pc": 83.64235540232315,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.3.mlp.down_proj.weight",
+   "norm_stock": 1272.3079376431942,
+   "norm_pc": 1272.2811057880322,
+   "rel_diff": 0.0023991341206678037,
+   "identical": false
+  },
+  {
+   "name": "layers.3.mlp.gate_proj.weight",
+   "norm_stock": 1167.3163088499296,
+   "norm_pc": 1167.2900377092626,
+   "rel_diff": 0.002333337956555377,
+   "identical": false
+  },
+  {
+   "name": "layers.3.mlp.up_proj.weight",
+   "norm_stock": 1277.6452664124931,
+   "norm_pc": 1277.6193390960316,
+   "rel_diff": 0.0022731658410475985,
+   "identical": false
+  },
+  {
+   "name": "layers.3.mlp_conv.base_kernel",
+   "norm_stock": 106.0604049721976,
+   "norm_pc": 106.06041400646501,
+   "rel_diff": 0.00040158306440279555,
+   "identical": false
+  },
+  {
+   "name": "layers.3.mlp_conv.kernel_projection.weight",
+   "norm_stock": 123.5276797574533,
+   "norm_pc": 123.52320061671716,
+   "rel_diff": 0.00690172713342215,
+   "identical": false
+  },
+  {
+   "name": "layers.3.post_attention_layernorm.weight",
+   "norm_stock": 31.943070763858824,
+   "norm_pc": 31.943263881740183,
+   "rel_diff": 0.00025343219016069616,
+   "identical": false
+  },
+  {
+   "name": "layers.3.self_attn.k_norm.weight",
+   "norm_stock": 20.098160901791303,
+   "norm_pc": 20.098158007290767,
+   "rel_diff": 4.858964483227723e-05,
+   "identical": false
+  },
+  {
+   "name": "layers.3.self_attn.k_proj.weight",
+   "norm_stock": 296.74482374189813,
+   "norm_pc": 296.73965298855916,
+   "rel_diff": 0.002409231355046553,
+   "identical": false
+  },
+  {
+   "name": "layers.3.self_attn.o_proj.weight",
+   "norm_stock": 654.294696613586,
+   "norm_pc": 654.2788482478106,
+   "rel_diff": 0.002777565552923139,
+   "identical": false
+  },
+  {
+   "name": "layers.3.self_attn.q_norm.weight",
+   "norm_stock": 19.806232315397448,
+   "norm_pc": 19.806232315397448,
+   "rel_diff": 0.0,
+   "identical": true
+  },
+  {
+   "name": "layers.3.self_attn.q_proj.weight",
+   "norm_stock": 589.0868150385659,
+   "norm_pc": 589.0778563458813,
+   "rel_diff": 0.0021577789108055572,
+   "identical": false
+  },
+  {
+   "name": "layers.3.self_attn.v_proj.weight",
+   "norm_stock": 355.7454537612484,
+   "norm_pc": 355.7370652631176,
+   "rel_diff": 0.002647640847136723,
+   "identical": false
+  },
+  {
+   "name": "layers.4.attention_conv.base_kernel",
+   "norm_stock": 103.17261392772208,
+   "norm_pc": 103.17253207371813,
+   "rel_diff": 0.0004627822735961701,
+   "identical": false
+  },
+  {
+   "name": "layers.4.attention_conv.kernel_projection.weight",
+   "norm_stock": 101.03768902359563,
+   "norm_pc": 101.03100570642974,
+   "rel_diff": 0.008826340063603921,
+   "identical": false
+  },
+  {
+   "name": "layers.4.input_layernorm.weight",
+   "norm_stock": 83.3469245457671,
+   "norm_pc": 83.34692367615794,
+   "rel_diff": 3.314022537800083e-05,
+   "identical": false
+  },
+  {
+   "name": "layers.4.mlp.down_proj.weight",
+   "norm_stock": 1259.0210069688205,
+   "norm_pc": 1258.9916782185144,
+   "rel_diff": 0.0027557832370379304,
+   "identical": false
+  },
+  {
+   "name": "layers.4.mlp.gate_proj.weight",
+   "norm_stock": 1174.0059639535677,
+   "norm_pc": 1173.9820194334065,
+   "rel_diff": 0.0024044957185054335,
+   "identical": false
+  },
+  {
+   "name": "layers.4.mlp.up_proj.weight",
+   "norm_stock": 1269.2245296807869,
+   "norm_pc": 1269.1985173069509,
+   "rel_diff": 0.0024495370136453968,
+   "identical": false
+  },
+  {
+   "name": "layers.4.mlp_conv.base_kernel",
+   "norm_stock": 106.81937315671821,
+   "norm_pc": 106.81946673387246,
+   "rel_diff": 0.000547930831871546,
+   "identical": false
+  },
+  {
+   "name": "layers.4.mlp_conv.kernel_projection.weight",
+   "norm_stock": 90.23513738770055,
+   "norm_pc": 90.23209746838234,
+   "rel_diff": 0.012128622182068036,
+   "identical": false
+  },
+  {
+   "name": "layers.4.post_attention_layernorm.weight",
+   "norm_stock": 19.59989701968991,
+   "norm_pc": 19.600101311577518,
+   "rel_diff": 0.0008719353848049136,
+   "identical": false
+  },
+  {
+   "name": "layers.4.self_attn.k_norm.weight",
+   "norm_stock": 20.953237290049497,
+   "norm_pc": 20.953201646543725,
+   "rel_diff": 0.00010678950262331375,
+   "identical": false
+  },
+  {
+   "name": "layers.4.self_attn.k_proj.weight",
+   "norm_stock": 296.7075777414951,
+   "norm_pc": 296.70132857420293,
+   "rel_diff": 0.0026174670226637694,
+   "identical": false
+  },
+  {
+   "name": "layers.4.self_attn.o_proj.weight",
+   "norm_stock": 773.8349840255709,
+   "norm_pc": 773.8195264893317,
+   "rel_diff": 0.0023375533254602434,
+   "identical": false
+  },
+  {
+   "name": "layers.4.self_attn.q_norm.weight",
+   "norm_stock": 20.894161947479578,
+   "norm_pc": 20.894194768078215,
+   "rel_diff": 0.00011715686615220569,
+   "identical": false
+  },
+  {
+   "name": "layers.4.self_attn.q_proj.weight",
+   "norm_stock": 595.2410624984234,
+   "norm_pc": 595.2340488220706,
+   "rel_diff": 0.0022747945621036294,
+   "identical": false
+  },
+  {
+   "name": "layers.4.self_attn.v_proj.weight",
+   "norm_stock": 454.0022894984492,
+   "norm_pc": 453.99256415118526,
+   "rel_diff": 0.0021332428235128274,
+   "identical": false
+  },
+  {
+   "name": "norm.weight",
+   "norm_stock": 190.93002671290085,
+   "norm_pc": 190.93002674291102,
+   "rel_diff": 6.633212774289765e-06,
+   "identical": false
+  }
+ ],
+ "vs_stock_summary": {
+  "tensors": 81,
+  "identical": 8,
+  "rel_diff_min": 0.0,
+  "rel_diff_median": 0.002111852865668297,
+  "rel_diff_max": 0.02239640507824514,
+  "norm_ratio_min": 0.9989984767300625,
+  "norm_ratio_max": 1.0000104231102542
+ }
+}

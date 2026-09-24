@@ -1,0 +1,117 @@
+{
+  "contract": "budgeted-prefix-identity/v2",
+  "prompts": 40,
+  "budget": 200,
+  "block": 8,
+  "stock_tokens_per_round": 2.7771366750811395,
+  "tuned_tokens_per_round": 2.981059141863162,
+  "relative_gain": 0.07342903524042943,
+  "paired_95_interval": [
+    0.05888817377831601,
+    0.08772446659212463
+  ],
+  "output_classes": {
+    "identical": 26,
+    "boundary_overshoot": 14,
+    "prefix_divergence": 0,
+    "early_stop_mismatch": 0
+  },
+  "max_overshoot_tokens": 7,
+  "output_mismatches": 14,
+  "stock_truncated": 36,
+  "tuned_truncated": 36,
+  "acceptance_variants": {
+    "whole_rounds": {
+      "stock": 2.7771366750811395,
+      "tuned": 2.981059141863162,
+      "relative_gain": 0.07342903524042943,
+      "note": "the headline metric: every committed token over every round"
+    },
+    "budget_trimmed_numerator": {
+      "stock": 2.7605481428056255,
+      "tuned": 2.9590258987243914,
+      "relative_gain": 0.07189795129493626,
+      "note": "trimmed numerator over whole rounds; a mixed metric, sensitivity only"
+    },
+    "complete_rounds_within_budget": {
+      "stock": [
+        2.7639796659404503,
+        2.7657952069716774
+      ],
+      "tuned": [
+        2.967251461988304,
+        2.9692007797270956
+      ],
+      "relative_gain": [
+        0.07283845691424307,
+        0.07424841662748571
+      ],
+      "exact": false,
+      "note": "crossing round dropped; an envelope unless round_lengths were recorded"
+    }
+  },
+  "breakdown": [
+    {
+      "field": "category",
+      "value": "explanation",
+      "prompts": 5,
+      "relative_gain": 0.06527415143603132
+    },
+    {
+      "field": "category",
+      "value": "planning",
+      "prompts": 5,
+      "relative_gain": 0.10396092683091984
+    },
+    {
+      "field": "category",
+      "value": "writing",
+      "prompts": 5,
+      "relative_gain": 0.04604532688916452
+    },
+    {
+      "field": "category",
+      "value": "summarization",
+      "prompts": 5,
+      "relative_gain": 0.04294623205114756
+    },
+    {
+      "field": "category",
+      "value": "reasoning",
+      "prompts": 5,
+      "relative_gain": 0.04221390788285384
+    },
+    {
+      "field": "category",
+      "value": "advice",
+      "prompts": 5,
+      "relative_gain": 0.07950400000000002
+    },
+    {
+      "field": "category",
+      "value": "critical_reading",
+      "prompts": 5,
+      "relative_gain": 0.1468947113051915
+    },
+    {
+      "field": "category",
+      "value": "language",
+      "prompts": 5,
+      "relative_gain": 0.044286687805180414
+    },
+    {
+      "field": "thinking",
+      "value": true,
+      "prompts": 20,
+      "relative_gain": 0.10136544190665342
+    },
+    {
+      "field": "thinking",
+      "value": false,
+      "prompts": 20,
+      "relative_gain": 0.04432352728189315
+    }
+  ],
+  "gate": "pass",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage. Truncated responses are not complete answers: read stock_truncated."
+}

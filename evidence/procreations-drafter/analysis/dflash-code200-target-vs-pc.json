@@ -1,0 +1,75 @@
+{
+  "contract": "budgeted-prefix-identity/v2",
+  "prompts": 40,
+  "budget": 200,
+  "block": 5,
+  "stock_tokens_per_round": 1.0059532668551867,
+  "tuned_tokens_per_round": 3.4061399094111726,
+  "relative_gain": 2.385982253489225,
+  "paired_95_interval": [
+    2.2176999719042008,
+    2.5635579329206593
+  ],
+  "output_classes": {
+    "identical": 36,
+    "boundary_overshoot": 0,
+    "prefix_divergence": 4,
+    "early_stop_mismatch": 0
+  },
+  "max_overshoot_tokens": 0,
+  "output_mismatches": 4,
+  "stock_truncated": 24,
+  "tuned_truncated": 24,
+  "acceptance_variants": {
+    "whole_rounds": {
+      "stock": 1.0059532668551867,
+      "tuned": 3.4061399094111726,
+      "relative_gain": 2.385982253489225,
+      "note": "the headline metric: every committed token over every round"
+    },
+    "budget_trimmed_numerator": {
+      "stock": 1.0059532668551867,
+      "tuned": 3.4061399094111726,
+      "relative_gain": 2.385982253489225,
+      "note": "trimmed numerator over whole rounds; a mixed metric, sensitivity only"
+    },
+    "complete_rounds_within_budget": {
+      "stock": [
+        1.0059532668551867,
+        1.0059532668551867
+      ],
+      "tuned": [
+        3.4061399094111726,
+        3.4061399094111726
+      ],
+      "relative_gain": [
+        2.385982253489225,
+        2.385982253489225
+      ],
+      "exact": true,
+      "note": "crossing round dropped; an envelope unless round_lengths were recorded"
+    }
+  },
+  "breakdown": [
+    {
+      "field": "category",
+      "value": "unknown",
+      "prompts": 40,
+      "relative_gain": 2.385982253489225
+    },
+    {
+      "field": "thinking",
+      "value": false,
+      "prompts": 14,
+      "relative_gain": 2.8646864686468647
+    },
+    {
+      "field": "thinking",
+      "value": true,
+      "prompts": 26,
+      "relative_gain": 2.175920966268966
+    }
+  ],
+  "gate": "investigate",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage. Truncated responses are not complete answers: read stock_truncated."
+}

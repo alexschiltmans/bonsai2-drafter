@@ -1,0 +1,3084 @@
+{
+ "source_pack": "prism-ml/Ternary-Bonsai-2-27B-mlx-2bit@3f926b415992eaa2ae9dd7b573706494d6bbf787",
+ "dest": "pack-abliterated",
+ "free_gb_before": 7.34920704,
+ "cloned_files": [".gitattributes", "LICENSE", "NOTICE.txt", "PACK-RUNTIME.md", "README.md", "assets/bonsai-logo.svg", "chat_template.jinja", "config.json", "files.json", "generation_config.json", "hadamard.json", "model.safetensors", "preprocessor_config.json", "reload-validation.json", "runtime/LICENSE", "runtime/artifact.py", "runtime/codec.py", "runtime/requirements.txt", "runtime/runtime.py", "runtime/vision_artifact.py", "tokenizer-validation.json", "tokenizer.json", "tokenizer_config.json"],
+ "free_gb_after_clone": 7.349157888,
+ "tensors": [
+  {
+   "gguf": "blk.15.attn_output.weight",
+   "module": "language_model.model.layers.15.self_attn.o_proj",
+   "derivative_sha256": "acd8fa71f546757f006f4b34d6755325648c03f8ef7f1765786f1e5b5b3ee44e",
+   "components": {
+    "weight": {
+     "range": [2311662854, 2319527174],
+     "transcode_sha256": "e6ad71fdc03d47508406610e5cbde2051a737b1642c2b3409f69bf42cf0634e1",
+     "prism_pack_sha256": "0517eddd0e54c051560d5b7512ef9d1fa40b9eb68d25e25493b62c86a2814786",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1071496166, 1071987686],
+     "transcode_sha256": "c841de515cb1251c1485ace6ffa99920f6cb44cfb3e4a5d3b5385f4044fff522",
+     "prism_pack_sha256": "c841de515cb1251c1485ace6ffa99920f6cb44cfb3e4a5d3b5385f4044fff522",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1426638630, 1427130150],
+     "transcode_sha256": "241b2b84a719e5645ba0ad3d87c1338c307460adb2c86333c2c071b1bb766820",
+     "prism_pack_sha256": "241b2b84a719e5645ba0ad3d87c1338c307460adb2c86333c2c071b1bb766820",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.15.ffn_down.weight",
+   "module": "language_model.model.layers.15.mlp.down_proj",
+   "derivative_sha256": "4002c8deb982636cd39840b98e4fbaec820f1d189db3609b7fafa20c706d294f",
+   "components": {
+    "weight": {
+     "range": [6804730246, 6827012486],
+     "transcode_sha256": "f3f2feafebc3c9c00e3e34ea212ebd1127385ce5a6d80ff1412a390e3080305b",
+     "prism_pack_sha256": "6ff4b0d627d47c89dffb1df8f5e1cb1ef5d2c5cb861b0289aa9e5024305e1bcc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1487451014, 1488843654],
+     "transcode_sha256": "4d77540730941de029574ca4920777302a3220dcb61cabe0ff7d6589df526761",
+     "prism_pack_sha256": "4d77540730941de029574ca4920777302a3220dcb61cabe0ff7d6589df526761",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6349700838, 6351093478],
+     "transcode_sha256": "659811078c4cf3839d807a824ddd41cbee9ccbe5d409c8e135e0841ed24d898f",
+     "prism_pack_sha256": "659811078c4cf3839d807a824ddd41cbee9ccbe5d409c8e135e0841ed24d898f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.16.ffn_down.weight",
+   "module": "language_model.model.layers.16.mlp.down_proj",
+   "derivative_sha256": "199c536bd0b3014f78b3ab52c70e4e8c92e2feaa304156920887106e69e94911",
+   "components": {
+    "weight": {
+     "range": [6147359270, 6169641510],
+     "transcode_sha256": "6902c9a2612df82867ae8f68023fbc3aba89c8801b026cf32ded697d808dc25a",
+     "prism_pack_sha256": "6b7b1664d5d5981987c30a5bdb956611883e59604d4077c21a220083fd6248ed",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4949410982, 4950803622],
+     "transcode_sha256": "55c173cdaa99b63022c2a26924016be44c9d58e506dc78660ec8a62a0aa19631",
+     "prism_pack_sha256": "55c173cdaa99b63022c2a26924016be44c9d58e506dc78660ec8a62a0aa19631",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6435060678, 6436453318],
+     "transcode_sha256": "359a93411e169e87c7c8fc00788ff6c2664ac37b2ec1df2d3bb1addafe59dcd1",
+     "prism_pack_sha256": "359a93411e169e87c7c8fc00788ff6c2664ac37b2ec1df2d3bb1addafe59dcd1",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.16.ssm_out.weight",
+   "module": "language_model.model.layers.16.linear_attn.out_proj",
+   "derivative_sha256": "92f59b16783c04fbbbb46e44e93b500eefbb881ea87ae56fcee4ff37a7302c3d",
+   "components": {
+    "weight": {
+     "range": [5017508902, 5025373222],
+     "transcode_sha256": "be85c3b7bedd75de9ba66777f3723f538f24e7401bb9821fb15dc66b2a6a629a",
+     "prism_pack_sha256": "23398213c6833a1ccc157c99eb28250da9d917d27c8062717bac7196d1c6e737",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5227111654, 5227603174],
+     "transcode_sha256": "8879a998091b89881c8aafb84b6ec76846beddc4c443fa5171448ecd11a1511f",
+     "prism_pack_sha256": "8879a998091b89881c8aafb84b6ec76846beddc4c443fa5171448ecd11a1511f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1187633574, 1188125094],
+     "transcode_sha256": "56553b1c4c3214a1a9fb1ee53f564c72abae9ae341fbe7e19e6319ed6aa42543",
+     "prism_pack_sha256": "56553b1c4c3214a1a9fb1ee53f564c72abae9ae341fbe7e19e6319ed6aa42543",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.17.ffn_down.weight",
+   "module": "language_model.model.layers.17.mlp.down_proj",
+   "derivative_sha256": "db1b61c93fb929fb3bff6e082ce518c7692d368292686f7b40a822f8cb69636e",
+   "components": {
+    "weight": {
+     "range": [6554911238, 6577193478],
+     "transcode_sha256": "d270cd5ba512aefb2b915d4d3e224d178465a2deb4811107935f41a6f4b450f4",
+     "prism_pack_sha256": "64eb8b7dc09d292b818802139b6bba8d0d54c7aed5756cb8af72b606429f0eab",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1397732454, 1399125094],
+     "transcode_sha256": "d1b928d03024f8371a4d7fc28229c4572f912d2aa346891821b4b8da2ddf03c8",
+     "prism_pack_sha256": "d1b928d03024f8371a4d7fc28229c4572f912d2aa346891821b4b8da2ddf03c8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1660967686, 1662360326],
+     "transcode_sha256": "b5da561194ffb42d4d42bf0a7be208347bdf45c64a1b468f791955613d91f4c4",
+     "prism_pack_sha256": "b5da561194ffb42d4d42bf0a7be208347bdf45c64a1b468f791955613d91f4c4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.17.ssm_out.weight",
+   "module": "language_model.model.layers.17.linear_attn.out_proj",
+   "derivative_sha256": "b0705e4ecd5332c5d48c9d7ade6c9106156cd99150dbe8e455e79e13112c874e",
+   "components": {
+    "weight": {
+     "range": [6190933030, 6198797350],
+     "transcode_sha256": "dafd64a279d78c744be491cfc81a3c6edd37a6f93d2be4d19c1bfa267bbdf874",
+     "prism_pack_sha256": "241d13b0fa616aa28be68eb548e01b0fdb8130b40bca468f76c975a45e1ef4cd",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2146504134, 2146995654],
+     "transcode_sha256": "d652a1bc699e8d572cf4e9b3658ff4a83b8c86c0bf21f9814f291c030f254ac8",
+     "prism_pack_sha256": "d652a1bc699e8d572cf4e9b3658ff4a83b8c86c0bf21f9814f291c030f254ac8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6488198470, 6488689990],
+     "transcode_sha256": "36ab3f7771b10efc62361e7b864bf191c40f5c8b9722cbf98912a49e582fc101",
+     "prism_pack_sha256": "36ab3f7771b10efc62361e7b864bf191c40f5c8b9722cbf98912a49e582fc101",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.18.ffn_down.weight",
+   "module": "language_model.model.layers.18.mlp.down_proj",
+   "derivative_sha256": "87dc85a146e7b0975ce64a610e8614f09d761c77eabc1e386ddbc91f208f7aca",
+   "components": {
+    "weight": {
+     "range": [2376256774, 2398539014],
+     "transcode_sha256": "59243b464422831b5d2c01b9dd7f47320e8a55daf533a6feca0018e6450157d0",
+     "prism_pack_sha256": "4ed662311430b1bde96cbced00862de9f1bdfe8cc7c6f2bb2cacfd839a298b29",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1859883142, 1861275782],
+     "transcode_sha256": "e2cf85aa80459be7783083f75d36af7b78a653f3be8eb5537f0eb2be6e999205",
+     "prism_pack_sha256": "e2cf85aa80459be7783083f75d36af7b78a653f3be8eb5537f0eb2be6e999205",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [649012454, 650405094],
+     "transcode_sha256": "737bca1542563d79f1b9952bc3bae5f01e40f79a6544d83dbc62bada966a9e4a",
+     "prism_pack_sha256": "737bca1542563d79f1b9952bc3bae5f01e40f79a6544d83dbc62bada966a9e4a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.18.ssm_out.weight",
+   "module": "language_model.model.layers.18.linear_attn.out_proj",
+   "derivative_sha256": "000be6a0e53934a051faa718afccc62696d965ed3e6548da84d40e2617ea8ad8",
+   "components": {
+    "weight": {
+     "range": [5275422182, 5283286502],
+     "transcode_sha256": "be67c7ecd27e26d69459b675260d78c3adb969ecdec32ba07fd2084f28da84fe",
+     "prism_pack_sha256": "dc8764624ed8540fedea93cb5474d7be8b1ca133ddf197f0eb4ed8e3a7d2ba40",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1662360326, 1662851846],
+     "transcode_sha256": "0b13bb312ba4bba769fc4d830ec31fbd9193b87e0f639922a1ec7ab158058318",
+     "prism_pack_sha256": "0b13bb312ba4bba769fc4d830ec31fbd9193b87e0f639922a1ec7ab158058318",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2053401158, 2053892678],
+     "transcode_sha256": "ea3634c19c46be75c05cb493be9f717f1d4063f2a96872533ce29c0f7337e267",
+     "prism_pack_sha256": "ea3634c19c46be75c05cb493be9f717f1d4063f2a96872533ce29c0f7337e267",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.19.attn_output.weight",
+   "module": "language_model.model.layers.19.self_attn.o_proj",
+   "derivative_sha256": "e0f7facfd92e2e33c2904b1ee7cb8ef7a86a5ec243059d611f13c7036bc7cc45",
+   "components": {
+    "weight": {
+     "range": [1933153158, 1941017478],
+     "transcode_sha256": "de7d79233156b004e854c3d9694d8503690fd89a30ad5e1d2261ae6af4a89688",
+     "prism_pack_sha256": "f9394c62aa523cc7f361e66e83a4d45f18375f9917a4580631c0e313c15c8e08",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5992158310, 5992649830],
+     "transcode_sha256": "60c95d76ac9e439555d3ab8e6c08a5720d6025fa05fbce76c09b9e2a8b9a99a3",
+     "prism_pack_sha256": "60c95d76ac9e439555d3ab8e6c08a5720d6025fa05fbce76c09b9e2a8b9a99a3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1908683654, 1909175174],
+     "transcode_sha256": "6b57038bcebf15aff3e17022d67a272095caecc623a82ceeea7926e95206999d",
+     "prism_pack_sha256": "6b57038bcebf15aff3e17022d67a272095caecc623a82ceeea7926e95206999d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.19.ffn_down.weight",
+   "module": "language_model.model.layers.19.mlp.down_proj",
+   "derivative_sha256": "3ea5b54e4998f892e507e671e2c7c95f7d30d829e750451d0e8123dd61971632",
+   "components": {
+    "weight": {
+     "range": [1047821286, 1070103526],
+     "transcode_sha256": "bad4dc7351d38d49de0561ecc97a99634deb96c79bc68fa31998198490e11d7d",
+     "prism_pack_sha256": "d9536ddd72c628e73b45030e020e5e14285d15ea6fb29444256728d8edbe7c45",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4707230310, 4708622950],
+     "transcode_sha256": "67f86d5a3877cd722287a54f81416f3566386b0bf4b56a433158c66d1716946c",
+     "prism_pack_sha256": "67f86d5a3877cd722287a54f81416f3566386b0bf4b56a433158c66d1716946c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2576905958, 2578298598],
+     "transcode_sha256": "d0cb8c17baf5f10b3d1ea35a31b0f3204ecd2e98e3b06d3cacbcbc88e40214c4",
+     "prism_pack_sha256": "d0cb8c17baf5f10b3d1ea35a31b0f3204ecd2e98e3b06d3cacbcbc88e40214c4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.20.ffn_down.weight",
+   "module": "language_model.model.layers.20.mlp.down_proj",
+   "derivative_sha256": "ed81a4d9551805661d97e7d17e86997b9148dddee16df08b27b2ad0373ed02e7",
+   "components": {
+    "weight": {
+     "range": [3623598022, 3645880262],
+     "transcode_sha256": "128f592b0923a4fb40479ed2e633efd382a27aabd58604986da4d02cefb081b6",
+     "prism_pack_sha256": "022bdfabf6a8c13d358e7fda40ce6e1552b7341a3e11cc3bc01d15b8f8f53c9b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4149897702, 4151290342],
+     "transcode_sha256": "c71519b474f79779f3055118c37d091664d13f6f4617a512e584044ed657601f",
+     "prism_pack_sha256": "c71519b474f79779f3055118c37d091664d13f6f4617a512e584044ed657601f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [7543294822, 7544687462],
+     "transcode_sha256": "6033e7b66267c41cbd6bcd72aea66c4128f9e8a28a450134c12b4cfce8d97716",
+     "prism_pack_sha256": "6033e7b66267c41cbd6bcd72aea66c4128f9e8a28a450134c12b4cfce8d97716",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.20.ssm_out.weight",
+   "module": "language_model.model.layers.20.linear_attn.out_proj",
+   "derivative_sha256": "5ad9e588e659ced8a7d78fa9dceb5c175429c3bed4bc95c90332a267c6c8c131",
+   "components": {
+    "weight": {
+     "range": [4777546726, 4785411046],
+     "transcode_sha256": "716407dd329de7bd7d2a0bd14099f94e4a7762a8278c7f7b75c6240035b14262",
+     "prism_pack_sha256": "d71c988e97691f2c2d52edae1a9c39f5d801fc6d92b4e361a50ddd90962250ac",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1374794854, 1375286374],
+     "transcode_sha256": "06692e42e75fe6fa0beaad02df24505b3a4590734f22af231880d0838b361c2f",
+     "prism_pack_sha256": "06692e42e75fe6fa0beaad02df24505b3a4590734f22af231880d0838b361c2f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4542687782, 4543179302],
+     "transcode_sha256": "c4e393bf2cacfd90df0a16e63273bed08ef922cccc85a163b1467dee64a1efb0",
+     "prism_pack_sha256": "c4e393bf2cacfd90df0a16e63273bed08ef922cccc85a163b1467dee64a1efb0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.21.ffn_down.weight",
+   "module": "language_model.model.layers.21.mlp.down_proj",
+   "derivative_sha256": "b95ad6edef706ef81a591db58aafd918be571876ee775567d39f8c6a1fc7d25d",
+   "components": {
+    "weight": {
+     "range": [3112816230, 3135098470],
+     "transcode_sha256": "35227d6ce959aa9a6dc88f8eedffebd73f8af45f873b4f17adc59854993bf440",
+     "prism_pack_sha256": "c27d1cfd14428b23156d9e427da1e698271e9b7a00aad016a63be295f6cdd429",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3858290054, 3859682694],
+     "transcode_sha256": "90fafa61614d5e8c8d05816ebee7039e2c53acd35d1ff978a1557ad1049a0b0c",
+     "prism_pack_sha256": "90fafa61614d5e8c8d05816ebee7039e2c53acd35d1ff978a1557ad1049a0b0c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4943600038, 4944992678],
+     "transcode_sha256": "ece5e4f431a2583b8056e0230c03220831e9cbb7f84d13daa4c45d0195bb2360",
+     "prism_pack_sha256": "ece5e4f431a2583b8056e0230c03220831e9cbb7f84d13daa4c45d0195bb2360",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.21.ssm_out.weight",
+   "module": "language_model.model.layers.21.linear_attn.out_proj",
+   "derivative_sha256": "4a73d3e8944e3334a822daf61a4bb246470f26eaec0a90454eca457e0c6b5626",
+   "components": {
+    "weight": {
+     "range": [682825958, 690690278],
+     "transcode_sha256": "0915a02b58ebf342fd3049feeeb3402ce437f5602faeed952b850ada8413c2c2",
+     "prism_pack_sha256": "0298931cfc6906b62aafd168419a5288b063e95fb23338bc8dcc08e352122d10",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2130394374, 2130885894],
+     "transcode_sha256": "43bcb055445ffe692a31b08db438a355f650c06a34813940ec8e67cf2b82c454",
+     "prism_pack_sha256": "43bcb055445ffe692a31b08db438a355f650c06a34813940ec8e67cf2b82c454",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4718559846, 4719051366],
+     "transcode_sha256": "4738f39eab21315a6ed4252050378f5772a2801c77b5c058fe21acc621677f36",
+     "prism_pack_sha256": "4738f39eab21315a6ed4252050378f5772a2801c77b5c058fe21acc621677f36",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.22.ffn_down.weight",
+   "module": "language_model.model.layers.22.mlp.down_proj",
+   "derivative_sha256": "d14a4435af28b8a376993fd6c069698bbeaf3c5a2bd7b36059087c2f4f353377",
+   "components": {
+    "weight": {
+     "range": [1403864870, 1426147110],
+     "transcode_sha256": "0637a0852a759e34c04312a8a682bca8d2d4cfb6a3def5a5497dc6f04e772773",
+     "prism_pack_sha256": "aa2c66097691b0fbb62ff1c5977b7b55d9abbe5ed0148c8f6ee540627418e689",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6400100934, 6401493574],
+     "transcode_sha256": "4f088110a9cd301085a64db442b3ca2f1a8af7de6b1aa7f511239d44a9f93abb",
+     "prism_pack_sha256": "4f088110a9cd301085a64db442b3ca2f1a8af7de6b1aa7f511239d44a9f93abb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1486058374, 1487451014],
+     "transcode_sha256": "18ec645d2e4cc2562cc2429319cbef860f3e481195304bac08f635c16020eb7a",
+     "prism_pack_sha256": "18ec645d2e4cc2562cc2429319cbef860f3e481195304bac08f635c16020eb7a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.22.ssm_out.weight",
+   "module": "language_model.model.layers.22.linear_attn.out_proj",
+   "derivative_sha256": "751235f511bc3f4dec1380a189842c351d1ad29a397cf474d89e87ab5af2232b",
+   "components": {
+    "weight": {
+     "range": [1022191590, 1030055910],
+     "transcode_sha256": "21935178ee0057da5b127c6cd1685dfbd4a0d63dcc05cb4f4af27fc21be62ae0",
+     "prism_pack_sha256": "d5987f3183fcfeb3a353d7f1261f82bf1187b60c4bf94a23b354b1e0972b93b6",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4438693286, 4439184806],
+     "transcode_sha256": "895f1fa607a24f87fb9b2e57953e70dda2fee2145f7ce3d7b1f648f9a8b42204",
+     "prism_pack_sha256": "895f1fa607a24f87fb9b2e57953e70dda2fee2145f7ce3d7b1f648f9a8b42204",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2211902086, 2212393606],
+     "transcode_sha256": "c33252b433d043c8783047e11c0df03389fe7954477f8b076aa2be07beb8bbae",
+     "prism_pack_sha256": "c33252b433d043c8783047e11c0df03389fe7954477f8b076aa2be07beb8bbae",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.23.attn_output.weight",
+   "module": "language_model.model.layers.23.self_attn.o_proj",
+   "derivative_sha256": "3699815adc65f49decd61222a84f1d195bd75b96fddf4fa9aac82593ac988581",
+   "components": {
+    "weight": {
+     "range": [8347644006, 8355508326],
+     "transcode_sha256": "b4cd2fd4a6ec8d493f1b35e2a82ea241daca8d9e87585c3b7e8eb25777893d69",
+     "prism_pack_sha256": "93732bc261543714ef135473e7ac7abb118e75acc1d4ce69eee8d4aa600e2432",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6910125286, 6910616806],
+     "transcode_sha256": "3a449ee11adfeb7e2ad4dac0201771b1c09ef7b62b00208648eeee99de36b2bf",
+     "prism_pack_sha256": "3a449ee11adfeb7e2ad4dac0201771b1c09ef7b62b00208648eeee99de36b2bf",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1902028934, 1902520454],
+     "transcode_sha256": "f4080b6f0558a90466e14a00bd34ee4589f3731aa163b1a04e7f2db345d56a80",
+     "prism_pack_sha256": "f4080b6f0558a90466e14a00bd34ee4589f3731aa163b1a04e7f2db345d56a80",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.23.ffn_down.weight",
+   "module": "language_model.model.layers.23.mlp.down_proj",
+   "derivative_sha256": "63d770a14414e7f207e46d76849cc945dd4164c9e9b8868a26df778453a3e218",
+   "components": {
+    "weight": {
+     "range": [7547561574, 7569843814],
+     "transcode_sha256": "6e434e5aa5d3719f433207d534e2fcbb66a4130d8b3c5342d661719e255dd715",
+     "prism_pack_sha256": "c0d09325c4cae9bbc67a9a4e407316840fc470348a831c4879fbeb68e98949d2",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1873128326, 1874520966],
+     "transcode_sha256": "75f02b4de8abfc2a202a713381bcf5e6c50ebccd3785f2537c8aa3eb2d4d273e",
+     "prism_pack_sha256": "75f02b4de8abfc2a202a713381bcf5e6c50ebccd3785f2537c8aa3eb2d4d273e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [8512338150, 8513730790],
+     "transcode_sha256": "2c2bac3d216f07be3aa39599736583eb7e1e6b45cecf2fcaba01a23b85bd85fb",
+     "prism_pack_sha256": "2c2bac3d216f07be3aa39599736583eb7e1e6b45cecf2fcaba01a23b85bd85fb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.24.ffn_down.weight",
+   "module": "language_model.model.layers.24.mlp.down_proj",
+   "derivative_sha256": "3806521b3740f580d0aceec3fc111aeb839fab20b8c6ab5b30bebc1dc2f1268d",
+   "components": {
+    "weight": {
+     "range": [6961309094, 6983591334],
+     "transcode_sha256": "fc5aaf1e4e1ee60e29800e6e5d3c81afdb587514c989b24ff50bcce02bea7efe",
+     "prism_pack_sha256": "c04566aad5ade63a951e27fa5c44f537e860a24718c8437da52c4247c10b377a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5741380902, 5742773542],
+     "transcode_sha256": "395452b54dc1412ace55d96237ca2698fae78a3b68def094c6fd4ce76a5991be",
+     "prism_pack_sha256": "395452b54dc1412ace55d96237ca2698fae78a3b68def094c6fd4ce76a5991be",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3616235558, 3617628198],
+     "transcode_sha256": "0f8f556ba93552fa0323b35665b5945cda24dc0524c63aa2338e1d052467bfde",
+     "prism_pack_sha256": "0f8f556ba93552fa0323b35665b5945cda24dc0524c63aa2338e1d052467bfde",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.24.ssm_out.weight",
+   "module": "language_model.model.layers.24.linear_attn.out_proj",
+   "derivative_sha256": "7a3715e2f3203312354a4d9430eeb6e6e44c8eba49ab7546003324165dc181a2",
+   "components": {
+    "weight": {
+     "range": [1774720390, 1782584710],
+     "transcode_sha256": "ce16cd5e3ea7848aabefe7bd4347750c77b05b9ae2ed7f471b550d9d8c14cf03",
+     "prism_pack_sha256": "5b9a87a9f673f03c81d15fd2ed1ec76218d224c0b55c1bb62d24b45d0baba453",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2494196806, 2494688326],
+     "transcode_sha256": "5371f98b4f880e4f8c81c12417d19b86dcbc0fcf0ba13c17700244c8db1a0b3c",
+     "prism_pack_sha256": "5371f98b4f880e4f8c81c12417d19b86dcbc0fcf0ba13c17700244c8db1a0b3c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4946385318, 4946876838],
+     "transcode_sha256": "143d6ed761f527a15275ce33863c4d4208740b5376f1859aaaea29e139712772",
+     "prism_pack_sha256": "143d6ed761f527a15275ce33863c4d4208740b5376f1859aaaea29e139712772",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.25.ffn_down.weight",
+   "module": "language_model.model.layers.25.mlp.down_proj",
+   "derivative_sha256": "0ea8557c3971300ec4a545675a9bd1580461fac447a2a26fad67fd5c52eab842",
+   "components": {
+    "weight": {
+     "range": [1103299430, 1125581670],
+     "transcode_sha256": "3620c47c714fcdc7e3129720f175273192ddab13f71c8326bbe721adbdb56e59",
+     "prism_pack_sha256": "d32c0c87bdc6e74c6127af78a9c260a3cf442cc42e28383c81efce874d3af1d6",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2532796614, 2534189254],
+     "transcode_sha256": "4a252a656af42726218fd1c3c74ea2e6d8096e6c7fd49a4f31948b7b4c58063f",
+     "prism_pack_sha256": "4a252a656af42726218fd1c3c74ea2e6d8096e6c7fd49a4f31948b7b4c58063f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3919198534, 3920591174],
+     "transcode_sha256": "819c9bbb1afe148660c9dc24d358d5e75c60db852d30eaf30464ee1ac83113d5",
+     "prism_pack_sha256": "819c9bbb1afe148660c9dc24d358d5e75c60db852d30eaf30464ee1ac83113d5",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.25.ssm_out.weight",
+   "module": "language_model.model.layers.25.linear_attn.out_proj",
+   "derivative_sha256": "522b3f87e4db1177e50dda9d8af2f0c99858b60cac9c1abf675087288355beb2",
+   "components": {
+    "weight": {
+     "range": [1879014278, 1886878598],
+     "transcode_sha256": "ec1c9527abab31f5b505ceebb2c68d9f4a2ed3f617086ee5ce071f97fd708c28",
+     "prism_pack_sha256": "ed51bc814f78ed24ba2e2a0e87f3bf34d3d6435631bf2c58e330a00a1e012afd",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2443105798, 2443597318],
+     "transcode_sha256": "4d4feeae4d5d74065421a91313cfe9caeeda4bce5191b2e9c06330eafd44f6d0",
+     "prism_pack_sha256": "4d4feeae4d5d74065421a91313cfe9caeeda4bce5191b2e9c06330eafd44f6d0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6278114022, 6278605542],
+     "transcode_sha256": "bcf3fbb8d0d4a350342995f44ec9b3a7cb584dd20c241bb6fa37df44ab200c4d",
+     "prism_pack_sha256": "bcf3fbb8d0d4a350342995f44ec9b3a7cb584dd20c241bb6fa37df44ab200c4d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.26.ffn_down.weight",
+   "module": "language_model.model.layers.26.mlp.down_proj",
+   "derivative_sha256": "9a81aa52de0126eff66600611c3e1bed91b99a2452973e7a6cc1dcb1a58d0ab4",
+   "components": {
+    "weight": {
+     "range": [2701926950, 2724209190],
+     "transcode_sha256": "6f30bb0608ef99cc8312aed630da9b024e4d73e01a2a6e71b6ef276f8c543777",
+     "prism_pack_sha256": "d524b4debcf916bdee5675888ca24d1d9ae8f33a1ba6ee2165d8d441da823f8f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2455714182, 2457106822],
+     "transcode_sha256": "ece2bed73c25130aab4b542c3903c18ea5dd40771c513940dc8abf9e34ab056b",
+     "prism_pack_sha256": "ece2bed73c25130aab4b542c3903c18ea5dd40771c513940dc8abf9e34ab056b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3829943430, 3831336070],
+     "transcode_sha256": "cdf06f2a9ef230086ff0f35fd2ca01d0a89a6d3b2bb3ddccfe34629a644c26bd",
+     "prism_pack_sha256": "cdf06f2a9ef230086ff0f35fd2ca01d0a89a6d3b2bb3ddccfe34629a644c26bd",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.26.ssm_out.weight",
+   "module": "language_model.model.layers.26.linear_attn.out_proj",
+   "derivative_sha256": "921dc613e1f226a40348ef7699dcd4b03c8f8c5058d5461aae4f1585a21ab005",
+   "components": {
+    "weight": {
+     "range": [8308564070, 8316428390],
+     "transcode_sha256": "79e5d29d20e5c372dc659a87b2653bf7d05a165b7358a2d28131e90c24700059",
+     "prism_pack_sha256": "e1fa2253ce91650d93c404e25d6682111d4ebd5c18ea327eefe11f1de88d3615",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1660476166, 1660967686],
+     "transcode_sha256": "4d961d8b07dcd8643a817b4276033387a69d913b2db2098611882fb727d2e765",
+     "prism_pack_sha256": "4d961d8b07dcd8643a817b4276033387a69d913b2db2098611882fb727d2e765",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3602554918, 3603046438],
+     "transcode_sha256": "39296103ecd348d9fd97c5e00e4b42cc5594787371f783a2f415296970f77862",
+     "prism_pack_sha256": "39296103ecd348d9fd97c5e00e4b42cc5594787371f783a2f415296970f77862",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.27.attn_output.weight",
+   "module": "language_model.model.layers.27.self_attn.o_proj",
+   "derivative_sha256": "8fbfd7dbab470ea95b196ed2065a5ee1225dbc223fc7540fc25f634667482b34",
+   "components": {
+    "weight": {
+     "range": [2893286566, 2901150886],
+     "transcode_sha256": "fbdf29073b86b04039b5df5ed0b5decec3790902996114bca82382d42a640dfc",
+     "prism_pack_sha256": "5f3dd41ca980a40cbf154ed37c64bb644c2d3f42cc05bfdae5c63753a411af09",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5628534406, 5629025926],
+     "transcode_sha256": "a2358224db8c877354d95a7363d33db73531c3d9a6c1790e5bd2c39006a8545e",
+     "prism_pack_sha256": "a2358224db8c877354d95a7363d33db73531c3d9a6c1790e5bd2c39006a8545e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2901151910, 2901643430],
+     "transcode_sha256": "8345755734165a00d96146c7d6481522583437e2b510ff490c488658e7be9016",
+     "prism_pack_sha256": "8345755734165a00d96146c7d6481522583437e2b510ff490c488658e7be9016",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.27.ffn_down.weight",
+   "module": "language_model.model.layers.27.mlp.down_proj",
+   "derivative_sha256": "57deead3c5e7f8ec2f1d310f27579d2306a0e158beeb10c6ff10ae0c5539af2d",
+   "components": {
+    "weight": {
+     "range": [2815798438, 2838080678],
+     "transcode_sha256": "2bc70401719fd987b9923365cf639292b6e47b126b2499d2bd98e46ed3fc5633",
+     "prism_pack_sha256": "2dca3954f16f9ed42e08dea7d4ab909c2ba6873f9360dad23cde1a700827f72d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4853274022, 4854666662],
+     "transcode_sha256": "4a6454836f7b1fb4642f3b331e79023b8a9737424e06aa1d1b6e56c7a2b895e3",
+     "prism_pack_sha256": "4a6454836f7b1fb4642f3b331e79023b8a9737424e06aa1d1b6e56c7a2b895e3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2777936806, 2779329446],
+     "transcode_sha256": "ce13c62aaba127f56377dc6d75d0e537b4ac1a939d3bd042eee045f7768472a0",
+     "prism_pack_sha256": "ce13c62aaba127f56377dc6d75d0e537b4ac1a939d3bd042eee045f7768472a0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.28.ffn_down.weight",
+   "module": "language_model.model.layers.28.mlp.down_proj",
+   "derivative_sha256": "f47823f905eafd4bd9748c95d4cd8eac0236eb2913189f5af569992d3545c9e3",
+   "components": {
+    "weight": {
+     "range": [693168358, 715450598],
+     "transcode_sha256": "b4be828e1b29968b91fbd218c2d7ea1d1e169468cdcf4b1ff828058725676031",
+     "prism_pack_sha256": "569b45e70967269424862aca5bd76826e09863c5d4a1e2ebdd127669154f954e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6912054694, 6913447334],
+     "transcode_sha256": "c49d08a0270e3afbe56d83aec0bfcd0e0b1bb5af8e3cf8b8a7f88e826c36ccf0",
+     "prism_pack_sha256": "c49d08a0270e3afbe56d83aec0bfcd0e0b1bb5af8e3cf8b8a7f88e826c36ccf0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6801840262, 6803232902],
+     "transcode_sha256": "253cfc887b02593c4cdd6a3bbd0c4fd637615926885bea844973c84db7c89e12",
+     "prism_pack_sha256": "253cfc887b02593c4cdd6a3bbd0c4fd637615926885bea844973c84db7c89e12",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.28.ssm_out.weight",
+   "module": "language_model.model.layers.28.linear_attn.out_proj",
+   "derivative_sha256": "2036b6c69f051475d1db83b786709a588a81ed38ccd5f78ad9fca62a586a57fe",
+   "components": {
+    "weight": {
+     "range": [8329863270, 8337727590],
+     "transcode_sha256": "638eed2272c49349c0424c0f820aca7e9d1e327407b4110d7a7beade7f266097",
+     "prism_pack_sha256": "a548e91d7411684cadf2fad08a213c0c465107fad5ebda957ea2a9cf4cd50fe3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1036245990, 1036737510],
+     "transcode_sha256": "0b79f5eb7c43af24389a03166cb9cebc909c9f23c85cc7e2ce99c1443702e87a",
+     "prism_pack_sha256": "0b79f5eb7c43af24389a03166cb9cebc909c9f23c85cc7e2ce99c1443702e87a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3769656198, 3770147718],
+     "transcode_sha256": "4a37662916477b67673e0e1c3eaaa8601638afc890fad6f4596d2e69816740ad",
+     "prism_pack_sha256": "4a37662916477b67673e0e1c3eaaa8601638afc890fad6f4596d2e69816740ad",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.29.ffn_down.weight",
+   "module": "language_model.model.layers.29.mlp.down_proj",
+   "derivative_sha256": "ea116710cb1c872d405c350990f90044526c4ad2be13d06474fcec4e2ac17748",
+   "components": {
+    "weight": {
+     "range": [3057210214, 3079492454],
+     "transcode_sha256": "45c6feb2f226d5eb8506b8837b4a50cf98618b7d5dc8dcf58ab45e936a139445",
+     "prism_pack_sha256": "893b513d16d6e5362a4aa45ed9157630faa180f17b2252ee48a6197010b8e2bb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [8400035878, 8401428518],
+     "transcode_sha256": "a4ac3a7b4876900e0e54e1dff5731f2d082875884e5f8cf16ffe50b75eaddec8",
+     "prism_pack_sha256": "a4ac3a7b4876900e0e54e1dff5731f2d082875884e5f8cf16ffe50b75eaddec8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1518097990, 1519490630],
+     "transcode_sha256": "b593e54aab00d84882420fe56604ba1f9260e2656b20b71ef6520a0cbab700b3",
+     "prism_pack_sha256": "b593e54aab00d84882420fe56604ba1f9260e2656b20b71ef6520a0cbab700b3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.29.ssm_out.weight",
+   "module": "language_model.model.layers.29.linear_attn.out_proj",
+   "derivative_sha256": "fa6395bfc292e35294b2eca2168a2a8256bba596e254bb9df723630fd000ffb4",
+   "components": {
+    "weight": {
+     "range": [6014625062, 6022489382],
+     "transcode_sha256": "f1d5b46289027a2c2b1009d85479fab8d66234932affd98911d22f8ef25c6575",
+     "prism_pack_sha256": "672d398ccd81bff045ce281c7fe1d50c2fe6a992bc352fd8147a5e54452b5e9a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [8511844326, 8512335846],
+     "transcode_sha256": "d228cb039f756630be559f721230641373d1c7f77e4cde0a1d89857feec504b7",
+     "prism_pack_sha256": "d228cb039f756630be559f721230641373d1c7f77e4cde0a1d89857feec504b7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2161536454, 2162027974],
+     "transcode_sha256": "e8d7286c33120cc2854ca2f9cebafc8a7fb33c16e397e9349e9f378f187dfd14",
+     "prism_pack_sha256": "e8d7286c33120cc2854ca2f9cebafc8a7fb33c16e397e9349e9f378f187dfd14",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.30.ffn_down.weight",
+   "module": "language_model.model.layers.30.mlp.down_proj",
+   "derivative_sha256": "e1fef2a398afbf78b9a6af455c387bcb4048b89653a91e64a5f235fb1d055f6e",
+   "components": {
+    "weight": {
+     "range": [4809188326, 4831470566],
+     "transcode_sha256": "c2571569b86da29945f52c6400384e481fb0c91b71d9bfe73875f234438e6cd6",
+     "prism_pack_sha256": "5cfd9e4269660f055679ca3263ac9aff090e92c57c5f20ae99dd3c6d67441f36",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6303599334, 6304991974],
+     "transcode_sha256": "4416391c58e302300bbead5ae8973c58006408afd4b17869d43ddc1b811d2aa5",
+     "prism_pack_sha256": "4416391c58e302300bbead5ae8973c58006408afd4b17869d43ddc1b811d2aa5",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5327048646, 5328441286],
+     "transcode_sha256": "693275a98ad96db26bde946eb7db5f9baa695cb28155fb83800b812ab470cd03",
+     "prism_pack_sha256": "693275a98ad96db26bde946eb7db5f9baa695cb28155fb83800b812ab470cd03",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.30.ssm_out.weight",
+   "module": "language_model.model.layers.30.linear_attn.out_proj",
+   "derivative_sha256": "bfa07b7b43714c04651c46f450130e44e23bd5b3f41983306e999fd91d9ad8b5",
+   "components": {
+    "weight": {
+     "range": [2578298598, 2586162918],
+     "transcode_sha256": "ea2c1f0d420c09a4e5c20fb149125687bd18aae5141c9180fcad42a1ea881a24",
+     "prism_pack_sha256": "84e67e407f4ac684100aa3c1e511ee447a0bdd976c476d43ba5d5560e7d1d93c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4589236262, 4589727782],
+     "transcode_sha256": "434fd7e7899bdc641967ef8b41b60cc282ca7bffa43b572f106de52729ac17d3",
+     "prism_pack_sha256": "434fd7e7899bdc641967ef8b41b60cc282ca7bffa43b572f106de52729ac17d3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3345426406, 3345917926],
+     "transcode_sha256": "f56be75be6ba65e6456b3a2007af3a301042deef9030fa594a13b5feb44fca6e",
+     "prism_pack_sha256": "f56be75be6ba65e6456b3a2007af3a301042deef9030fa594a13b5feb44fca6e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.31.attn_output.weight",
+   "module": "language_model.model.layers.31.self_attn.o_proj",
+   "derivative_sha256": "f3028ba9b9175e11c3159e282c830cb90e598eec1761b087a6f0a959fd2bda86",
+   "components": {
+    "weight": {
+     "range": [8316428390, 8324292710],
+     "transcode_sha256": "25c4d70f36953efc2dcc729833e012a6e87a73f0b2fe82e56953eba719d56fc7",
+     "prism_pack_sha256": "4bc666527f97328ab87dd90a320aec27c9609a3cea97e7f2f6ab58040fc733e7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [7844953126, 7845444646],
+     "transcode_sha256": "96a4244fa9b4107c4bddde2d055b7e33dce058b5ee2aed9b327ec99e9711d760",
+     "prism_pack_sha256": "96a4244fa9b4107c4bddde2d055b7e33dce058b5ee2aed9b327ec99e9711d760",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2278198534, 2278690054],
+     "transcode_sha256": "0bb4fa69b63eaa817f7f3059331063b1dd3e2aa2f7717a2fe2ac4e541a6c5a6b",
+     "prism_pack_sha256": "0bb4fa69b63eaa817f7f3059331063b1dd3e2aa2f7717a2fe2ac4e541a6c5a6b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.31.ffn_down.weight",
+   "module": "language_model.model.layers.31.mlp.down_proj",
+   "derivative_sha256": "97ab0ab63ae93be218d475202bcb7c06d28385da3480b3ffee558e79bebcd779",
+   "components": {
+    "weight": {
+     "range": [3475666918, 3497949158],
+     "transcode_sha256": "085538ba72f9c814d8e8274e2692c455d6dcc8fc0b83f7cc55c325c2ce12826b",
+     "prism_pack_sha256": "20fcc90280ad5fe8b8336edf01decf13cc478ef3e5116a40d44e6b06769bf187",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4918921638, 4920314278],
+     "transcode_sha256": "f88057aebd9b0540c398c08bbe08085a88d4e8185870c7208eb1840b4e7d13b8",
+     "prism_pack_sha256": "f88057aebd9b0540c398c08bbe08085a88d4e8185870c7208eb1840b4e7d13b8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1350559910, 1351952550],
+     "transcode_sha256": "575c7916e7ea5a5706c37d100fdb1980408a741db78bdbca558e5d92b5b48277",
+     "prism_pack_sha256": "575c7916e7ea5a5706c37d100fdb1980408a741db78bdbca558e5d92b5b48277",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.32.ffn_down.weight",
+   "module": "language_model.model.layers.32.mlp.down_proj",
+   "derivative_sha256": "4246bec12d3a6b3375f6477819969100330778bdc21ff22025b94cd6361780a4",
+   "components": {
+    "weight": {
+     "range": [7679188486, 7701470726],
+     "transcode_sha256": "4d26a38e7bcf1ca057f92a49ad5a24eab3b1a84a1cd9b792effcdf542aa14f24",
+     "prism_pack_sha256": "7f9f267879064edb1f003ff5868ba83b3ef20e42f49f6733025145bb31bde178",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4763374374, 4764767014],
+     "transcode_sha256": "a61f0dd460cf79e3798f9626edf73176b16f3ab8bf5f19a4f65e60abd7af8a57",
+     "prism_pack_sha256": "a61f0dd460cf79e3798f9626edf73176b16f3ab8bf5f19a4f65e60abd7af8a57",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3659749510, 3661142150],
+     "transcode_sha256": "9185d4e830e2a3400a814d2405e203a7eaacd5945ae60feec3fb3605ababfff2",
+     "prism_pack_sha256": "9185d4e830e2a3400a814d2405e203a7eaacd5945ae60feec3fb3605ababfff2",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.32.ssm_out.weight",
+   "module": "language_model.model.layers.32.linear_attn.out_proj",
+   "derivative_sha256": "a559b3e1fd74d175ec5d08f7714d6a95a8fe2de0c74f1c22fd001bc4ef4d67e4",
+   "components": {
+    "weight": {
+     "range": [865633254, 873497574],
+     "transcode_sha256": "e81fb3f2e1853537cadc85f4775efd9b112324bf161e475c087b9b9e3c3dc66a",
+     "prism_pack_sha256": "f0e98a30cb5872a049c2d59f2c21d2834b24320b93f1642fff60cd0e9830236a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1768641926, 1769133446],
+     "transcode_sha256": "b6b08fb6f2a0c7b2d6d7cf9bbda50978ad698cea68e6b089bd974a378830cb49",
+     "prism_pack_sha256": "b6b08fb6f2a0c7b2d6d7cf9bbda50978ad698cea68e6b089bd974a378830cb49",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4269709990, 4270201510],
+     "transcode_sha256": "ab41ec196981e9c578831e62a9de09d289213e26a95eba4ed88bf4cf916135b4",
+     "prism_pack_sha256": "ab41ec196981e9c578831e62a9de09d289213e26a95eba4ed88bf4cf916135b4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.33.ffn_down.weight",
+   "module": "language_model.model.layers.33.mlp.down_proj",
+   "derivative_sha256": "ed8675a016e1530a8c51b9aea288d984ae8905949fcadcc5ec13060bab8d8d37",
+   "components": {
+    "weight": {
+     "range": [8550893030, 8573175270],
+     "transcode_sha256": "b0b8ea70735c87437c60aeedda67c80da7242c082af7395aab86d05e46cfa0f7",
+     "prism_pack_sha256": "9f51012cc4a438eae1274eadf19e9dc10d6b1c8d0d6581572ef8db6091d35aec",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3766870918, 3768263558],
+     "transcode_sha256": "3b072030845b677a1b420eafb9ae6dffa8ab2aa167d9976db9503bc6d21372f5",
+     "prism_pack_sha256": "3b072030845b677a1b420eafb9ae6dffa8ab2aa167d9976db9503bc6d21372f5",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3763266438, 3764659078],
+     "transcode_sha256": "4ae4f1cc4cb9899da328c99dc04cc10ed96f3ee1d8169613424550db152d01fa",
+     "prism_pack_sha256": "4ae4f1cc4cb9899da328c99dc04cc10ed96f3ee1d8169613424550db152d01fa",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.33.ssm_out.weight",
+   "module": "language_model.model.layers.33.linear_attn.out_proj",
+   "derivative_sha256": "9bc45fe74cf6da83851b69b48e7cfa80b14150c3280f70a2ab5a39d1e01d95c6",
+   "components": {
+    "weight": {
+     "range": [3755217798, 3763082118],
+     "transcode_sha256": "702bd8f5ca3c0754c42e7572a763cdbf760abc2ef25209530395517b6fd56de7",
+     "prism_pack_sha256": "706eef50c80e5bb628c85456ae60be0c33c12c334e176645ac052d4c006bac62",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2650965734, 2651457254],
+     "transcode_sha256": "dd1bf43a97c278e3b733229681c78bdfd777d0d540949407d165d5f747688e90",
+     "prism_pack_sha256": "dd1bf43a97c278e3b733229681c78bdfd777d0d540949407d165d5f747688e90",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [8513730790, 8514222310],
+     "transcode_sha256": "affe13a3eee562eca98b9799e805023ef06a3135355f93249d43656785aeb1d9",
+     "prism_pack_sha256": "affe13a3eee562eca98b9799e805023ef06a3135355f93249d43656785aeb1d9",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.34.ffn_down.weight",
+   "module": "language_model.model.layers.34.mlp.down_proj",
+   "derivative_sha256": "b51de5bc93e816327c92e8614dff43b79ef5ac95943f1b405b4bb8752b29d3af",
+   "components": {
+    "weight": {
+     "range": [3861096326, 3883378566],
+     "transcode_sha256": "4fee7f1b11440a84a9c2b33c664c9579e1545dc772dfecb05212d217bfeac630",
+     "prism_pack_sha256": "8723d9dad07d1894bb092b40bff66fe8833751d6e2db3ea2970b18046ba6b60e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3771630470, 3773023110],
+     "transcode_sha256": "101b5865e660b659f284b6f2d7923566f9a839e8fc60b12c1bd8dd2ae0b8e6f5",
+     "prism_pack_sha256": "101b5865e660b659f284b6f2d7923566f9a839e8fc60b12c1bd8dd2ae0b8e6f5",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3657349254, 3658741894],
+     "transcode_sha256": "8835cd2db313d9f7174819d2fffa05dcf3e13b796b772602e5f45c308110c340",
+     "prism_pack_sha256": "8835cd2db313d9f7174819d2fffa05dcf3e13b796b772602e5f45c308110c340",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.34.ssm_out.weight",
+   "module": "language_model.model.layers.34.linear_attn.out_proj",
+   "derivative_sha256": "09ad1ded02938005b4bf913855a099f55d1f69a0cbc97d2b8e8d3055b38250ff",
+   "components": {
+    "weight": {
+     "range": [5005364070, 5013228390],
+     "transcode_sha256": "4c60cd5164dde8f4cc56f35e67adc43103bf8d1a3467770f1a6763f9b80fe653",
+     "prism_pack_sha256": "63295593fc5a1ff3804f78ae3bbc15427ed1c799d918f5feae7c3ee38bddafc4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1652077062, 1652568582],
+     "transcode_sha256": "eccc103e62a91b3139baca2a65214ad097028ebe4bbacccf6d41e3a67095cedf",
+     "prism_pack_sha256": "eccc103e62a91b3139baca2a65214ad097028ebe4bbacccf6d41e3a67095cedf",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2779329446, 2779820966],
+     "transcode_sha256": "60de4daeb2561bf3b83650df498c12662a3f711c475773084c46382da93d9566",
+     "prism_pack_sha256": "60de4daeb2561bf3b83650df498c12662a3f711c475773084c46382da93d9566",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.35.attn_output.weight",
+   "module": "language_model.model.layers.35.self_attn.o_proj",
+   "derivative_sha256": "5186645a41acea1f7530ccb49b3fd6cb4ef954da5a53c9194c88ca9e3e42c05a",
+   "components": {
+    "weight": {
+     "range": [4038296134, 4046160454],
+     "transcode_sha256": "69e4bdf949ee538992c95945c86c358aabd966547f715f872e489679f729d878",
+     "prism_pack_sha256": "a2e6db37373b6f1b64f5e20b1447937382c55b17afdd275a9757c0555e974978",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1902520454, 1903011974],
+     "transcode_sha256": "28e38f3841c9406f97721f9598d7907da132a3217ec0986019aa6686c33a8982",
+     "prism_pack_sha256": "28e38f3841c9406f97721f9598d7907da132a3217ec0986019aa6686c33a8982",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4019634758, 4020126278],
+     "transcode_sha256": "130d88b2f0be91e455556ff28dec0df286efcc5fdb80dd30afd2374da826c57d",
+     "prism_pack_sha256": "130d88b2f0be91e455556ff28dec0df286efcc5fdb80dd30afd2374da826c57d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.35.ffn_down.weight",
+   "module": "language_model.model.layers.35.mlp.down_proj",
+   "derivative_sha256": "f16845213ef1296689e33afd825bdb8ac2c8c6276e7dff5c7b3aab4884d4bbc4",
+   "components": {
+    "weight": {
+     "range": [1711398022, 1733680262],
+     "transcode_sha256": "e051896fab1b2cfcfc836f2794a78a881e3d7f419e9a90e946ede4f8503dfbdf",
+     "prism_pack_sha256": "7722b0c7cd3ac664e40b90590b37511bf3c690196c564df1d977cf09c10fdfee",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6829081382, 6830474022],
+     "transcode_sha256": "e0b77330c95dfac77effa7f14e9d3edbfd5be4dd92eb7cd958ff74ff9523e96b",
+     "prism_pack_sha256": "e0b77330c95dfac77effa7f14e9d3edbfd5be4dd92eb7cd958ff74ff9523e96b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5770393830, 5771786470],
+     "transcode_sha256": "011eedd9310c7468d27df1459831aa897dc05bb8780bda4d4b76936f9492e203",
+     "prism_pack_sha256": "011eedd9310c7468d27df1459831aa897dc05bb8780bda4d4b76936f9492e203",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.36.ffn_down.weight",
+   "module": "language_model.model.layers.36.mlp.down_proj",
+   "derivative_sha256": "d0cbc593fedeb77164055ed7fcd7419039df01c0b2bc76031c74e4487ef3887b",
+   "components": {
+    "weight": {
+     "range": [3225174310, 3247456550],
+     "transcode_sha256": "86a89cc9e92e3ce738e847617368f7dcc12ac34a663f6fad4528833224a7dea7",
+     "prism_pack_sha256": "6ecbd9cd21efd980b81858540aa084e650bc20ad1ca0973d3efa14c8f8ef0ccb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2054568518, 2055961158],
+     "transcode_sha256": "f9de53b92e9ca6916611ca3c3e41aa6a84dc9b107c6d4494805a4dbf597ff7db",
+     "prism_pack_sha256": "f9de53b92e9ca6916611ca3c3e41aa6a84dc9b107c6d4494805a4dbf597ff7db",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4127984582, 4129377222],
+     "transcode_sha256": "1ed23d67a8cb4d683e66276ac24aa31dc60d8c49874e715e0c6962a7d5ca3192",
+     "prism_pack_sha256": "1ed23d67a8cb4d683e66276ac24aa31dc60d8c49874e715e0c6962a7d5ca3192",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.36.ssm_out.weight",
+   "module": "language_model.model.layers.36.linear_attn.out_proj",
+   "derivative_sha256": "b38ab0e778f00f4cb7a1b9bdfe5e7ea80337e5b5ad700002311f1a74ccd990f2",
+   "components": {
+    "weight": {
+     "range": [2651539174, 2659403494],
+     "transcode_sha256": "753cb061f7bd66dee480d0018bc892d6fc49720ff870f506d6527818ec14a2c7",
+     "prism_pack_sha256": "3d693c9fbfda7202c4abf352b3ea8af983f857f9ebd6d0c00b1ed8553514499f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4125117382, 4125608902],
+     "transcode_sha256": "08df83db86389e5deab7e7f0816943c6f3be75d5be230d408a80b56314ff21cc",
+     "prism_pack_sha256": "08df83db86389e5deab7e7f0816943c6f3be75d5be230d408a80b56314ff21cc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1869142406, 1869633926],
+     "transcode_sha256": "ddbf919fcf84866b973b3316b0be45dbf4f6528ea39e8bfc46ad13338caef862",
+     "prism_pack_sha256": "ddbf919fcf84866b973b3316b0be45dbf4f6528ea39e8bfc46ad13338caef862",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.37.ffn_down.weight",
+   "module": "language_model.model.layers.37.mlp.down_proj",
+   "derivative_sha256": "f295a19b56673d411a3fb01429f15b6d1963dda0e92021735e0d2ea622c10836",
+   "components": {
+    "weight": {
+     "range": [6747457670, 6769739910],
+     "transcode_sha256": "d12a76562c9a355a66eb4f95a442d4f409483a8e57a6a42135ea9b07eb078093",
+     "prism_pack_sha256": "9de17aecc5e4c593c4ad0f05968e83f37b6b2160556f8abf76a415d2b2a526cc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3617628198, 3619020838],
+     "transcode_sha256": "f4624e2b4a82f4d5a8e0655eebf1e0a861734295a7eb9b029d203f604a4bc4f4",
+     "prism_pack_sha256": "f4624e2b4a82f4d5a8e0655eebf1e0a861734295a7eb9b029d203f604a4bc4f4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4488534438, 4489927078],
+     "transcode_sha256": "634d86f59bf77a2100ce51807be2a4293b6a4d2bbd710cb4826ae4e7ea9d6cea",
+     "prism_pack_sha256": "634d86f59bf77a2100ce51807be2a4293b6a4d2bbd710cb4826ae4e7ea9d6cea",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.37.ssm_out.weight",
+   "module": "language_model.model.layers.37.linear_attn.out_proj",
+   "derivative_sha256": "45e609a246cff55e4672f39d9f39a33a5d1c3693a76ec2efce3aaf2e137cb039",
+   "components": {
+    "weight": {
+     "range": [8240755558, 8248619878],
+     "transcode_sha256": "2325b82bdf972fc877392c1ab1ad94b75104a97a875b3c671f565478b3a86780",
+     "prism_pack_sha256": "91a60c6fb7cc79517cf84ccbfa3d73cb989b1eed07c873ebdba564fe3c971e0b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [728892390, 729383910],
+     "transcode_sha256": "5a277e9d492bbef7d63b03343b0fe9e0b2c7797224b449ceed12b6efeeb8c3a8",
+     "prism_pack_sha256": "5a277e9d492bbef7d63b03343b0fe9e0b2c7797224b449ceed12b6efeeb8c3a8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4149406182, 4149897702],
+     "transcode_sha256": "602571d025dfb22b634b395c6e255809d58a6aa197b3e2d115038f8ba3885e35",
+     "prism_pack_sha256": "602571d025dfb22b634b395c6e255809d58a6aa197b3e2d115038f8ba3885e35",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.38.ffn_down.weight",
+   "module": "language_model.model.layers.38.mlp.down_proj",
+   "derivative_sha256": "4a092f630483dd3b2b9e681b8856f2c2ccf601d69fe85ae0cb6fdaed2945a52d",
+   "components": {
+    "weight": {
+     "range": [3774006150, 3796288390],
+     "transcode_sha256": "a8d8c1b07096b7c07c7c2bc8fb61b3a55c43801cc0ebe26ee4d43ed019f1b6a3",
+     "prism_pack_sha256": "4940578526f76095de5ed832dffb0a74d3b37661d48f034d6460d542f6082274",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4296201318, 4297593958],
+     "transcode_sha256": "c9cc838abec8839228d78abbbcedc11fd02d0ad802289577fb1b7c32af8038d2",
+     "prism_pack_sha256": "c9cc838abec8839228d78abbbcedc11fd02d0ad802289577fb1b7c32af8038d2",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5748119846, 5749512486],
+     "transcode_sha256": "398adf421dab7201da7644f8133f0b26676e04f0434a4f833b3734badbdfa961",
+     "prism_pack_sha256": "398adf421dab7201da7644f8133f0b26676e04f0434a4f833b3734badbdfa961",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.38.ssm_out.weight",
+   "module": "language_model.model.layers.38.linear_attn.out_proj",
+   "derivative_sha256": "791d4f83ca8d2653e58d913376e9ea23cb8129a30f9d247faf125d2cc2c2eda0",
+   "components": {
+    "weight": {
+     "range": [1087452006, 1095316326],
+     "transcode_sha256": "e17e004d2d80b7df5c891ba74123fd0b1d3a06d0c9b908b58f068ea52b6641bd",
+     "prism_pack_sha256": "3b4358ee9a5882b536699000d3232e2ae3bcbfb40e9d3c5bddec5b41b889d061",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4132234630, 4132726150],
+     "transcode_sha256": "8daf0e726e0e03af6ee500bb9d1bd6f5d5fe38843fd7167c9c5ffc31ec30ee50",
+     "prism_pack_sha256": "8daf0e726e0e03af6ee500bb9d1bd6f5d5fe38843fd7167c9c5ffc31ec30ee50",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1399125094, 1399616614],
+     "transcode_sha256": "cbf4aa7afb53197f53019bc0f6a38484f96e7aae7ec089e8c27818dd19814542",
+     "prism_pack_sha256": "cbf4aa7afb53197f53019bc0f6a38484f96e7aae7ec089e8c27818dd19814542",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.39.attn_output.weight",
+   "module": "language_model.model.layers.39.self_attn.o_proj",
+   "derivative_sha256": "69a72211de93f9c8f246a83e80c6e034b61177ab5e3ea3004504e1b2e11bf966",
+   "components": {
+    "weight": {
+     "range": [4429415846, 4437280166],
+     "transcode_sha256": "7f832e6a94572e9266c6b9668656371ce9152320b8e888f96e56197fdd9ef6df",
+     "prism_pack_sha256": "57dfc86353c489763c6af685426b5f2e19d8a0002c4433ff952a6cc2090cfc9b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5680578342, 5681069862],
+     "transcode_sha256": "197e7b2b6c3589771f5a10149b0102da64017a1c036f14c2bb9abab0767b9ffe",
+     "prism_pack_sha256": "197e7b2b6c3589771f5a10149b0102da64017a1c036f14c2bb9abab0767b9ffe",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5605678726, 5606170246],
+     "transcode_sha256": "c6acf28025bc418a096e74b88df32c320792072c51df95ac13eee1279d1ece19",
+     "prism_pack_sha256": "c6acf28025bc418a096e74b88df32c320792072c51df95ac13eee1279d1ece19",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.39.ffn_down.weight",
+   "module": "language_model.model.layers.39.mlp.down_proj",
+   "derivative_sha256": "a80212104194ebb4ab07824322411df8c5e99c5d2f5105995d02402ebb033226",
+   "components": {
+    "weight": {
+     "range": [4360677158, 4382959398],
+     "transcode_sha256": "6e8e23650cf881c509db42c8cab600bcc0e9099d1fe5aa9cb61f28c1c22c051b",
+     "prism_pack_sha256": "91b6451c3651412a399e2c646009f95613028138c7086c15795bacd77cdb3703",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4495235110, 4496627750],
+     "transcode_sha256": "f3593dd8ac2fefe93795cd3975ab49ad6847e8962d6e0c476f4981516ddf8d39",
+     "prism_pack_sha256": "f3593dd8ac2fefe93795cd3975ab49ad6847e8962d6e0c476f4981516ddf8d39",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1552914502, 1554307142],
+     "transcode_sha256": "1f7225cebad1f928cb3e3f092dd707d20eb61094e2834c88a20a8dd285313692",
+     "prism_pack_sha256": "1f7225cebad1f928cb3e3f092dd707d20eb61094e2834c88a20a8dd285313692",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.40.ffn_down.weight",
+   "module": "language_model.model.layers.40.mlp.down_proj",
+   "derivative_sha256": "b44acde51f6ae94733364b624164f622acf83be647ee61eb833a6e3fbbf0edfd",
+   "components": {
+    "weight": {
+     "range": [4785492966, 4807775206],
+     "transcode_sha256": "9abf2e42e164fe0019d7901cf6fc58ccd73aa152d403aeb865705e2533f39f34",
+     "prism_pack_sha256": "d8e683f6aac2648cc556caf9384f1be47283dec8109ac1089d6b0b1365d9b664",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4766745382, 4768138022],
+     "transcode_sha256": "35ea4bd88ffc2140f41df1079d4cab8b797d6ba4581bf5dd63bd5b6478efb0ea",
+     "prism_pack_sha256": "35ea4bd88ffc2140f41df1079d4cab8b797d6ba4581bf5dd63bd5b6478efb0ea",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6371657702, 6373050342],
+     "transcode_sha256": "c8f809aeeb5af350f8f281da6eaf081039c9666dd2a83b765df1008387ebe801",
+     "prism_pack_sha256": "c8f809aeeb5af350f8f281da6eaf081039c9666dd2a83b765df1008387ebe801",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.40.ssm_out.weight",
+   "module": "language_model.model.layers.40.linear_attn.out_proj",
+   "derivative_sha256": "156a70421d5cb7a5ae237a1880d901e1744d67f29b80d116191f74a50c90070a",
+   "components": {
+    "weight": {
+     "range": [8365506086, 8373370406],
+     "transcode_sha256": "4f7e4f71e1022a18f6d7f8823a43e64634bf444f3fae62cdb2464b95cec4a300",
+     "prism_pack_sha256": "e858a5e57b8730127f9190c6e14866dc614d951211ca312cc12e3bac981e99f7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3263205670, 3263697190],
+     "transcode_sha256": "001bdf5d8ad9dfa86a4c48745cc4e536e60d56293158d68cfc26cedfea500b70",
+     "prism_pack_sha256": "001bdf5d8ad9dfa86a4c48745cc4e536e60d56293158d68cfc26cedfea500b70",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4920334758, 4920826278],
+     "transcode_sha256": "d3d674c651bcdfa8decc0bc1380f36e30ac65c3b2bf9fb07bdd90420096a77fd",
+     "prism_pack_sha256": "d3d674c651bcdfa8decc0bc1380f36e30ac65c3b2bf9fb07bdd90420096a77fd",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.41.ffn_down.weight",
+   "module": "language_model.model.layers.41.mlp.down_proj",
+   "derivative_sha256": "b6177449f4047f83bc0ce6c812bd1c8b35709d0931581c8ca94eb5ca7ed374af",
+   "components": {
+    "weight": {
+     "range": [7768173414, 7790455654],
+     "transcode_sha256": "f39eda77d17e519d1a2b30682ce61d25bc620b4fcd36d9ac0169fa329c8b1820",
+     "prism_pack_sha256": "bdf5f0425239f39996deb223f2deeb749b64bca9601d8787afeb3da9cfc59eee",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4900644262, 4902036902],
+     "transcode_sha256": "f0278a9d209453364fd7b5a8fd2d1e82ee051ca44f9800651fb3c9a128ea3f3c",
+     "prism_pack_sha256": "f0278a9d209453364fd7b5a8fd2d1e82ee051ca44f9800651fb3c9a128ea3f3c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [8328470630, 8329863270],
+     "transcode_sha256": "c4aab9add870d69e397ca5c7007fe69d6e45cdc0dcd03387f23afcc87228370a",
+     "prism_pack_sha256": "c4aab9add870d69e397ca5c7007fe69d6e45cdc0dcd03387f23afcc87228370a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.41.ssm_out.weight",
+   "module": "language_model.model.layers.41.linear_attn.out_proj",
+   "derivative_sha256": "0aa23b5a3020af27376cf6328d4263a834916e4ba32a4cd0ae10b9a5c9904912",
+   "components": {
+    "weight": {
+     "range": [4580319270, 4588183590],
+     "transcode_sha256": "c780bfd743e16062051f9014364dae3a32465dfd0eb1af016c047507a76993d0",
+     "prism_pack_sha256": "6ffb9e63e01c6a101b42b16c86dfaba20d95c7307c3d077ef7b132f19a3b3ae9",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2210591366, 2211082886],
+     "transcode_sha256": "2cb01d1bd0647ee776a3939022328b48170f38c0ac38168dc7f33a04a0e4c6a8",
+     "prism_pack_sha256": "2cb01d1bd0647ee776a3939022328b48170f38c0ac38168dc7f33a04a0e4c6a8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [8360219942, 8360711462],
+     "transcode_sha256": "faa72fe5ff84f67f66f2256fe4dc68fc6ee6569c5d21742f35619e94d65d2165",
+     "prism_pack_sha256": "faa72fe5ff84f67f66f2256fe4dc68fc6ee6569c5d21742f35619e94d65d2165",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.42.ffn_down.weight",
+   "module": "language_model.model.layers.42.mlp.down_proj",
+   "derivative_sha256": "c05b24223373502e2c8ce5e186beae6894e924147bbf6a31b1db249b5440e734",
+   "components": {
+    "weight": {
+     "range": [5332666566, 5354948806],
+     "transcode_sha256": "c14e586fab2298a894ce8da341e7da03edd8aa242b7ec47d4b9307ab38a5aa2c",
+     "prism_pack_sha256": "a8e3b5abdadfd6e51696973c41604561be66037c4b85d61f7bcee7e64339fe61",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5737264422, 5738657062],
+     "transcode_sha256": "f591548ed9b17a41f254e0cdf351564dca2fad5200417269c5496d806b3e3155",
+     "prism_pack_sha256": "f591548ed9b17a41f254e0cdf351564dca2fad5200417269c5496d806b3e3155",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [8398642726, 8400035366],
+     "transcode_sha256": "5883f41ad9bf1e66b8d4149691fbf80839bdc9d740108fcdcf60e7c5b9597b99",
+     "prism_pack_sha256": "5883f41ad9bf1e66b8d4149691fbf80839bdc9d740108fcdcf60e7c5b9597b99",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.42.ssm_out.weight",
+   "module": "language_model.model.layers.42.linear_attn.out_proj",
+   "derivative_sha256": "5c74180afdf5f1f225851f57d1720e3c46680ca52c3be88b170955f8663924de",
+   "components": {
+    "weight": {
+     "range": [2170144966, 2178009286],
+     "transcode_sha256": "f367b1ec666c6f4c903858f4ea72f78bbf038eac8f1fa63d490b7f27b618685d",
+     "prism_pack_sha256": "598210f86f2e98b3427fbea725486d19223dd3e8215842d3f72161246738ca36",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4967454054, 4967945574],
+     "transcode_sha256": "abce6e5e4affc7540338c35a5ea46b742c48cfa422cc9e5a8d0d182fcf7f5432",
+     "prism_pack_sha256": "abce6e5e4affc7540338c35a5ea46b742c48cfa422cc9e5a8d0d182fcf7f5432",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5227603174, 5228094694],
+     "transcode_sha256": "4ee93683484b761351165d18bf1bbcf438ca88c05dd908d18516ff74b227defe",
+     "prism_pack_sha256": "4ee93683484b761351165d18bf1bbcf438ca88c05dd908d18516ff74b227defe",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.43.attn_output.weight",
+   "module": "language_model.model.layers.43.self_attn.o_proj",
+   "derivative_sha256": "b9ba555d9ebe416c6bbe2044954bc4f2d7098dbab5e4d18cf69e0c81cf7a1809",
+   "components": {
+    "weight": {
+     "range": [4902036902, 4909901222],
+     "transcode_sha256": "944a7e851812036972ab2d744143d44a51651e3cae12508242f4d0ba80632142",
+     "prism_pack_sha256": "84e2e78077c7147a280341a92a41b69dfe65919a416e3514eb5fd55762df266d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5090980902, 5091472422],
+     "transcode_sha256": "118a0565bf18d4ffe50f2ea46aa8d71c769807e474d1e033e7ae4c5b589f2825",
+     "prism_pack_sha256": "118a0565bf18d4ffe50f2ea46aa8d71c769807e474d1e033e7ae4c5b589f2825",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4834145254, 4834636774],
+     "transcode_sha256": "56f140ffaa14499012b7ededf5f9cd5e865921941c47f68db333c3d3c94e59ea",
+     "prism_pack_sha256": "56f140ffaa14499012b7ededf5f9cd5e865921941c47f68db333c3d3c94e59ea",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.43.ffn_down.weight",
+   "module": "language_model.model.layers.43.mlp.down_proj",
+   "derivative_sha256": "2cec2ed18ec20793648113227f7b591e599097bb1820c32440b1d6f1aacceb8a",
+   "components": {
+    "weight": {
+     "range": [5168047334, 5190329574],
+     "transcode_sha256": "4916f32ebfe15e6d3816cd20a06d566a8fd3fe265cac07a3949360d6b314e555",
+     "prism_pack_sha256": "cc660c98f51eeca54caf4211b1095e8dcb0a7c607554a907501900fac8c7c664",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2566624998, 2568017638],
+     "transcode_sha256": "e10081b9c133328c3ba55caaf0ccdf2dbdeff22f6ed0fd51e7b17d18952c7ed8",
+     "prism_pack_sha256": "e10081b9c133328c3ba55caaf0ccdf2dbdeff22f6ed0fd51e7b17d18952c7ed8",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4998297958, 4999690598],
+     "transcode_sha256": "79aa31999570ff66eb89ba6b169003f33b60f1293be37c4e6dbeab9e2d07afc2",
+     "prism_pack_sha256": "79aa31999570ff66eb89ba6b169003f33b60f1293be37c4e6dbeab9e2d07afc2",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.44.ffn_down.weight",
+   "module": "language_model.model.layers.44.mlp.down_proj",
+   "derivative_sha256": "93c9f0c9848ea492350390ec136e3e5bbda1155bb60e163ba33c3bbb4a24de92",
+   "components": {
+    "weight": {
+     "range": [1149566438, 1171848678],
+     "transcode_sha256": "ea445de466fe6735fe3f9a0719230033a6f07161b69ddf2326a1b0461fde6334",
+     "prism_pack_sha256": "501b95f879745ef2adf3cecd8748577368397f5e8771290de1968485dd359e6b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6913447334, 6914839974],
+     "transcode_sha256": "1699fdd5529a7f881d9c5a9082bf34bbeed9447bff262f7064f5b8e078bb8476",
+     "prism_pack_sha256": "1699fdd5529a7f881d9c5a9082bf34bbeed9447bff262f7064f5b8e078bb8476",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [7536671590, 7538064230],
+     "transcode_sha256": "b2bbe617e5d6c1e768f3c0de308203514acd0a904e06b61411e0230c76c6719a",
+     "prism_pack_sha256": "b2bbe617e5d6c1e768f3c0de308203514acd0a904e06b61411e0230c76c6719a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.44.ssm_out.weight",
+   "module": "language_model.model.layers.44.linear_attn.out_proj",
+   "derivative_sha256": "f7d3ed89ad89b1cb662c517dee3bccb56c4e06e310135e6c7e147c564ff2b743",
+   "components": {
+    "weight": {
+     "range": [2212418182, 2220282502],
+     "transcode_sha256": "88a1f764ad772a12980c6efbcde94656b6c16f344682eaf64e9fd63afb496cc1",
+     "prism_pack_sha256": "b438c81b214193ea068ec2fe3ebf139633c16da03bcbbe6d0adb3bbfad5ca805",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5666363782, 5666855302],
+     "transcode_sha256": "2b2121ed1d440b74638eb0c87660f55e976cda661670cea58359ca2dc236b666",
+     "prism_pack_sha256": "2b2121ed1d440b74638eb0c87660f55e976cda661670cea58359ca2dc236b666",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4696580518, 4697072038],
+     "transcode_sha256": "998e3de57d5bc5a3d42b379fbd2a133b34861a9a012b692ef7820f20d54578fb",
+     "prism_pack_sha256": "998e3de57d5bc5a3d42b379fbd2a133b34861a9a012b692ef7820f20d54578fb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.45.ffn_down.weight",
+   "module": "language_model.model.layers.45.mlp.down_proj",
+   "derivative_sha256": "977019c2f560a52aa8515eb20cf4775a0d66ee222ea5ae8271602b12b7081085",
+   "components": {
+    "weight": {
+     "range": [5437114950, 5459397190],
+     "transcode_sha256": "5e6bde69cfc5fb6f9f06ff7224892e266ac71a238713c93fad93a40884bde0bc",
+     "prism_pack_sha256": "195c7fee5d28fde36b68eb3abf4f12eda6f27a490a0de1d842c1ce615265e6cd",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5377231238, 5378623878],
+     "transcode_sha256": "70fd9895dbb1969b85c8e68a9dabe5df985d257017bf670ed8c58cc01db00fcb",
+     "prism_pack_sha256": "70fd9895dbb1969b85c8e68a9dabe5df985d257017bf670ed8c58cc01db00fcb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1958953862, 1960346502],
+     "transcode_sha256": "f133227245e23d496c877f7767e2f0bb2e9b8cb65b0893e1cb69f7ba79c76349",
+     "prism_pack_sha256": "f133227245e23d496c877f7767e2f0bb2e9b8cb65b0893e1cb69f7ba79c76349",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.45.ssm_out.weight",
+   "module": "language_model.model.layers.45.linear_attn.out_proj",
+   "derivative_sha256": "df327ea2e734276dd035d9479a61ab62bcf52fae2c89276b07204b3f5bfdcb93",
+   "components": {
+    "weight": {
+     "range": [1543657542, 1551521862],
+     "transcode_sha256": "bf75f2e852925e70a19ed0979c2eda124d210fdee65af24328d9b4a536a38841",
+     "prism_pack_sha256": "66804404d1938894c1e4f1216e384ebf17b551138ea9f257d7bf8cd95462e45b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3894204806, 3894696326],
+     "transcode_sha256": "e0af410251771dcaa8221154af7b755b9bf708d513110d0045a7c26091e40c0c",
+     "prism_pack_sha256": "e0af410251771dcaa8221154af7b755b9bf708d513110d0045a7c26091e40c0c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6698030022, 6698521542],
+     "transcode_sha256": "5b2b0c2ea1805a44661f159af1bc8525c6f583d21856358011925835915da6e4",
+     "prism_pack_sha256": "5b2b0c2ea1805a44661f159af1bc8525c6f583d21856358011925835915da6e4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.46.ffn_down.weight",
+   "module": "language_model.model.layers.46.mlp.down_proj",
+   "derivative_sha256": "4b5dfab3e3be846b22920de22797f0cd36f347a0db0b4732f74c59922c55f0ca",
+   "components": {
+    "weight": {
+     "range": [5229597926, 5251880166],
+     "transcode_sha256": "8e3ad4c2c1432b78767ec8ae6b310f915dca047531ef9cb1c8d23d267bdcf7ba",
+     "prism_pack_sha256": "e5d67837afc6938a91253a3ab8e33e513bf633dcafa3d6f19dea236ba3406a3f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4398752166, 4400144806],
+     "transcode_sha256": "4585329c2b4ba5d46c0dc4d6bd22267193dddd281621b359dfc9a6eec278bb71",
+     "prism_pack_sha256": "4585329c2b4ba5d46c0dc4d6bd22267193dddd281621b359dfc9a6eec278bb71",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6827012486, 6828405126],
+     "transcode_sha256": "17855a9b30e527a71a2c71f810bfc2625e29dbfb06e4ce8e244365c438668983",
+     "prism_pack_sha256": "17855a9b30e527a71a2c71f810bfc2625e29dbfb06e4ce8e244365c438668983",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.46.ssm_out.weight",
+   "module": "language_model.model.layers.46.linear_attn.out_proj",
+   "derivative_sha256": "3933ab66228e5f50336a4b32f00e1f6c0ae6e5e7fa5f5c36cc9add793162a607",
+   "components": {
+    "weight": {
+     "range": [5619277446, 5627141766],
+     "transcode_sha256": "e0fa51810423700b5ae29ad3cfcfa9a295377314c15bb7bec6d2997f40ba3137",
+     "prism_pack_sha256": "cd6805120232da8342afa0a9a5da8030d4a72e8e3709f0229bbaf4dab59dc190",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5325121222, 5325612742],
+     "transcode_sha256": "b6e2e73e369d9db9fa88ef72b9db898f08910ff26bb1e40b7ae7608db77f1e01",
+     "prism_pack_sha256": "b6e2e73e369d9db9fa88ef72b9db898f08910ff26bb1e40b7ae7608db77f1e01",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5593276038, 5593767558],
+     "transcode_sha256": "f9fdf29b1e9e90763224a7b1a074efe72932c15f70297874edc4d6a8859b7ec6",
+     "prism_pack_sha256": "f9fdf29b1e9e90763224a7b1a074efe72932c15f70297874edc4d6a8859b7ec6",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.47.attn_output.weight",
+   "module": "language_model.model.layers.47.self_attn.o_proj",
+   "derivative_sha256": "ffb57ff06d3a628a7e05b9a90e946a507936b091900e940448d930497e7ed61d",
+   "components": {
+    "weight": {
+     "range": [5759293478, 5767157798],
+     "transcode_sha256": "c7b8c9b3889a9ea7e83e6fed1a34f48b67db897e53c45240e7825fc8b6d4f932",
+     "prism_pack_sha256": "6064119d8b118cb72cf6e835bc1cfe5a5d53b26a4aee11a3af89d0efbd8e7ef7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [1276644902, 1277136422],
+     "transcode_sha256": "08750e1da78b3e8d356a4f42211b274db135667989b447888da661057805f404",
+     "prism_pack_sha256": "08750e1da78b3e8d356a4f42211b274db135667989b447888da661057805f404",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4999711078, 5000202598],
+     "transcode_sha256": "ce76c1f43c565d9f81c55e931555869271684127d417c2174d2c944d5fa37541",
+     "prism_pack_sha256": "ce76c1f43c565d9f81c55e931555869271684127d417c2174d2c944d5fa37541",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.47.ffn_down.weight",
+   "module": "language_model.model.layers.47.mlp.down_proj",
+   "derivative_sha256": "ed45dc82e1c515968b10047e8efc9e0aff844d9a3f2d42355daaacdda4f7c24b",
+   "components": {
+    "weight": {
+     "range": [5283289318, 5305571558],
+     "transcode_sha256": "f579ebe7c628a33461479b359920ae06c1f3166ba7ecbc38076fde2c287b5576",
+     "prism_pack_sha256": "9463aee9c8f5878a20b6fd163f792ef5d7291e7d3c2d596f41b338426deae0a7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5679074086, 5680466726],
+     "transcode_sha256": "2a701725fc84d495ccf6e1fe17365cf6751c6cd8aa4aee87f861a6de2b0039d7",
+     "prism_pack_sha256": "2a701725fc84d495ccf6e1fe17365cf6751c6cd8aa4aee87f861a6de2b0039d7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5482734598, 5484127238],
+     "transcode_sha256": "e4e825d9be1fb76aa7128ad37c0b70451f8dabb46cc8aea0cb9783092dbfbc89",
+     "prism_pack_sha256": "e4e825d9be1fb76aa7128ad37c0b70451f8dabb46cc8aea0cb9783092dbfbc89",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.48.ffn_down.weight",
+   "module": "language_model.model.layers.48.mlp.down_proj",
+   "derivative_sha256": "29baf3f5ec5064685a021ba6b314727f8ade7d1097743359341a196ad3aae956",
+   "components": {
+    "weight": {
+     "range": [6699914182, 6722196422],
+     "transcode_sha256": "8acf426988a453ec341425bdc2c699eb0836e687245891d1771de9921bb4d54b",
+     "prism_pack_sha256": "3a76339b368a083e5b90a3a80e4de942acc887dc169f07ffc9b5d5c8bf3e9d1f",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5965202534, 5966595174],
+     "transcode_sha256": "a26e72eeebb27887d08741ace87ad44b428f35e1b51342f2bdd5d1c4ee78138c",
+     "prism_pack_sha256": "a26e72eeebb27887d08741ace87ad44b428f35e1b51342f2bdd5d1c4ee78138c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6490643974, 6492036614],
+     "transcode_sha256": "34569fbf8c5f5319ddbcd5a54eac7db37114235ba0f9221e7ab7398ad6dbaab4",
+     "prism_pack_sha256": "34569fbf8c5f5319ddbcd5a54eac7db37114235ba0f9221e7ab7398ad6dbaab4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.48.ssm_out.weight",
+   "module": "language_model.model.layers.48.linear_attn.out_proj",
+   "derivative_sha256": "803e7b533426b0d4a8cd0fd592616f1def9e0d784f1fc7bcbc4ce3fe4dc0c8c6",
+   "components": {
+    "weight": {
+     "range": [2460137862, 2468002182],
+     "transcode_sha256": "8b77fcc38e5641bc21883c501991c0f71ab2588efd261b8896ae9c3eb40503ee",
+     "prism_pack_sha256": "88b55ea5a5b2f1deba8a95cef080c09776325c8d9212bb0d0a52be539de417c7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2739692070, 2740183590],
+     "transcode_sha256": "4df5f74725fdf5bf8628be1eab97a7a0eb5e485fee9710c99802847ba89859d4",
+     "prism_pack_sha256": "4df5f74725fdf5bf8628be1eab97a7a0eb5e485fee9710c99802847ba89859d4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [7726389702, 7726881222],
+     "transcode_sha256": "6ce761d5e93f180df74d2191f79178d97a366921822fdfbd44f735d1a2ea68d5",
+     "prism_pack_sha256": "6ce761d5e93f180df74d2191f79178d97a366921822fdfbd44f735d1a2ea68d5",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.49.ffn_down.weight",
+   "module": "language_model.model.layers.49.mlp.down_proj",
+   "derivative_sha256": "ce52b7782628880e3706bfc5e7c75aec3c8656e6b3653ce6eb9877cfce5130c0",
+   "components": {
+    "weight": {
+     "range": [8446100198, 8468382438],
+     "transcode_sha256": "ced0a02ba071e64f48a7f374492b4f76755c108e9722e8ef8b8a0d3587a13f69",
+     "prism_pack_sha256": "c52fa16be0bffe0c649bd4a6a4a14047dc14575e48880558433128273ac03d76",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5685709094, 5687101734],
+     "transcode_sha256": "c619e5075697393f46a8be9a41a49b70935b8799fc6ad51bb2aec605f203a030",
+     "prism_pack_sha256": "c619e5075697393f46a8be9a41a49b70935b8799fc6ad51bb2aec605f203a030",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5922403238, 5923795878],
+     "transcode_sha256": "2fc4bbf7607624e878bf61706ccdb9d3b3a4cd015ad2f6b4e0e614edae18cec3",
+     "prism_pack_sha256": "2fc4bbf7607624e878bf61706ccdb9d3b3a4cd015ad2f6b4e0e614edae18cec3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.49.ssm_out.weight",
+   "module": "language_model.model.layers.49.linear_attn.out_proj",
+   "derivative_sha256": "f44c1f380dcf2242ee88a3d9270859f608641581b32d2826c63a83a8767077f9",
+   "components": {
+    "weight": {
+     "range": [2187899526, 2195763846],
+     "transcode_sha256": "ca17e0e79a1142f019529d3c998afedeefb0871b374c0616b8bfb4eb3f8498e9",
+     "prism_pack_sha256": "0faa53b1c00cf338e75cd537812a220f0dbafe96074815ecfca8c801f49831e7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [7574806374, 7575297894],
+     "transcode_sha256": "33c7c93831cef277b444c0bd06f6bac7d05b955e1dec0363133de463304c3e27",
+     "prism_pack_sha256": "33c7c93831cef277b444c0bd06f6bac7d05b955e1dec0363133de463304c3e27",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5667674502, 5668166022],
+     "transcode_sha256": "b1048ddb29e736321eee59f1142f6503f1f236718a2cb8b6efcf92d53946c4a4",
+     "prism_pack_sha256": "b1048ddb29e736321eee59f1142f6503f1f236718a2cb8b6efcf92d53946c4a4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.50.ffn_down.weight",
+   "module": "language_model.model.layers.50.mlp.down_proj",
+   "derivative_sha256": "5bfd8180f06aeaaf2695beb56b42089a546c3db74374fa6f7054498933ae9a67",
+   "components": {
+    "weight": {
+     "range": [5834423014, 5856705254],
+     "transcode_sha256": "93f29cbe1afd67d5a66622c571e43d74944e213e22555f67fd365c3006b6f9fc",
+     "prism_pack_sha256": "bc613b5205d070992c52633aca1ed9a7d80084d6de426371d2a632eed5b16ab7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6351587302, 6352979942],
+     "transcode_sha256": "1b5293092c5a9a3945ecaa17826715e4e2258a750f89c39f33c73dd23e78907e",
+     "prism_pack_sha256": "1b5293092c5a9a3945ecaa17826715e4e2258a750f89c39f33c73dd23e78907e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [7575318374, 7576711014],
+     "transcode_sha256": "8b93002d9588daa000f6975997d4431744e269c1ee0183b0df478355916a65ca",
+     "prism_pack_sha256": "8b93002d9588daa000f6975997d4431744e269c1ee0183b0df478355916a65ca",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.50.ssm_out.weight",
+   "module": "language_model.model.layers.50.linear_attn.out_proj",
+   "derivative_sha256": "aa9cd4580da3d2e4b6cf1b2e7567ea187d74c2196f470e90bc76efaa3e9aa4a5",
+   "components": {
+    "weight": {
+     "range": [2984259942, 2992124262],
+     "transcode_sha256": "d82348114e5541b9a0bfac597710acbd28d99f1cc7a93e5497eb0cb84922c251",
+     "prism_pack_sha256": "ac8fc84faf6b31d71aaccbaa669c3d293d3279bc3b727e357c354d6c86f88caa",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2495671558, 2496163078],
+     "transcode_sha256": "8394c2d788eec31a17c392e7ff4c96fcb0c00043460196aa404f5be073278071",
+     "prism_pack_sha256": "8394c2d788eec31a17c392e7ff4c96fcb0c00043460196aa404f5be073278071",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2496654598, 2497146118],
+     "transcode_sha256": "70695a47118b47db71d45d1b59c7ea3a01c62903a8267f2277830b0d9fb4ea21",
+     "prism_pack_sha256": "70695a47118b47db71d45d1b59c7ea3a01c62903a8267f2277830b0d9fb4ea21",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.51.attn_output.weight",
+   "module": "language_model.model.layers.51.self_attn.o_proj",
+   "derivative_sha256": "05a8a89ad1dfe4407ba041c2f0094f22944a362cc03df21ea008a419f86a71aa",
+   "components": {
+    "weight": {
+     "range": [579748902, 587613222],
+     "transcode_sha256": "17ffe6886a266765bf861a5b549e3b5aac3facdb24cb0affaf95a9c1e108f8e3",
+     "prism_pack_sha256": "a773bd6f8f7067029e797b4b6be6ea74a4572fff616450d7447552361a8f1271",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5881876390, 5882367910],
+     "transcode_sha256": "86c7bee9a00436bbe9416513bb818a53bb003d113f2dc33bb287e341f14a4723",
+     "prism_pack_sha256": "86c7bee9a00436bbe9416513bb818a53bb003d113f2dc33bb287e341f14a4723",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4997785958, 4998277478],
+     "transcode_sha256": "fb9ee9208f089ef3f104c0a76b6fe564214b483468ff22df25c6b0fd573f59f6",
+     "prism_pack_sha256": "fb9ee9208f089ef3f104c0a76b6fe564214b483468ff22df25c6b0fd573f59f6",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.51.ffn_down.weight",
+   "module": "language_model.model.layers.51.mlp.down_proj",
+   "derivative_sha256": "51728ea4b1c892f04376d21dd579c334456702ee70f757a4da013b4e504d1fb0",
+   "components": {
+    "weight": {
+     "range": [3403659238, 3425941478],
+     "transcode_sha256": "7a35290bc6b8c977b984f7753660f1dde8dccef8f6908f023e8c239d84cfcd39",
+     "prism_pack_sha256": "1dcf8f2739fa0e18bd936a4f7bac105b8d6596a3f6430c5216522d2f8f76d1d5",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5049054502, 5050447142],
+     "transcode_sha256": "f09681a663f44d42f3d06b35df7fd0c609cdef9933bdf49a47ffa994af32fe2b",
+     "prism_pack_sha256": "f09681a663f44d42f3d06b35df7fd0c609cdef9933bdf49a47ffa994af32fe2b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5331273926, 5332666566],
+     "transcode_sha256": "776698a744c345ef7fadfae2b8f511dd8663406f413ee6dfa6dee636121e6a8d",
+     "prism_pack_sha256": "776698a744c345ef7fadfae2b8f511dd8663406f413ee6dfa6dee636121e6a8d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.52.ffn_down.weight",
+   "module": "language_model.model.layers.52.mlp.down_proj",
+   "derivative_sha256": "82842d708fb5e5b6757758b38341a662fc9af74bf1bb56f34c32bb4fc6fdc50c",
+   "components": {
+    "weight": {
+     "range": [6255804390, 6278086630],
+     "transcode_sha256": "df3e5543f6d2235838c1f86fe5efbb45f99893bef52429266b7f6bda5ce4e19d",
+     "prism_pack_sha256": "f92a4c871458a9185a3f3d87cf8e875ed868f6e80337861942632f762ad8c8f1",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6232129510, 6233522150],
+     "transcode_sha256": "ee32efb9074328f04dd8c065c5e4f1fdb43cde237ec57c2f67096302e16b9410",
+     "prism_pack_sha256": "ee32efb9074328f04dd8c065c5e4f1fdb43cde237ec57c2f67096302e16b9410",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [3800056710, 3801449350],
+     "transcode_sha256": "ed43cf8db10682b1c4b87445edc249d854635a20c001baa39be8fed3e740ea61",
+     "prism_pack_sha256": "ed43cf8db10682b1c4b87445edc249d854635a20c001baa39be8fed3e740ea61",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.52.ssm_out.weight",
+   "module": "language_model.model.layers.52.linear_attn.out_proj",
+   "derivative_sha256": "beaf5b014c5ebd4a8d96194b6b2e626930e567996371294dcc9c5a04eba2a5bf",
+   "components": {
+    "weight": {
+     "range": [3684468870, 3692333190],
+     "transcode_sha256": "8e189ad1dd6242c7f97b3938f277259e6c816ffdaadad71555d1c57a48a1abab",
+     "prism_pack_sha256": "1f96fd111071bc4f7da74e853754dc48d754fa0592cb274fe1b4f567b3830a16",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5484127238, 5484618758],
+     "transcode_sha256": "499622e3364ca5f201b2578915531914d76fe977d46373520c031a61da44c12b",
+     "prism_pack_sha256": "499622e3364ca5f201b2578915531914d76fe977d46373520c031a61da44c12b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4218997222, 4219488742],
+     "transcode_sha256": "420f70ea6d33394f1e9cf92fd546e6db0328d51d99ff2f935afd76661a878dc4",
+     "prism_pack_sha256": "420f70ea6d33394f1e9cf92fd546e6db0328d51d99ff2f935afd76661a878dc4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.53.ffn_down.weight",
+   "module": "language_model.model.layers.53.mlp.down_proj",
+   "derivative_sha256": "a286da40fabb6e9d05fd98df18a55c78136b960e169a394786f249cdf9159f38",
+   "components": {
+    "weight": {
+     "range": [4558037030, 4580319270],
+     "transcode_sha256": "5bc9bc0560580354d3ecbfc80a9eb9eb8f173a0f42559a05c3fc548b424ccb58",
+     "prism_pack_sha256": "0146e40c26efd4cfd407a3fae63c0381a573e26c178b4c2437ece5a9719fe51b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4719051366, 4720444006],
+     "transcode_sha256": "d538842617653bff90a1409f5ae6984bda39d7f07398bdb35e3fab4a98ded5e0",
+     "prism_pack_sha256": "d538842617653bff90a1409f5ae6984bda39d7f07398bdb35e3fab4a98ded5e0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6396734022, 6398126662],
+     "transcode_sha256": "23fc0911775be97332f2bc2626c643132c2adbd999a613bbb615dd58da3f8f06",
+     "prism_pack_sha256": "23fc0911775be97332f2bc2626c643132c2adbd999a613bbb615dd58da3f8f06",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.53.ssm_out.weight",
+   "module": "language_model.model.layers.53.linear_attn.out_proj",
+   "derivative_sha256": "b7298f1945f685567be65b9726699faccde5a8302d7020ee86fa3a9197db1470",
+   "components": {
+    "weight": {
+     "range": [716843238, 724707558],
+     "transcode_sha256": "a2802c813db53765d5b1a4975fdc811df26e493b328904ea313d0bd798405880",
+     "prism_pack_sha256": "9348eadd45cc845f6a04196496bae04925a690cdcc1ed6bf1fbeb0b18aec603a",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6352979942, 6353471462],
+     "transcode_sha256": "f41f57fa2f950ddb1dccd39dea359208a7a0f792de1b130c64e4646ee1c4cf08",
+     "prism_pack_sha256": "f41f57fa2f950ddb1dccd39dea359208a7a0f792de1b130c64e4646ee1c4cf08",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2444416518, 2444908038],
+     "transcode_sha256": "4c2d103ca02df9fda33a1b65fe0c5e322dcc5746d7372beac51e7d4891f2b5c4",
+     "prism_pack_sha256": "4c2d103ca02df9fda33a1b65fe0c5e322dcc5746d7372beac51e7d4891f2b5c4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.54.ffn_down.weight",
+   "module": "language_model.model.layers.54.mlp.down_proj",
+   "derivative_sha256": "d4f1c0d1783df284ea1d396c7def6e7fffc73abed3f3c295738c7a019bb8e31d",
+   "components": {
+    "weight": {
+     "range": [4671410598, 4693692838],
+     "transcode_sha256": "85c4632126a8e5fa031fc853d4d6e37437460806965aa20253c064976c58feda",
+     "prism_pack_sha256": "d77cf9eb182a1fccc1edbf4c07c34e5ca593ba2202e7812cc46c15ce0b3eb92c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [726100198, 727492838],
+     "transcode_sha256": "d1da33f78b460d2f6b2ebf47b50e43e93d6b7e8e08a26cdfb57da90b85850722",
+     "prism_pack_sha256": "d1da33f78b460d2f6b2ebf47b50e43e93d6b7e8e08a26cdfb57da90b85850722",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6544214278, 6545606918],
+     "transcode_sha256": "9bc8087273ddba8d640ea417b56c8d89f4d038a39dffb217ee4ba2a05ed72cfd",
+     "prism_pack_sha256": "9bc8087273ddba8d640ea417b56c8d89f4d038a39dffb217ee4ba2a05ed72cfd",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.54.ssm_out.weight",
+   "module": "language_model.model.layers.54.linear_attn.out_proj",
+   "derivative_sha256": "cde99431ea90a686db7e34135810c4b5e8536ce374f29052f6af2994dbb83ca4",
+   "components": {
+    "weight": {
+     "range": [672687334, 680551654],
+     "transcode_sha256": "124302a16055f60ca2a8d4773d9875d67f7e65c6df1c6c8f5f3cb384b538d655",
+     "prism_pack_sha256": "df1fa4a48c7421ffe1ab55d107c3bad9eaecfa256285d5ac2a5effc4dc58cb9d",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6501391878, 6501883398],
+     "transcode_sha256": "2e0d909afcff2da829ace2abbb73c4bac6a1a633d0d4625fcb9660314418afb0",
+     "prism_pack_sha256": "2e0d909afcff2da829ace2abbb73c4bac6a1a633d0d4625fcb9660314418afb0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4834808806, 4835300326],
+     "transcode_sha256": "81df971270ff613e41eba7883bc3289ec3fe4800a965c56d671733514cc3ef16",
+     "prism_pack_sha256": "81df971270ff613e41eba7883bc3289ec3fe4800a965c56d671733514cc3ef16",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.55.attn_output.weight",
+   "module": "language_model.model.layers.55.self_attn.o_proj",
+   "derivative_sha256": "44246ac12b7b861a6400bcc5c7eff4b748899cad33f29a2124152abaeb541fae",
+   "components": {
+    "weight": {
+     "range": [8248876134, 8256740454],
+     "transcode_sha256": "6f2aac42928aa2aeee8ccf5670df9c085c7b12532a8c12794b5d3c0c5d1ec293",
+     "prism_pack_sha256": "60ed681d564c077c96b8e431768124685abcd356aa31b7848d1f256a2f0a6c11",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2069232198, 2069723718],
+     "transcode_sha256": "89b81ee11a8150694cd931e41a4c9c2f6b52df238665494e5eeff8ce3ad8f5b0",
+     "prism_pack_sha256": "89b81ee11a8150694cd931e41a4c9c2f6b52df238665494e5eeff8ce3ad8f5b0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1086960486, 1087452006],
+     "transcode_sha256": "c9d6867abf4ed6585255c638134abac0d3ad91c5e158a2d5950067a73d9f7d61",
+     "prism_pack_sha256": "c9d6867abf4ed6585255c638134abac0d3ad91c5e158a2d5950067a73d9f7d61",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.55.ffn_down.weight",
+   "module": "language_model.model.layers.55.mlp.down_proj",
+   "derivative_sha256": "496d403934a5373a322a4bf4e047b8302d17b3a4167f615f7b0c14907e9d4a0a",
+   "components": {
+    "weight": {
+     "range": [2668865446, 2691147686],
+     "transcode_sha256": "611b13f8492ec856397b6eee32a1bd61949fc57651fcf2e93fdf89f8781169a4",
+     "prism_pack_sha256": "3f41d80613a51f50ffafcfd81d3b88703556cd886ffab72c32d39f04be256920",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4695187878, 4696580518],
+     "transcode_sha256": "23780797eea909b1afc721438529c3da83e2f4dcbc3d777e143399fc19298896",
+     "prism_pack_sha256": "23780797eea909b1afc721438529c3da83e2f4dcbc3d777e143399fc19298896",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2740183590, 2741576230],
+     "transcode_sha256": "d2472e574da9728fc89807e0d20dc9ea05aaf643265e15dce813a139bdad28a6",
+     "prism_pack_sha256": "d2472e574da9728fc89807e0d20dc9ea05aaf643265e15dce813a139bdad28a6",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.56.ffn_down.weight",
+   "module": "language_model.model.layers.56.mlp.down_proj",
+   "derivative_sha256": "daebedadf216550ab7ed0c0b3ba284ed8c1823911b69fc70b1502e05e5a18984",
+   "components": {
+    "weight": {
+     "range": [5513891270, 5536173510],
+     "transcode_sha256": "177b4df4d7dc43b89a93e284dfe7d7086161e1b1520d5f6f92b21dbaa19ad503",
+     "prism_pack_sha256": "f7bd840b36d4ad2938cbd669a1eb08c4aa4bc1de964c0fffc893009ef08f7524",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3797681030, 3799073670],
+     "transcode_sha256": "47a9e95c2133e2ac217a0a81c58110efe3310ca7fdfba45301ad2e8d3c5a4ff4",
+     "prism_pack_sha256": "47a9e95c2133e2ac217a0a81c58110efe3310ca7fdfba45301ad2e8d3c5a4ff4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5711147558, 5712540198],
+     "transcode_sha256": "1cd16f240515da8cd0a96082568ce24a5f80e92476be40f540b18b10ab3c3d70",
+     "prism_pack_sha256": "1cd16f240515da8cd0a96082568ce24a5f80e92476be40f540b18b10ab3c3d70",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.56.ssm_out.weight",
+   "module": "language_model.model.layers.56.linear_attn.out_proj",
+   "derivative_sha256": "609a0d37834c233668619483f5b4399cd5f0a3b5f231d857d941976f4027e149",
+   "components": {
+    "weight": {
+     "range": [7656291846, 7664156166],
+     "transcode_sha256": "dd448c6faa654cd13c4306c51f80d68b667c04c38912c2edf10d5348a030ef72",
+     "prism_pack_sha256": "77ad662c187c0905072ab2644a3396d9b14311d7d568d507b1c79c65a99b7523",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3619861030, 3620352550],
+     "transcode_sha256": "4bacf955d42a4f7b73815d433ae198458c51e07f726e209edc60fd5083071cd6",
+     "prism_pack_sha256": "4bacf955d42a4f7b73815d433ae198458c51e07f726e209edc60fd5083071cd6",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [6801348742, 6801840262],
+     "transcode_sha256": "1a4460285dd450ddc087fc2c8e34a48c388ef55ecedfa2bf45d1b1dcd8271438",
+     "prism_pack_sha256": "1a4460285dd450ddc087fc2c8e34a48c388ef55ecedfa2bf45d1b1dcd8271438",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.57.ffn_down.weight",
+   "module": "language_model.model.layers.57.mlp.down_proj",
+   "derivative_sha256": "157809ecd193c33da6b15b91cc9b6ef5f21beb2d50304acdee5bf9f903dcd683",
+   "components": {
+    "weight": {
+     "range": [5379443078, 5401725318],
+     "transcode_sha256": "cdf81d8879cf652dd1a4f4d9c4b41aed143c0b1c4f9b39d5febd06d7740de7a9",
+     "prism_pack_sha256": "623bed0b36dee9a8da92dbcd444b24fa41e638390fb45f47abbbe1adaf4c9df7",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5627141766, 5628534406],
+     "transcode_sha256": "6f6eed101e33f448eaff7238ef31d3273d2272665f954482a9de66949d9c85dc",
+     "prism_pack_sha256": "6f6eed101e33f448eaff7238ef31d3273d2272665f954482a9de66949d9c85dc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4612608230, 4614000870],
+     "transcode_sha256": "fc16460d105191ee8c38733550125b78d6f8cff39a1e2e87b6b6c7368198e335",
+     "prism_pack_sha256": "fc16460d105191ee8c38733550125b78d6f8cff39a1e2e87b6b6c7368198e335",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.57.ssm_out.weight",
+   "module": "language_model.model.layers.57.linear_attn.out_proj",
+   "derivative_sha256": "052605ce5776306d209ebed0fe8eebae2d3f87de5dcbe48d55b36fb52ab68982",
+   "components": {
+    "weight": {
+     "range": [3393419238, 3401283558],
+     "transcode_sha256": "b2261540c82ffcafa2a3e2b6384042ab7f02ef6dc11502cca4cee2c9d5b0a5e3",
+     "prism_pack_sha256": "76d28c95f0c1d34e6205f8d57c736716f6c32a255b4c4e7c589a60fb7b2975bc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3922884934, 3923376454],
+     "transcode_sha256": "b92836940c7267b60af6018e71d1bad5cdc51955b977ecfe6498ddb8cf74bb49",
+     "prism_pack_sha256": "b92836940c7267b60af6018e71d1bad5cdc51955b977ecfe6498ddb8cf74bb49",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [2423526918, 2424018438],
+     "transcode_sha256": "5de2c9e75c77d47e2698d93e2b410bd9a4d342c80677591d7387c5f1e69a1a23",
+     "prism_pack_sha256": "5de2c9e75c77d47e2698d93e2b410bd9a4d342c80677591d7387c5f1e69a1a23",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.58.ffn_down.weight",
+   "module": "language_model.model.layers.58.mlp.down_proj",
+   "derivative_sha256": "a9856b51dd792f682d8ea6d61029b5ad008bc7e6466b7cd62d192bb44499445e",
+   "components": {
+    "weight": {
+     "range": [4854666662, 4876948902],
+     "transcode_sha256": "e43945c5def02b75a217749074d99701f6a5866ef3f494b2802c6f3e7f79f9e0",
+     "prism_pack_sha256": "d397d81018d4fb727aac0ea2161523293a28d119c2ffc15fa9ca7c15915e6b9e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4297623334, 4299015974],
+     "transcode_sha256": "f71b7184625753b72f283d50012c1372f09c5f904cef6420c97dce1f414576aa",
+     "prism_pack_sha256": "f71b7184625753b72f283d50012c1372f09c5f904cef6420c97dce1f414576aa",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4518930982, 4520323622],
+     "transcode_sha256": "f07cb072364555fc68e626d27d4ee94effc1e932a4770dcfd4713a33ef1d390b",
+     "prism_pack_sha256": "f07cb072364555fc68e626d27d4ee94effc1e932a4770dcfd4713a33ef1d390b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.58.ssm_out.weight",
+   "module": "language_model.model.layers.58.linear_attn.out_proj",
+   "derivative_sha256": "6a8660aa258af5f6ea51c9a82be1449c82d729e88840b4248e2b711b124c458c",
+   "components": {
+    "weight": {
+     "range": [5773363430, 5781227750],
+     "transcode_sha256": "aa6285443164543f5d741f4d0c50e07706f13a3f6bf8b0b75107ea2b35b20a91",
+     "prism_pack_sha256": "373aa5d3986725d03c44bf7584dde96b7052fdb4b79d9fb5321c5621fc7e197b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [2490775942, 2491267462],
+     "transcode_sha256": "927c753b3fe6143f02c1c115436ab794c3d7a73a5db2e51011520aa0a09827f0",
+     "prism_pack_sha256": "927c753b3fe6143f02c1c115436ab794c3d7a73a5db2e51011520aa0a09827f0",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1085055846, 1085547366],
+     "transcode_sha256": "331bfb8179cce6e6ec00e88525b44fbc4ab5e837f8fd7ca416fb4411afebc9d9",
+     "prism_pack_sha256": "331bfb8179cce6e6ec00e88525b44fbc4ab5e837f8fd7ca416fb4411afebc9d9",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.59.attn_output.weight",
+   "module": "language_model.model.layers.59.self_attn.o_proj",
+   "derivative_sha256": "ebc8d4257e224a8c565a75a781f08b043483e5ea7d4a2187740f6c472412f15f",
+   "components": {
+    "weight": {
+     "range": [2643080934, 2650945254],
+     "transcode_sha256": "f198b311976605e80840ade85102ad58b4a92cf734b29248457369c470a6908c",
+     "prism_pack_sha256": "7913d5443260a4621d6a1ddd7d5640bef8fad68b8e1c834b0a9afdc957cd486c",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [3623106502, 3623598022],
+     "transcode_sha256": "c2d01336b00ec0ecf8e5a7af89172991b1c3a69001ced4a463ba4eb872866626",
+     "prism_pack_sha256": "c2d01336b00ec0ecf8e5a7af89172991b1c3a69001ced4a463ba4eb872866626",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1148501478, 1148992998],
+     "transcode_sha256": "a9985442ec8e09125983430f5c05e76c7757cb366ae842d7dbc27d7c3faec1f9",
+     "prism_pack_sha256": "a9985442ec8e09125983430f5c05e76c7757cb366ae842d7dbc27d7c3faec1f9",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.59.ffn_down.weight",
+   "module": "language_model.model.layers.59.mlp.down_proj",
+   "derivative_sha256": "c565f6401f9ee7b8b9efc8b75e04a73d2b598c36718135e8164552bfe9eb9fbd",
+   "components": {
+    "weight": {
+     "range": [6579100422, 6601382662],
+     "transcode_sha256": "7e47604da1a42bd579c827c264ae37b5491affbe189d2ae62fd8abf0541e1838",
+     "prism_pack_sha256": "6d5a4a2bb50b99b362e52b38b45de762ecf3c86639906b876987a371626eb5eb",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [5325653702, 5327046342],
+     "transcode_sha256": "401783f44d5ba6bb6026b63a830ad3c009969d8405ef73a022fd3fb2a5655388",
+     "prism_pack_sha256": "401783f44d5ba6bb6026b63a830ad3c009969d8405ef73a022fd3fb2a5655388",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4555162918, 4556555558],
+     "transcode_sha256": "44af04b80b3294424e46681ccab4f7ab68d612b3a8afff1c0e7a1563827786ba",
+     "prism_pack_sha256": "44af04b80b3294424e46681ccab4f7ab68d612b3a8afff1c0e7a1563827786ba",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.60.ffn_down.weight",
+   "module": "language_model.model.layers.60.mlp.down_proj",
+   "derivative_sha256": "7cb66006db14189bd0f2646837f5ecf02c7f671b671557c27e9e003417a9c717",
+   "components": {
+    "weight": {
+     "range": [4630905254, 4653187494],
+     "transcode_sha256": "55109406d7a2437b9cfc8b6d281d295ac1543288e98b012f32ea67baa510927f",
+     "prism_pack_sha256": "ab62c25a8db7b2d4b78c53d427f3ceb12a7b390285247acd271dc2ed87e66527",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6908730342, 6910122982],
+     "transcode_sha256": "3acbdd2e397c7c4127ceb77403e69c41815963b8477d68c8ce9107691cff809e",
+     "prism_pack_sha256": "3acbdd2e397c7c4127ceb77403e69c41815963b8477d68c8ce9107691cff809e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4556644390, 4558037030],
+     "transcode_sha256": "7da308d5eadd6e9e5b5943a465acbde8b4f271c5e8c8d2a8a1ad78b030c8a156",
+     "prism_pack_sha256": "7da308d5eadd6e9e5b5943a465acbde8b4f271c5e8c8d2a8a1ad78b030c8a156",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.60.ssm_out.weight",
+   "module": "language_model.model.layers.60.linear_attn.out_proj",
+   "derivative_sha256": "0fb3e1379aabbb983687ccb68889cbb0961ca2e5aebb577087bf62d314effa3f",
+   "components": {
+    "weight": {
+     "range": [7527184550, 7535048870],
+     "transcode_sha256": "b95022114a5955c4cf7bf28cdf7eca8f3daa15c574210613bae0be707909e558",
+     "prism_pack_sha256": "c69bdcfb850023a1673583f4e7910d0e213488d70a22b62277bd2584a1711bbc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [4911867302, 4912358822],
+     "transcode_sha256": "b142d283c088b6df113462864dd96cef65e5d16839af3f7e10508ab2e834de48",
+     "prism_pack_sha256": "b142d283c088b6df113462864dd96cef65e5d16839af3f7e10508ab2e834de48",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5324440774, 5324932294],
+     "transcode_sha256": "33ee3e63b9539a8a0e82eaada37c7ddd28bc9c92363b7afadc2929c5201e071e",
+     "prism_pack_sha256": "33ee3e63b9539a8a0e82eaada37c7ddd28bc9c92363b7afadc2929c5201e071e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.61.ffn_down.weight",
+   "module": "language_model.model.layers.61.mlp.down_proj",
+   "derivative_sha256": "aa43cac7b04faf14b703df15426283e7b313dc6dd1526ac0f22926181668a69e",
+   "components": {
+    "weight": {
+     "range": [5537648070, 5559930310],
+     "transcode_sha256": "2f14a6b089cc1abd0b8d520cf59ce2a10c232373d22c78b57abcf7258c9b7142",
+     "prism_pack_sha256": "ce6fe69d9e53cb79e8f6c30f3d3df0a5ef7ab52bf2e6c4684884db972a002253",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [7599509350, 7600901990],
+     "transcode_sha256": "3d0038bec593eaa2d840e7556ba384d3c9e6331705493d25b098b34f49df9295",
+     "prism_pack_sha256": "3d0038bec593eaa2d840e7556ba384d3c9e6331705493d25b098b34f49df9295",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [7539047270, 7540439910],
+     "transcode_sha256": "dd2844fad7520bd8c27733c7d8f561e534233748b4ebf2efe55f402a0fe2e267",
+     "prism_pack_sha256": "dd2844fad7520bd8c27733c7d8f561e534233748b4ebf2efe55f402a0fe2e267",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.61.ssm_out.weight",
+   "module": "language_model.model.layers.61.linear_attn.out_proj",
+   "derivative_sha256": "495719437218c6bcb2882e32bd14741d4a76e235a1374c14932063f0843abde8",
+   "components": {
+    "weight": {
+     "range": [2994110822, 3001975142],
+     "transcode_sha256": "007f08379d4aedd1a9a93bd2fe0d88083f1bdb2d76f567ba32450bfb97cff4d4",
+     "prism_pack_sha256": "6246aa61494e49cc164423412d3ed6cb03bb8a214804c4b3be6409f9ec787432",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [7576711014, 7577202534],
+     "transcode_sha256": "3cbc88c4bc87c6cbea7574f14f291102a586745fb55ad06da2370d6d4a8f2794",
+     "prism_pack_sha256": "3cbc88c4bc87c6cbea7574f14f291102a586745fb55ad06da2370d6d4a8f2794",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [1426147110, 1426638630],
+     "transcode_sha256": "8cda34a37d7369819fbb4499a420695efe62f3284ede969ad40b36ddde8b8180",
+     "prism_pack_sha256": "8cda34a37d7369819fbb4499a420695efe62f3284ede969ad40b36ddde8b8180",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.62.ffn_down.weight",
+   "module": "language_model.model.layers.62.mlp.down_proj",
+   "derivative_sha256": "3b9f8c35f5620ab0fe31d9eb02f48cf2c778a8e8498c869a7b3ab17ef72f96a2",
+   "components": {
+    "weight": {
+     "range": [8488722406, 8511004646],
+     "transcode_sha256": "791c2514e5164d088bcad6bad94cb19d26f3d4531d1613d5944aa45c638caef7",
+     "prism_pack_sha256": "4881acd1fb5cf13f192ef8d06026c4c28a3600ece7cc423e2db0ae033ff84d85",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [7724504838, 7725897478],
+     "transcode_sha256": "8c11dd4ff1571e4bd2b449e0f3e716e71ccdfdda9ea0f5b4059593b9cacd2ea2",
+     "prism_pack_sha256": "8c11dd4ff1571e4bd2b449e0f3e716e71ccdfdda9ea0f5b4059593b9cacd2ea2",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [5655017862, 5656410502],
+     "transcode_sha256": "c204319af12943d1867c8e67dafe8e17456d824a616e3a30ac483c2b9ec9af8b",
+     "prism_pack_sha256": "c204319af12943d1867c8e67dafe8e17456d824a616e3a30ac483c2b9ec9af8b",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.62.ssm_out.weight",
+   "module": "language_model.model.layers.62.linear_attn.out_proj",
+   "derivative_sha256": "52d07dd6200049712779cba7c6979c5ac910ea3eba188ce02a9d09e051b09355",
+   "components": {
+    "weight": {
+     "range": [2077834502, 2085698822],
+     "transcode_sha256": "b060ba8053eae09734835d6325759153495e8bc56614d33815c4476c1130172c",
+     "prism_pack_sha256": "f5f8c1781aeb19fa72a94cf6ebb3c08b0b2c374ac38367699543b7d369036553",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [7723941382, 7724432902],
+     "transcode_sha256": "b397338450cdb1c60f804c8d617cc5481f4dfa472425813d2f3f39ac3fd55db3",
+     "prism_pack_sha256": "b397338450cdb1c60f804c8d617cc5481f4dfa472425813d2f3f39ac3fd55db3",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [7544687462, 7545178982],
+     "transcode_sha256": "a1617b5b4291bb724ec8c9d21a179b7c996e013f20f9947692cd1972dfefbfad",
+     "prism_pack_sha256": "a1617b5b4291bb724ec8c9d21a179b7c996e013f20f9947692cd1972dfefbfad",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.63.attn_output.weight",
+   "module": "language_model.model.layers.63.self_attn.o_proj",
+   "derivative_sha256": "e205dca252014c94c197dd2df46e65518808b6097112d3c51bf6bb9c258e0c1c",
+   "components": {
+    "weight": {
+     "range": [2069970182, 2077834502],
+     "transcode_sha256": "c98adefeb65b0c1d02b457362cdb0d1557aea83a1cfb9523b57b976a3896e8c7",
+     "prism_pack_sha256": "719967821cef1983ac15301a2b1ae5b2433952d118eea87b0c946583573ff940",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [6638422534, 6638914054],
+     "transcode_sha256": "ea5a724ccd6bcf0e9ee78f33c8412ab0c36b9018341c16bc6b3aaa8ba09fb81e",
+     "prism_pack_sha256": "ea5a724ccd6bcf0e9ee78f33c8412ab0c36b9018341c16bc6b3aaa8ba09fb81e",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [8435307046, 8435798566],
+     "transcode_sha256": "cf626d2027dabefcaa8eeebe534b8fcc934962bcdd64dd55034f9a8158d608a4",
+     "prism_pack_sha256": "cf626d2027dabefcaa8eeebe534b8fcc934962bcdd64dd55034f9a8158d608a4",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  },
+  {
+   "gguf": "blk.63.ffn_down.weight",
+   "module": "language_model.model.layers.63.mlp.down_proj",
+   "derivative_sha256": "0cce1c767bf745d34c63cfea315e9eed2a25ab471719d425eef8ba28947a95e2",
+   "components": {
+    "weight": {
+     "range": [6916232614, 6938514854],
+     "transcode_sha256": "4c07fbb46058e32fa8b725a58bc48056de6f6d4928678eb716d1a3faee3cf9c3",
+     "prism_pack_sha256": "89fe3a55da70fff4f4a79ae5a0f549d3e365eef61ef4c643e76094de4eb33ebc",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": true,
+     "written": true
+    },
+    "scales": {
+     "range": [8325685350, 8327077990],
+     "transcode_sha256": "b31b96c0170a5dd5cf96dc99d80c52caba2ff263890d40e8f558fa008af403c1",
+     "prism_pack_sha256": "b31b96c0170a5dd5cf96dc99d80c52caba2ff263890d40e8f558fa008af403c1",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    },
+    "biases": {
+     "range": [4693795238, 4695187878],
+     "transcode_sha256": "29c23e7c01fcf1a0a0cce97e77f5a27fc2e925b01b5e4a33f037b1274b4411a1",
+     "prism_pack_sha256": "29c23e7c01fcf1a0a0cce97e77f5a27fc2e925b01b5e4a33f037b1274b4411a1",
+     "prism_tensor_transcodes_to_prism_pack": true,
+     "differs_from_prism": false,
+     "written": false
+    }
+   }
+  }
+ ],
+ "free_gb_after_write": 5.865664512,
+ "verify": {
+  "file_size_equal": true,
+  "header_bytes_equal": true,
+  "ranges_contiguous_cover_file": true,
+  "entries": 2390,
+  "entries_expected_transcode": 294,
+  "entries_expected_prism": 2096,
+  "mismatched_entries": [],
+  "other_files_identical": {
+   ".gitattributes": true,
+   "LICENSE": true,
+   "NOTICE.txt": true,
+   "PACK-RUNTIME.md": true,
+   "README.md": true,
+   "assets/bonsai-logo.svg": true,
+   "chat_template.jinja": true,
+   "config.json": true,
+   "files.json": true,
+   "generation_config.json": true,
+   "hadamard.json": true,
+   "preprocessor_config.json": true,
+   "reload-validation.json": true,
+   "runtime/LICENSE": true,
+   "runtime/artifact.py": true,
+   "runtime/codec.py": true,
+   "runtime/requirements.txt": true,
+   "runtime/runtime.py": true,
+   "runtime/vision_artifact.py": true,
+   "tokenizer-validation.json": true,
+   "tokenizer.json": true,
+   "tokenizer_config.json": true
+  },
+  "all_ok": true
+ },
+ "dest_model_safetensors_sha256": "93503ce47022201fa4186451ace9f21463412a55f3e66b93fc5ad60bd10a2d48",
+ "free_gb_end": 5.865652224
+}

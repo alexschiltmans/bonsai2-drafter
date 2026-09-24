@@ -119,7 +119,7 @@ lets the block see the target's row at the anchor looks better on a proxy and se
 
 The measurements on the model cards were taken with this code. The evidence under
 [`evidence/`](evidence/README.md) backs the cards' acceptance, throughput, 4-bit equivalence,
-quality and tool-call, and fork-probe figures: the raw reports with full token arrays, sanitized
+quality and tool-call, fork-probe, ProCreations comparison and derivative figures: the raw reports with full token arrays, sanitized
 of timestamps and local details, with a verifier, checksums and the commands that recompute
 those figures from the records. The model card marks any figure that is outside the bundle.
 

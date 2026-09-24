@@ -1,0 +1,1639 @@
+{
+ "haystack_chars": {
+  "prompts.json": 4309828,
+  "training-texts.jsonl": 1999809,
+  "generated.jsonl": 46611831
+ },
+ "suites": {
+  "general": {
+   "prompts": 40,
+   "full_matches": {
+    "prompts.json": 0,
+    "training-texts.jsonl": 0,
+    "generated.jsonl": 0
+   },
+   "any_window_match": {
+    "prompts.json": 0,
+    "training-texts.jsonl": 0,
+    "generated.jsonl": 0
+   },
+   "rows": [
+    {
+     "user_prefix": "explain why seasons occur to a twelve-year-old. address the misconception that s",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "explain the difference between weather and climate using one everyday analogy, a",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "why does putting a lid on a pot help water boil? explain energy transfer without",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "explain compound interest to someone opening their first savings account. use a ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "explain why a correlation between ice cream sales and drowning does not establis",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "plan a two-day visit to a rainy coastal town for two adults and a seven-year-old",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "create a practical plan for moving a small apartment over one weekend without a ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "suggest five vegetarian weekday dinners for two people with a modest budget. reu",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "plan a ninety-minute community meeting with introductions, three proposals, disc",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "help a beginner build a four-week habit of reading for pleasure. they have fifte",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "write a polite email declining a volunteer role because of limited time. express",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "write a short story about a lost umbrella that changes hands three times. set it",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "draft a notice for an apartment building about a planned water shutoff on tuesda",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "rewrite this message to be clear and kind without weakening the deadline: 'you s",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    },
+    {
+     "user_prefix": "write a dialogue between two neighbors who disagree about a noisy garden party. ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "summarize this update in three bullets, separating decisions from uncertainties:",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      }
+     }
+    },
+    {
+     "user_prefix": "extract the action items, owners, and deadlines from these notes: mira will ask ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 8
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 8
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 8
+      }
+     }
+    },
+    {
+     "user_prefix": "explain this cancellation policy in plain language: full refunds are available u",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      }
+     }
+    },
+    {
+     "user_prefix": "compare these accounts without deciding who is right: account a says the deliver",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 9
+      }
+     }
+    },
+    {
+     "user_prefix": "turn these museum visit notes into a concise paragraph for a family newsletter: ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 8
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 8
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 8
+      }
+     }
+    },
+    {
+     "user_prefix": "a club has 24 members. fifteen like hiking, twelve like cycling, and five like n",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "a recipe serves six and uses 450 grams of flour, 300 milliliters of milk, and th",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "a train leaves at 14:35. walking to the station takes 18 minutes, buying a ticke",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    },
+    {
+     "user_prefix": "a shop offers either 20 percent off a 60 euro item or a 10 euro voucher applied ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "three friends must cross a narrow bridge with a torch. at most two cross togethe",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 6
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 6
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 6
+      }
+     }
+    },
+    {
+     "user_prefix": "a friend repeatedly arrives twenty minutes late to shared plans. suggest a respe",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    },
+    {
+     "user_prefix": "help someone compare renting a smaller apartment near work with a larger apartme",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    },
+    {
+     "user_prefix": "suggest ways to reduce household food waste for a person who shops weekly and of",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "a student has three exams in ten days and feels overwhelmed. suggest how to make",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "give a first-time community garden volunteer a checklist for their first visit. ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "evaluate this claim: 'nine out of ten customers in our survey loved the product,",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "explain the difference between a historical primary source and a secondary sourc",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "a headline says a new teaching method doubled test success from 2 percent to 4 p",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    },
+    {
+     "user_prefix": "a review says a hotel is 'quiet, except for construction each morning' and 'cent",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    },
+    {
+     "user_prefix": "two surveys report opposite views about a proposed park. one surveyed visitors t",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 6
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 6
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 6
+      }
+     }
+    },
+    {
+     "user_prefix": "translate into natural french: 'thank you for inviting us. we would love to come",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "explain the ambiguity in 'i saw the woman with the telescope.' give two unambigu",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "explain the english idioms 'on the fence', 'a long shot', and 'back to square on",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "write a friendly dutch message asking a neighbor to collect a parcel while you a",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 4
+      }
+     }
+    },
+    {
+     "user_prefix": "rewrite 'the implementation of the relocation of the meeting is under considerat",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 5
+      }
+     }
+    }
+   ]
+  },
+  "code": {
+   "prompts": 40,
+   "full_matches": {
+    "prompts.json": 0,
+    "training-texts.jsonl": 0,
+    "generated.jsonl": 0
+   },
+   "any_window_match": {
+    "prompts.json": 0,
+    "training-texts.jsonl": 0,
+    "generated.jsonl": 0
+   },
+   "rows": [
+    {
+     "user_prefix": "create a list comprehension to generate a list of multiples of 3 from 0 to 23.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "create a basic python object that stores the length and width of an rectangle.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "create an array of five integers with any values.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "find the most frequently used character in the following string. str = “hello, w",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "implement a recursive solution to calculate the nth fibonacci number.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "create a web scraper to extract the title and description of a given url using b",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "insert a node at the beginning of a linked list. [10 -> 15 -> 20 -> 25]",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "generate a sql query to select all authors who have written at least 3 books.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "create a loop to iterate through the elements of an array arr.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "describe how to access the fifth element in an associative array in php.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "write a function in java to delete all numbers from an array which are divisible",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "create a javascript function to convert a given number to an array.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "formulate an algorithm in c++ to find the maximum and minimum elements in an uns",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "compare two strings and return true if both strings have the same number of char",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "create a class definition in python with one variable and one method",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "code a sql query to display the full names of all employees whose email address ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "find the second largest number in the following array of integers. [1, 6, 4, 8, ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "write a code that converts a given binary number to its equivalent decimal numbe",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "print the fibonacci sequence of length 10",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "you are given an array of integers. write a program to find the maximum number i",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "write a bash script to evaluate whether a provided number is prime or not.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "modify the javascript code given below to return the sum of all numbers from 0 t",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "write a code to convert a given string of english characters to corresponding mo",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "normalize the following url http://www.facebook.com/profile/pages?",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "construct a recursive function in javascript that calculates the total sum of an",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "generate five lines of code that will calculate the area of the following regula",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "develop a css/html page with a 3-column layout and a sticky navigation bar.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "write a javascript code to print the total number of items in an array. arr = [1",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "suggest a better approach to sort the given array. [4, 3, 8, 6, 7, 9, 2, 1]",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "create a python program to merge two lists by alternating elements. list1 = [2, ",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "write a react component to show the current date.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "generate a frequency table for the following sequence of characters using python",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "describe the details of the try-except statement in python.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "how can one randomly shuffle a list using python?",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "given an array with n elements, find the maximum element of the array. [1, 10, 5",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "design a sql query to list all the unique authors in the book table. table: book",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 3
+      }
+     }
+    },
+    {
+     "user_prefix": "modify the following java code to print the second element in a given array. int",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "using java, create a program to compute the area of a circle given the radius.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    },
+    {
+     "user_prefix": "you need to parse a json string and access a value from it. jsonstring = { \"name",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 2
+      }
+     }
+    },
+    {
+     "user_prefix": "write a code snippet for generating a unique identifier for a particular object.",
+     "hits": {
+      "prompts.json": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "training-texts.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      },
+      "generated.jsonl": {
+       "full": false,
+       "windows_hit": 0,
+       "windows": 1
+      }
+     }
+    }
+   ]
+  }
+ }
+}

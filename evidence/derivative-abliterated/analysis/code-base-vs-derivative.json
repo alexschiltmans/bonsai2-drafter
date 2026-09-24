@@ -1,0 +1,60 @@
+{
+ "base_target": "prism-ml/Ternary-Bonsai-2-27B-mlx-2bit",
+ "derivative_target": "pack-abliterated",
+ "settings": {
+  "split": "eval",
+  "max_new": 200,
+  "bits": 4,
+  "kv_bits": 8,
+  "cap": 7,
+  "temperature": 0.0
+ },
+ "stock": {
+  "drafter": "z-lab/Qwen3.8-27B-DFlash2",
+  "base_tokens_per_round": 3.8166485310119693,
+  "derivative_tokens_per_round": 3.6682795698924733,
+  "relative_change": -0.03887414833038261,
+  "paired_95_interval": [
+   -0.08338381113987337,
+   0.007402619644669262
+  ],
+  "base_truncated": 25,
+  "derivative_truncated": 24,
+  "prompts": 40,
+  "prompts_same_output_within_budget": 0,
+  "first_difference_token": {
+   "min": 0,
+   "median": 30,
+   "max": 84
+  }
+ },
+ "tuned": {
+  "drafter": "Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5",
+  "base_tokens_per_round": 4.213046080191502,
+  "derivative_tokens_per_round": 4.038552787663108,
+  "relative_change": -0.04141737099644116,
+  "paired_95_interval": [
+   -0.08699400719579997,
+   0.006998440306403397
+  ],
+  "base_truncated": 25,
+  "derivative_truncated": 24,
+  "prompts": 40,
+  "prompts_same_output_within_budget": 0,
+  "first_difference_token": {
+   "min": 0,
+   "median": 30,
+   "max": 84
+  }
+ },
+ "gain_difference": {
+  "gain_base": 0.103860113384459,
+  "gain_derivative": 0.10093920343740015,
+  "difference": -0.0029209099470588473,
+  "difference_95_interval": [
+   -0.045368439361420654,
+   0.04225311147184563
+  ],
+  "share_of_base_gain_kept": 0.971876499535038
+ }
+}

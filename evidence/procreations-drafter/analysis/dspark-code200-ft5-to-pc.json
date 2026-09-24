@@ -1,0 +1,75 @@
+{
+  "contract": "budgeted-prefix-identity/v2",
+  "prompts": 40,
+  "budget": 200,
+  "block": 8,
+  "stock_tokens_per_round": 4.213046080191502,
+  "tuned_tokens_per_round": 4.177275431290898,
+  "relative_gain": -0.008490448055810895,
+  "paired_95_interval": [
+    -0.03137918257535488,
+    0.012606626360951667
+  ],
+  "output_classes": {
+    "identical": 27,
+    "boundary_overshoot": 13,
+    "prefix_divergence": 0,
+    "early_stop_mismatch": 0
+  },
+  "max_overshoot_tokens": 7,
+  "output_mismatches": 13,
+  "stock_truncated": 25,
+  "tuned_truncated": 25,
+  "acceptance_variants": {
+    "whole_rounds": {
+      "stock": 4.213046080191502,
+      "tuned": 4.177275431290898,
+      "relative_gain": -0.008490448055810895,
+      "note": "the headline metric: every committed token over every round"
+    },
+    "budget_trimmed_numerator": {
+      "stock": 4.173548773189707,
+      "tuned": 4.148720999405116,
+      "relative_gain": -0.005948839976204767,
+      "note": "trimmed numerator over whole rounds; a mixed metric, sensitivity only"
+    },
+    "complete_rounds_within_budget": {
+      "stock": [
+        4.189927184466019,
+        4.189927184466019
+      ],
+      "tuned": [
+        4.146987951807229,
+        4.146987951807229
+      ],
+      "relative_gain": [
+        -0.010248204985037868,
+        -0.010248204985037868
+      ],
+      "exact": true,
+      "note": "crossing round dropped; an envelope unless round_lengths were recorded"
+    }
+  },
+  "breakdown": [
+    {
+      "field": "category",
+      "value": "unknown",
+      "prompts": 40,
+      "relative_gain": -0.008490448055810895
+    },
+    {
+      "field": "thinking",
+      "value": false,
+      "prompts": 14,
+      "relative_gain": 0.031809145129224614
+    },
+    {
+      "field": "thinking",
+      "value": true,
+      "prompts": 26,
+      "relative_gain": -0.025963130530354706
+    }
+  ],
+  "gate": "investigate",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage. Truncated responses are not complete answers: read stock_truncated."
+}

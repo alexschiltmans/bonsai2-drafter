@@ -15,6 +15,8 @@ ft5 loses.
 | [`sampled-screen/`](sampled-screen/) | a pre-registration screen on mlx-dspark: decode at the target's published sampling, 24.07 against 26.30 tok/s (+9.3%), and r3 4.63% below ft5 there |
 | [`second-runtime/`](second-runtime/) | dflash-mlx-bonsai2: stock → ft5 +5.01% (+3.35% to +6.83%), r3 2.41% below ft5, and agreement with the target alone up to floating-point ties |
 | [`fork-probe/`](fork-probe/) | PrismML's llama.cpp fork on Metal: no drafter 20.56, MTP 11.70, DFlash 2 7.10 tok/s |
+| [`procreations-drafter/`](procreations-drafter/) | ProCreations' fine-tune on both MLX runtimes: it accepts more than ft5 on general chat (+3.90% [+2.62, +5.14] on dflash-mlx-bonsai2 under `BENCHMARK.md`, +1.83% in a matched comparison on mlx-dspark) and is level on code; no overlap between the eval prompts and its training corpus |
+| [`derivative-abliterated/`](derivative-abliterated/) | ft5 on BoldingBuilds' abliterated derivative (98 of 851 tensors edited): stock → ft5 +7.34% [+5.89, +8.77] on general chat and +10.09% on code, not significantly below its gain on the base target |
 | [`tools/verify_sanitized.py`](tools/verify_sanitized.py) | the checker described below |
 
 Each group's README lists its files, quotes the claims they support, gives the commands that
@@ -84,8 +86,10 @@ identical in type and value at the same place, every list keeps its length, ever
 is one of the listed timestamp, path or provenance fields holding the kind of value that field
 holds, and every rewritten string carries no number the original string did not (digits inside
 a public model name excepted). It compares the text log line by line under the same rules. It
-needs the originals, so only their keeper can run it; it was run on all 130 data files in this
-bundle (129 JSON files and the text log), and all 130 passed. It is published so the rules it
+needs the originals, so only their keeper can run it; it was run on all 146 sanitized data files
+in this bundle (145 JSON files and the text log), and all 146 passed. The analyses in
+`procreations-drafter/` and `derivative-abliterated/` have no private original: the published
+analyser and `derivative-abliterated/cross_target.py` wrote them from files in this bundle. It is published so the rules it
 enforces can be read, and so anyone given an original can rerun it.
 
 The Markdown files were written for this bundle. `ft5-publication-battery/reanalysis-v2/NOTES.md`

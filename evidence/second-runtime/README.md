@@ -11,8 +11,8 @@ runtime's default).
 
 **Protocol status.** This ran under `BENCHMARK.md` version 1, with its no-drafter baseline (the
 target alone) and three of its four DFlash 2 arms: stock, ft5 and r3. The fourth,
-`ProCreations/Ternary-Bonsai-2-27B-DFlash2`, was not part of this run, and no ProCreations
-result is in this bundle.
+`ProCreations/Ternary-Bonsai-2-27B-DFlash2`, ran later at the same runtime commit and
+settings; it is in [`procreations-drafter/`](../procreations-drafter/).
 
 ## Files
 

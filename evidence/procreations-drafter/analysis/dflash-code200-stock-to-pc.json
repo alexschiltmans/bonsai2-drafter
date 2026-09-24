@@ -1,0 +1,75 @@
+{
+  "contract": "budgeted-prefix-identity/v2",
+  "prompts": 40,
+  "budget": 200,
+  "block": 5,
+  "stock_tokens_per_round": 3.1834430856067732,
+  "tuned_tokens_per_round": 3.4061399094111726,
+  "relative_gain": 0.069954705586311,
+  "paired_95_interval": [
+    0.0538379530916846,
+    0.08578284343131393
+  ],
+  "output_classes": {
+    "identical": 40,
+    "boundary_overshoot": 0,
+    "prefix_divergence": 0,
+    "early_stop_mismatch": 0
+  },
+  "max_overshoot_tokens": 0,
+  "output_mismatches": 0,
+  "stock_truncated": 24,
+  "tuned_truncated": 24,
+  "acceptance_variants": {
+    "whole_rounds": {
+      "stock": 3.1834430856067732,
+      "tuned": 3.4061399094111726,
+      "relative_gain": 0.069954705586311,
+      "note": "the headline metric: every committed token over every round"
+    },
+    "budget_trimmed_numerator": {
+      "stock": 3.1834430856067732,
+      "tuned": 3.4061399094111726,
+      "relative_gain": 0.069954705586311,
+      "note": "trimmed numerator over whole rounds; a mixed metric, sensitivity only"
+    },
+    "complete_rounds_within_budget": {
+      "stock": [
+        3.1834430856067732,
+        3.1834430856067732
+      ],
+      "tuned": [
+        3.4061399094111726,
+        3.4061399094111726
+      ],
+      "relative_gain": [
+        0.069954705586311,
+        0.069954705586311
+      ],
+      "exact": true,
+      "note": "crossing round dropped; an envelope unless round_lengths were recorded"
+    }
+  },
+  "breakdown": [
+    {
+      "field": "category",
+      "value": "unknown",
+      "prompts": 40,
+      "relative_gain": 0.069954705586311
+    },
+    {
+      "field": "thinking",
+      "value": false,
+      "prompts": 14,
+      "relative_gain": 0.03300330033003318
+    },
+    {
+      "field": "thinking",
+      "value": true,
+      "prompts": 26,
+      "relative_gain": 0.0861694424330195
+    }
+  ],
+  "gate": "pass",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage. Truncated responses are not complete answers: read stock_truncated."
+}
