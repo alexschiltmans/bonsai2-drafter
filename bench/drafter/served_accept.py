@@ -24,6 +24,7 @@ from typing import Any
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 import patches
+from bench.drafter.report_checks import corpus_strata, decode_seconds
 
 patches.install_all()
 import mlx.core as mx
@@ -45,6 +46,10 @@ with open(args.corpus) as f:
 rows = [r for r in rows if r["split"] == args.split][:args.n]
 if len(rows) != args.n:
     ap.error(f"requested {args.n} prompts but found {len(rows)} in split {args.split}")
+try:        # before any model loads: the analyser would refuse the report these produce
+    strata = [corpus_strata(r) for r in rows]
+except ValueError as exc:
+    ap.error(str(exc))
 report: dict[str, Any] = {
     "settings": {"target": args.target, "split": args.split, "max_new": args.max_new,
                  "bits": args.bits, "kv_bits": 8, "cap": 7, "temperature": 0.0},
@@ -70,14 +75,18 @@ if args.record:
 for i, r in enumerate(rows):
     res = dflash_generate(target, tok, drafter, prompt_ids=r["prompt_ids"], apply_chat_template=False,
                           max_new_tokens=args.max_new, max_draft_tokens=7, temperature=0.0)
+    try:
+        decode = decode_seconds(res.seconds, res.prefill_seconds)
+    except ValueError as exc:
+        raise SystemExit(f"prompt {i}: {exc}") from None     # the saved report stays incomplete
     a = res.num_tokens / max(1, res.num_rounds)
-    acc_all.append(a); tok_all += res.num_tokens; sec_all += res.seconds - res.prefill_seconds; rounds_all += res.num_rounds
+    acc_all.append(a); tok_all += res.num_tokens; sec_all += decode; rounds_all += res.num_rounds
     print(f"[{i+1}/{len(rows)}] think={int(r['thinking'])} {res.num_tokens} tok  {a:.2f} tok/round", flush=True)
     measurements.append({
         "prompt_sha256": hashlib.sha256(json.dumps(r["prompt_ids"]).encode()).hexdigest(),
-        "category": r.get("category", "unknown"), "thinking": r["thinking"],
+        "category": strata[i][0], "thinking": strata[i][1],
         "tokens": res.num_tokens, "rounds": res.num_rounds,
-        "decode_seconds": res.seconds - res.prefill_seconds,
+        "decode_seconds": decode,
         "finish": res.finish_reason, "response_ids": [int(t) for t in res.token_ids],
         # Per-round lengths belong in the report, not only in --record: the round that
         # crosses max_new is the one the analysis has to account for, and without these it

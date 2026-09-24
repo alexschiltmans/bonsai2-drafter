@@ -227,7 +227,9 @@ fields that differ. A pass says nothing about speed.
 
 An adapter runs the runtime's own speculative loop, greedy, in process if it can, over the first
 `n` rows of a corpus split in file order, and writes one report per arm. The corpus is JSON
-lines with `prompt_ids` (already templated), `split`, `thinking` and optionally `category`.
+lines with `prompt_ids` (already templated), `split`, `thinking` (a boolean) and optionally
+`category` (a string). Both writers refuse a row that breaks either before any model loads,
+since the records would carry the bad value into the report.
 
 Record, for each prompt:
 
@@ -269,7 +271,8 @@ Pitfalls:
   the analyser will refuse them. Put everything there whose difference would make them not
   comparable.
 - **Counts and durations.** Write counts as integers, not floats. Write `decode_seconds` as a
-  positive number; a zero is refused.
+  positive number; a zero is refused. If the runtime's timings leave zero or less, stop
+  rather than clamp, as both writers do: a clamped value is a time nobody measured.
 
 ## Validating and analysing
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Model-free checks for the report specification: the schema, its validator, and their
-agreement with the analyser.
+agreement with the analyser and with what served_accept.py refuses before it writes.
 
-bench/REPORTS.md is the specification. These hold three things to it: the schema is valid
+bench/REPORTS.md is the specification. These hold four things to it: the schema is valid
 JSON that the validator can enforce in full; a minimal hand-built report passes, with or
-without the optional blocks; and each rule the specification states rejects a report that
-breaks it, with a message that names the field. Where a rule is the analyser's own, the
-analyser must refuse the same report, so the validator cannot drift from what it admits.
+without the optional blocks; each rule the specification states rejects a report that
+breaks it, with a message that names the field; and served_accept.py's own checks refuse
+values the report format refuses. Where a rule is the analyser's own, the analyser must
+refuse the same report, so the validator cannot drift from what it admits.
 """
 from __future__ import annotations
 
@@ -14,6 +15,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import math
 import unittest
 from pathlib import Path
 from typing import Any
@@ -31,6 +33,7 @@ def _load(name: str, path: Path) -> Any:
 
 validate = _load("validate_report", BENCH / "analysis" / "validate_report.py")
 analysis = _load("analyse_served_accept", BENCH / "analysis" / "analyse_served_accept.py")
+checks = _load("report_checks", BENCH / "drafter" / "report_checks.py")
 
 BUDGET, CAP = 8, 3      # block = cap + 1 = 4
 
@@ -226,6 +229,41 @@ class BrokenReportTests(unittest.TestCase):
         # Rounds of 4 and 4 put the last round's start at 5, but only 4 tokens were emitted.
         self.assertRejected(self.broken(1, tokens=4, round_lengths=[4, 4],
                                         response_ids=[9, 8, 7, 6]), "final round")
+
+
+class WriterCheckTests(unittest.TestCase):
+    """served_accept.py refuses, before it writes, values the report format refuses.
+
+    The dflash-mlx adapter's equivalents are exercised by its --self-test.
+    """
+
+    def test_corpus_strata(self) -> None:
+        self.assertEqual(checks.corpus_strata({"thinking": True}), ("unknown", True))
+        self.assertEqual(checks.corpus_strata({"thinking": False, "category": "code"}),
+                         ("code", False))
+        for row, message in (({"thinking": 1}, "boolean thinking"),
+                             ({"thinking": "true"}, "boolean thinking"),
+                             ({}, "boolean thinking"),
+                             ({"thinking": True, "category": None}, "must be a string"),
+                             ({"thinking": True, "category": 3}, "must be a string")):
+            with self.subTest(row=row):
+                with self.assertRaisesRegex(ValueError, message):
+                    checks.corpus_strata(row)
+                if "thinking" in row:       # and the same value in a record is not a report
+                    report = minimal()
+                    report["requests"][0].update(row)
+                    self.assertTrue(validate.report_errors(report))
+
+    def test_decode_seconds(self) -> None:
+        self.assertEqual(checks.decode_seconds(3.5, 1.0), 2.5)
+        for seconds, prefill in ((1.0, 1.0), (1.0, 2.0), (math.nan, 0.0), (math.inf, 0.0)):
+            with (self.subTest(seconds=seconds, prefill=prefill),
+                  self.assertRaisesRegex(ValueError, "no positive decode time")):
+                checks.decode_seconds(seconds, prefill)
+        for decode in (0.0, -1.0):         # the finite ones, as a record would carry them
+            report = minimal()
+            report["requests"][0]["decode_seconds"] = decode
+            self.assertTrue(validate.report_errors(report))
 
 
 if __name__ == "__main__":
