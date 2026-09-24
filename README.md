@@ -124,7 +124,9 @@ quality and tool-call, fork-probe, ProCreations comparison and derivative figure
 of timestamps and local details, with a verifier, checksums and the commands that recompute
 those figures from the records. The model card marks any figure that is outside the bundle.
 
-Checks: `bench/check.sh` (lint, types, no-GPU tests), `--gpu` and `--models` for the rest.
+Checks: `bench/check.sh` (lint, types, no-GPU tests), `--gpu` and `--models` for the rest. Every
+Python file passes `mypy --strict` and the rule set in `ruff.toml`, both at the versions `check.sh`
+pins.
 
 ## License
 

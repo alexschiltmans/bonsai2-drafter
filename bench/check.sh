@@ -1,8 +1,8 @@
 #!/bin/bash
-# Lint, types and tests in one command. mypy and the GPU tiers need the pinned dspark
-# environment (envs/dspark/), and the GPU tiers need Apple Silicon. They use $PY if it is set,
-# else ./.venv/bin/python if it exists (scripts/serve-bonsai2.sh builds the environment there),
-# else $HOME/.venv-dspark/bin/python.
+# Lint, types and tests in one command. ruff and mypy are pinned so the standard cannot drift.
+# mypy and the GPU tiers need the pinned dspark environment (envs/dspark/), and the GPU tiers
+# need Apple Silicon. They use $PY if it is set, else ./.venv/bin/python if it exists
+# (scripts/serve-bonsai2.sh builds the environment there), else $HOME/.venv-dspark/bin/python.
 #
 #     bench/check.sh            ruff, mypy, the tests that need no GPU
 #     bench/check.sh --gpu      plus the GPU tests
@@ -17,8 +17,8 @@ if [ -z "${PY:-}" ]; then
 fi
 rc=0
 run() { printf '%-44s' "$1"; shift; out=$("$@" 2>&1); r=$?; if [ $r = 0 ]; then echo ok; else echo FAIL; echo "$out" | tail -15; rc=1; fi; }
-run "ruff"                        uvx ruff check .
-run "mypy --strict"               uvx mypy --python-executable "$PY"
+run "ruff"                        uvx ruff@0.16.8 check .
+run "mypy --strict"               uvx mypy@2.3.1 --python-executable "$PY"
 run "shellcheck"                  uvx --from shellcheck-py shellcheck -S warning bench/check.sh scripts/serve-bonsai2.sh
 run "test_served_accept_analysis" python3 bench/tests/test_served_accept_analysis.py
 run "test_report_schema"          python3 bench/tests/test_report_schema.py
