@@ -1,0 +1,461 @@
+{
+ "provenance": {
+  "versions": {
+   "mlx": "0.32.2",
+   "mlx-dspark": "0.18.0",
+   "mlx-lm": "0.31.3",
+   "mlx-metal": "0.32.2",
+   "llama-prism": "prism-b10709-9a9394a"
+  },
+  "health": {
+   "status": "ok",
+   "engine": "llama.cpp",
+   "build": "b10732-patched",
+   "context_window": 131072,
+   "slots": 1,
+   "sampling": {
+    "temperature": 1.0,
+    "top_p": 0.949999988079071,
+    "top_k": 20,
+    "min_p": 0.0
+   }
+  },
+  "props": {
+   "default_generation_settings": {
+    "params": {
+     "seed": 4294967295,
+     "temperature": 1.0,
+     "dynatemp_range": 0.0,
+     "dynatemp_exponent": 1.0,
+     "top_k": 20,
+     "top_p": 0.949999988079071,
+     "min_p": 0.0,
+     "top_n_sigma": -1.0,
+     "xtc_probability": 0.0,
+     "xtc_threshold": 0.10000000149011612,
+     "typical_p": 1.0,
+     "repeat_last_n": 64,
+     "repeat_penalty": 1.0,
+     "presence_penalty": 0.0,
+     "frequency_penalty": 0.0,
+     "dry_multiplier": 0.0,
+     "dry_base": 1.75,
+     "dry_allowed_length": 2,
+     "dry_penalty_last_n": 64,
+     "mirostat": 0,
+     "mirostat_tau": 5.0,
+     "mirostat_eta": 0.10000000149011612,
+     "adaptive_target": -1.0,
+     "adaptive_decay": 0.8999999761581421,
+     "max_tokens": -1,
+     "n_predict": -1,
+     "n_keep": 0,
+     "n_discard": 0,
+     "ignore_eos": false,
+     "stream": false,
+     "n_probs": 0,
+     "min_keep": 0,
+     "chat_format": "Content-only",
+     "reasoning_format": "none",
+     "reasoning_in_content": false,
+     "generation_prompt": "",
+     "samplers": ["penalties", "dry", "top_n_sigma", "top_k", "typ_p", "top_p", "min_p", "xtc", "temperature"],
+     "speculative.types": "none",
+     "timings_per_token": false,
+     "post_sampling_probs": false,
+     "backend_sampling": false,
+     "lora": []
+    },
+    "n_ctx": 131072
+   },
+   "total_slots": 1,
+   "model_alias": "local",
+   "model_ftype": "PQ2_0 - 2.13 bpw (group 128)",
+   "model_path": "prism-ml/Ternary-Bonsai-2-27B-gguf@6ed5e12bf84b7a63069882c91dd9e9218647d17b/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+   "modalities": {
+    "vision": false,
+    "video": false,
+    "audio": false
+   },
+   "media_marker": "<__media_GIbKof2ZddlUnEl5R6SsgnxxG9KT0HKi__>",
+   "endpoint_slots": true,
+   "endpoint_props": false,
+   "endpoint_metrics": true,
+   "ui": false,
+   "ui_settings": {},
+   "chat_template": "{%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, do_vision_count, is_system_content=false) %}\n    {%- if content is string %}\n        {{- content }}\n    {%- elif content is iterable and content is not mapping %}\n        {%- for item in content %}\n            {%- if 'image' in item or 'image_url' in item or item.type == 'image' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain images.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set image_count.value = image_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Picture ' ~ image_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|image_pad|><|vision_end|>' }}\n            {%- elif 'video' in item or item.type == 'video' %}\n                {%- if is_system_content %}\n                    {{- raise_exception('System message cannot contain videos.') }}\n                {%- endif %}\n                {%- if do_vision_count %}\n                    {%- set video_count.value = video_count.value + 1 %}\n                {%- endif %}\n                {%- if add_vision_id %}\n                    {{- 'Video ' ~ video_count.value ~ ': ' }}\n                {%- endif %}\n                {{- '<|vision_start|><|video_pad|><|vision_end|>' }}\n            {%- elif 'text' in item %}\n                {{- item.text }}\n            {%- else %}\n                {{- raise_exception('Unexpected item type in content.') }}\n            {%- endif %}\n        {%- endfor %}\n    {%- elif content is none or content is undefined %}\n        {{- '' }}\n    {%- else %}\n        {{- raise_exception('Unexpected content type.') }}\n    {%- endif %}\n{%- endmacro %}\n{%- if not messages %}\n    {{- raise_exception('No messages provided.') }}\n{%- endif %}\n{%- set reasoning_instructions = '' %}\n{%- if enable_thinking is undefined or enable_thinking is true %}\n    {%- set resolved_reasoning_effort = reasoning_effort|default('xhigh') %}\n    {%- if resolved_reasoning_effort not in ('xhigh', 'medium', 'low') %}\n        {{- raise_exception('Unexpected reasoning effort ' ~ reasoning_effort ~ '. Supported types are xhigh (default), medium, and low.') }}\n    {%- endif %}\n    {%- if resolved_reasoning_effort == 'xhigh' %}\n        {%- set reasoning_instructions = 'Reasoning effort is set to xhigh. Please think carefully through the task, validate key assumptions, consider plausible alternatives, and prioritize correctness, consistency, and clarity in the final answer.' %}\n    {%- elif resolved_reasoning_effort == 'low' %}\n        {%- set reasoning_instructions = 'Reasoning effort is set to low. Keep your thinking brief and focused, moving directly to the conclusion without unnecessary elaboration.' %}\n    {%- endif %}\n{%- endif %}\n{%- if tools and tools is iterable and tools is not mapping %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if reasoning_instructions %}\n        {{- reasoning_instructions + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\" }}\n    {{- '\\n\\nIf you choose to call a function ONLY reply in the following format with NO suffix:\\n\\n<tool_call>\\n<function=example_function_name>\\n<parameter=example_parameter_1>\\nvalue_1\\n</parameter>\\n<parameter=example_parameter_2>\\nThis is the value for the second parameter\\nthat can span\\nmultiple lines\\n</parameter>\\n</function>\\n</tool_call>\\n\\n<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format: an inner <function=...></function> block must be nested within <tool_call></tool_call> XML tags\\n- Required parameters MUST be specified\\n- You may provide optional reasoning for your function call in natural language BEFORE the function call, but NOT after\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>' }}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {%- if content %}\n            {{- '\\n\\n' + content }}\n        {%- endif %}\n    {%- endif %}\n    {{- '<|im_end|>\\n' }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {%- set content = render_content(messages[0].content, false, true)|trim %}\n        {%- if content %}\n            {{- '<|im_start|>system\\n' + (reasoning_instructions + '\\n\\n' if reasoning_instructions else '')  + content + '<|im_end|>\\n' }}\n        {%- elif reasoning_instructions %}\n            {{- '<|im_start|>system\\n' + reasoning_instructions + '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- elif reasoning_instructions %}\n        {{- '<|im_start|>system\\n' + reasoning_instructions + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" %}\n        {%- set content = render_content(message.content, false)|trim %}\n        {%- if not(content.startswith('<tool_response>') and content.endswith('</tool_response>')) %}\n            {%- set ns.multi_step_tool = false %}\n            {%- set ns.last_query_index = index %}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if ns.multi_step_tool %}\n    {{- raise_exception('No user query found in messages.') }}\n{%- endif %}\n{%- for message in messages %}\n    {%- set content = render_content(message.content, true)|trim %}\n    {%- if message.role == \"system\" %}\n        {%- if not loop.first %}\n            {{- raise_exception('System message must be at the beginning.') }}\n        {%- endif %}\n    {%- elif message.role == \"user\" %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- endif %}\n        {%- set reasoning_content = reasoning_content|trim %}\n        {%- if preserve_thinking is undefined or preserve_thinking is true or loop.index0 > ns.last_query_index %}\n            {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content + '\\n</think>\\n\\n' + content }}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls and message.tool_calls is iterable and message.tool_calls is not mapping %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if tool_call.function is defined %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {%- if loop.first %}\n                    {%- if content|trim %}\n                        {{- '\\n\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- else %}\n                        {{- '<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                    {%- endif %}\n                {%- else %}\n                    {{- '\\n<tool_call>\\n<function=' + tool_call.name + '>\\n' }}\n                {%- endif %}\n                {%- if tool_call.arguments is defined and tool_call.arguments != '' %}\n                    {%- for args_name, args_value in tool_call.arguments|items %}\n                        {{- '<parameter=' + args_name + '>\\n' }}\n                        {%- set args_value = args_value | string if args_value is string else args_value | tojson | safe %}\n                        {{- args_value }}\n                        {{- '\\n</parameter>\\n' }}\n                    {%- endfor %}\n                {%- endif %}\n                {{- '</function>\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.previtem and loop.previtem.role != \"tool\" %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if not loop.last and loop.nextitem.role != \"tool\" %}\n            {{- '<|im_end|>\\n' }}\n        {%- elif loop.last %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- else %}\n        {{- raise_exception('Unexpected message role.') }}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- else %}\n        {{- '<think>\\n' }}\n    {%- endif %}\n{%- endif %}",
+   "chat_template_caps": {
+    "supports_object_arguments": true,
+    "supports_parallel_tool_calls": true,
+    "supports_preserve_reasoning": true,
+    "supports_reasoning_effort": true,
+    "supports_string_content": true,
+    "supports_system_role": true,
+    "supports_tool_calls": true,
+    "supports_tools": true,
+    "supports_typed_content": false
+   },
+   "bos_token": "<|endoftext|>",
+   "eos_token": "<|im_end|>",
+   "build_info": "b10732-patched",
+   "is_sleeping": false,
+   "cors_proxy_enabled": false
+  },
+  "kv_cache": {
+   "kv_bits": null,
+   "kv_group_size": null
+  },
+  "server": {
+   "model": "prism-ml/Ternary-Bonsai-2-27B-gguf@6ed5e12bf84b7a63069882c91dd9e9218647d17b/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+   "mode": "llama.cpp, no drafter",
+   "requests_before": null,
+   "memory": {
+    "active_bytes": 16150937600,
+    "peak_bytes": 16150937600,
+    "source": "process rss"
+   },
+   "system": {
+    "free_percent": 57,
+    "swap": "total = 1024.00M  used = 96.81M  free = 927.19M  (encrypted)"
+   },
+   "prefix_cache": {
+    "mode": "slot",
+    "cached_tokens": 0
+   },
+   "memory_guard": {
+    "sheds": 0,
+    "level": "none: llama.cpp has no memory guard"
+   }
+  },
+  "launch": "build-df2/bin/llama-server -m prism-ml/Ternary-Bonsai-2-27B-gguf@6ed5e12bf84b7a63069882c91dd9e9218647d17b/Ternary-Bonsai-2-27B-PQ2_0.gguf --alias local --host 127.0.0.1 --port 8088 --api-key REDACTED -ngl 99 -fa on -c 131072 -np 1 --jinja --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0 --no-webui --metrics",
+  "served_sampling": "1.0",
+  "machine": {
+   "power": "Now drawing from 'AC Power'",
+   "thermal": "Note: No thermal warning level has been recorded Note: No performance warning level has been recorded Note: No CPU power status has been recorded",
+   "swap": "total = 1024.00M  used = 96.81M  free = 927.19M  (encrypted)",
+   "pressure": "System-wide memory free percentage: 57%"
+  }
+ },
+ "mode": "greedy",
+ "reps": 3,
+ "pooled_decode_tps": 20.48420143220252,
+ "pooled_e2e_tps": 19.859114760985292,
+ "per_rep_decode_tps": [20.501834903444767, 20.484062521623635, 20.466736941535842],
+ "requests": [
+  {
+   "rep": 1,
+   "prompt": 1,
+   "wall": 20.26675283300574,
+   "decode_seconds": 19.506891,
+   "ttft": 0.75839,
+   "prefill_seconds": 0.75839,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.506891,
+    "prefill_seconds": 0.75839,
+    "ttft_seconds": 0.75839,
+    "target_forwards": 400,
+    "prompt_n": 46,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 1,
+   "prompt": 2,
+   "wall": 15.278554541990161,
+   "decode_seconds": 14.717388000000001,
+   "ttft": 0.527842,
+   "prefill_seconds": 0.527842,
+   "completion_tokens": 302,
+   "rounds": 302,
+   "finish_reason": "stop",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 14.717388000000001,
+    "prefill_seconds": 0.527842,
+    "ttft_seconds": 0.527842,
+    "target_forwards": 302,
+    "prompt_n": 33,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 1,
+   "prompt": 3,
+   "wall": 20.04959450000024,
+   "decode_seconds": 19.491388999999998,
+   "ttft": 0.5241169999999999,
+   "prefill_seconds": 0.5241169999999999,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.491388999999998,
+    "prefill_seconds": 0.5241169999999999,
+    "ttft_seconds": 0.5241169999999999,
+    "target_forwards": 400,
+    "prompt_n": 32,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 1,
+   "prompt": 4,
+   "wall": 20.09535250000772,
+   "decode_seconds": 19.535384999999998,
+   "ttft": 0.525555,
+   "prefill_seconds": 0.525555,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.535384999999998,
+    "prefill_seconds": 0.525555,
+    "ttft_seconds": 0.525555,
+    "target_forwards": 400,
+    "prompt_n": 34,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 1,
+   "prompt": 5,
+   "wall": 20.08089291700162,
+   "decode_seconds": 19.521131,
+   "ttft": 0.525879,
+   "prefill_seconds": 0.525879,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.521131,
+    "prefill_seconds": 0.525879,
+    "ttft_seconds": 0.525879,
+    "target_forwards": 400,
+    "prompt_n": 35,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 2,
+   "prompt": 1,
+   "wall": 20.31708508299198,
+   "decode_seconds": 19.522538,
+   "ttft": 0.75982,
+   "prefill_seconds": 0.75982,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.522538,
+    "prefill_seconds": 0.75982,
+    "ttft_seconds": 0.75982,
+    "target_forwards": 400,
+    "prompt_n": 46,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 2,
+   "prompt": 2,
+   "wall": 15.267252500008908,
+   "decode_seconds": 14.73953,
+   "ttft": 0.526048,
+   "prefill_seconds": 0.526048,
+   "completion_tokens": 302,
+   "rounds": 302,
+   "finish_reason": "stop",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 14.73953,
+    "prefill_seconds": 0.526048,
+    "ttft_seconds": 0.526048,
+    "target_forwards": 302,
+    "prompt_n": 33,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 2,
+   "prompt": 3,
+   "wall": 20.047624124999857,
+   "decode_seconds": 19.519586999999998,
+   "ttft": 0.526343,
+   "prefill_seconds": 0.526343,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.519586999999998,
+    "prefill_seconds": 0.526343,
+    "ttft_seconds": 0.526343,
+    "target_forwards": 400,
+    "prompt_n": 32,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 2,
+   "prompt": 4,
+   "wall": 20.057046832997003,
+   "decode_seconds": 19.533696,
+   "ttft": 0.521704,
+   "prefill_seconds": 0.521704,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.533696,
+    "prefill_seconds": 0.521704,
+    "ttft_seconds": 0.521704,
+    "target_forwards": 400,
+    "prompt_n": 34,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 2,
+   "prompt": 5,
+   "wall": 20.063814959008596,
+   "decode_seconds": 19.537324,
+   "ttft": 0.5247970000000001,
+   "prefill_seconds": 0.5247970000000001,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.537324,
+    "prefill_seconds": 0.5247970000000001,
+    "ttft_seconds": 0.5247970000000001,
+    "target_forwards": 400,
+    "prompt_n": 35,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 3,
+   "prompt": 1,
+   "wall": 20.314793875004398,
+   "decode_seconds": 19.551661,
+   "ttft": 0.761458,
+   "prefill_seconds": 0.761458,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.551661,
+    "prefill_seconds": 0.761458,
+    "ttft_seconds": 0.761458,
+    "target_forwards": 400,
+    "prompt_n": 46,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 3,
+   "prompt": 2,
+   "wall": 15.252177875008783,
+   "decode_seconds": 14.727647999999999,
+   "ttft": 0.522868,
+   "prefill_seconds": 0.522868,
+   "completion_tokens": 302,
+   "rounds": 302,
+   "finish_reason": "stop",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 14.727647999999999,
+    "prefill_seconds": 0.522868,
+    "ttft_seconds": 0.522868,
+    "target_forwards": 302,
+    "prompt_n": 33,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 3,
+   "prompt": 3,
+   "wall": 20.07216216699453,
+   "decode_seconds": 19.545429,
+   "ttft": 0.5250670000000001,
+   "prefill_seconds": 0.5250670000000001,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.545429,
+    "prefill_seconds": 0.5250670000000001,
+    "ttft_seconds": 0.5250670000000001,
+    "target_forwards": 400,
+    "prompt_n": 32,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 3,
+   "prompt": 4,
+   "wall": 20.081151999998838,
+   "decode_seconds": 19.555022,
+   "ttft": 0.524415,
+   "prefill_seconds": 0.524415,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.555022,
+    "prefill_seconds": 0.524415,
+    "ttft_seconds": 0.524415,
+    "target_forwards": 400,
+    "prompt_n": 34,
+    "cache_n": 42,
+    "cap": null
+   }
+  },
+  {
+   "rep": 3,
+   "prompt": 5,
+   "wall": 20.07972870899539,
+   "decode_seconds": 19.551517,
+   "ttft": 0.526539,
+   "prefill_seconds": 0.526539,
+   "completion_tokens": 400,
+   "rounds": 400,
+   "finish_reason": "length",
+   "spec": {
+    "engine": "llama.cpp",
+    "decode_seconds": 19.551517,
+    "prefill_seconds": 0.526539,
+    "ttft_seconds": 0.526539,
+    "target_forwards": 400,
+    "prompt_n": 35,
+    "cache_n": 42,
+    "cap": null
+   }
+  }
+ ]
+}
