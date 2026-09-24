@@ -26,7 +26,8 @@ runtime's registry default for this target, which its registry applies only when
 and drafter are given as repository ids, not as local directories.
 
 Corpus: JSON lines with `prompt_ids` (token ids, already templated), `split`, `thinking`
-and optionally `category`. The first --n rows of --split are used, in file order.
+(a boolean) and optionally `category` (a string). The first --n rows of --split are used,
+in file order.
 
 Report schema (one object):
 
@@ -44,7 +45,8 @@ Report schema (one object):
                round_lengths  see "Rounds" below
                finish         "length" or "stop"
                response_ids   emitted token ids, cut after the first stop token
-               decode_seconds wall time after prefill, as the runtime measures it
+               decode_seconds wall time after prefill, as the runtime measures it; the
+                              run stops on a prompt where that is not positive
                prefill_seconds, prompt_tokens
                runtime        the loop's own per-pass record, unmapped
 
@@ -91,9 +93,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import struct
 import subprocess
+import tempfile
 import time
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
@@ -232,6 +236,27 @@ def map_autoregressive(
     )
 
 
+def decode_seconds(elapsed_us: float, prefill_us: float) -> float:
+    """Decode wall time in seconds from the runtime's own timings, or ValueError.
+
+    Elapsed less prefill is the runtime's own generation time, the quantity its `generate`
+    reports, and the one every report this adapter has written carries. Nothing makes it
+    positive: the two spans are timed separately, and the elapsed one can leave out time
+    the generator spent suspended that the prefill one keeps. The report format refuses a
+    zero, so a difference of zero or less, or one that is not finite, stops the run rather
+    than being replaced by a value the runtime never measured. A clock read in this loop
+    would be positive in practice, but it would time a different span (this loop's own
+    work included), and the field would stop being comparable with the reports already
+    written.
+    """
+    seconds = (float(elapsed_us) - float(prefill_us)) / 1e6
+    if not (math.isfinite(seconds) and seconds > 0):
+        raise ValueError(
+            f"the runtime timed {elapsed_us} us in all and {prefill_us} us of prefill, "
+            "which leaves no positive decode time")
+    return seconds
+
+
 def _self_test() -> None:
     eos = [99]
     # Budget 10, block 5: two full passes fill it; the last pass's staged token is not emitted.
@@ -262,6 +287,28 @@ def _self_test() -> None:
     assert run.round_lengths == [1, 1] and run.finish == "length"
     run = map_autoregressive([1, 2, 99], 10, eos)
     assert run.finish == "stop" and run.round_lengths == [1, 1]
+    # The decode time is the runtime's elapsed less its prefill, or the run stops: a report
+    # refuses a zero, and nothing may stand in for a time the runtime did not measure.
+    assert decode_seconds(3_500_000.0, 1_000_000.0) == 2.5
+    for elapsed, prefill in ((1e6, 1e6), (1e6, 2e6), (float("nan"), 0.0), (float("inf"), 0.0)):
+        try:
+            decode_seconds(elapsed, prefill)
+        except ValueError:
+            continue
+        raise AssertionError(f"wrote a decode time from elapsed {elapsed}, prefill {prefill}")
+    # Strata the report format refuses are refused with the corpus, before any model loads.
+    with tempfile.TemporaryDirectory() as tmp:
+        corpus = Path(tmp, "corpus.jsonl")
+        for strata in ({"thinking": 1}, {"thinking": False, "category": None},
+                       {"thinking": False, "category": 3}):
+            corpus.write_text(json.dumps({"prompt_ids": [1, 2], "split": "eval", **strata}))
+            try:
+                _load_rows(corpus, "eval", 1)
+            except SystemExit:
+                continue
+            raise AssertionError(f"accepted a corpus row with {strata}")
+        corpus.write_text(json.dumps({"prompt_ids": [1, 2], "split": "eval", "thinking": True}))
+        assert _load_rows(corpus, "eval", 1)[0]["thinking"] is True
     print("self-test passed")
 
 
@@ -355,6 +402,8 @@ def _load_rows(corpus: Path, split: str, n: int) -> list[dict[str, Any]]:
             raise SystemExit("every corpus row needs a non-empty integer `prompt_ids` list")
         if not isinstance(row.get("thinking"), bool):
             raise SystemExit("every corpus row needs a boolean `thinking`")
+        if not isinstance(row.get("category", "unknown"), str):
+            raise SystemExit("a corpus row's `category`, where present, must be a string")
     return rows
 
 
@@ -580,7 +629,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 raise SystemExit(f"prompt {index}: block {summary.block_tokens} != {block_tokens}")
             mapped = map_speculative(generated, acceptance, block_tokens, args.max_new, stop_ids)
         prefill_us = float(summary.phase_timings_us.get("prefill", prefill.prefill_us))
-        decode_seconds = max(0.0, float(summary.elapsed_us) - prefill_us) / 1e6
+        try:
+            decode = decode_seconds(summary.elapsed_us, prefill_us)
+        except ValueError as exc:
+            raise SystemExit(f"prompt {index}: {exc}") from None
         record = {
             "prompt_sha256": hashlib.sha256(json.dumps(row["prompt_ids"]).encode()).hexdigest(),
             "category": row.get("category", "unknown"),
@@ -590,7 +642,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "round_lengths": mapped.round_lengths,
             "finish": mapped.finish,
             "response_ids": mapped.response_ids,
-            "decode_seconds": decode_seconds,
+            "decode_seconds": decode,
             "prefill_seconds": prefill_us / 1e6,
             "prompt_tokens": len(prompt_ids),
             "runtime": {
@@ -610,11 +662,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         totals["rounds"] += record["rounds"]
         totals["committed"] += len(generated)
         totals["passes"] += int(summary.cycles_completed)
-        totals["decode"] += decode_seconds
+        totals["decode"] += decode
         print(f"[{index + 1}/{len(rows)}] think={int(row['thinking'])} {record['tokens']} tok "
               f"{record['rounds']} rounds {record['tokens'] / max(1, record['rounds']):.3f} "
               f"tok/round ({mapped.finish}; {summary.cycles_completed} passes) "
-              f"{decode_seconds:.1f}s", flush=True)
+              f"{decode:.1f}s", flush=True)
         mx.clear_cache()
 
     report["complete"] = True
