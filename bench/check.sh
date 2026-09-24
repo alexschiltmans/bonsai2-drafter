@@ -24,6 +24,7 @@ run "test_served_accept_analysis" python3 bench/tests/test_served_accept_analysi
 run "test_report_schema"          python3 bench/tests/test_report_schema.py
 run "test_dflash_prequantized"    python3 bench/tests/test_dflash_prequantized.py
 run "test_bench5"                 python3 bench/tests/test_bench5.py
+run "test_pool"                   python3 bench/tests/test_pool.py
 run "rename-codebooks --self-test" python3 scripts/rename-codebooks.py --self-test
 run "dflash-mlx adapter --self-test" python3 bench/adapters/dflash_mlx_bonsai2.py --self-test
 if [ "${1:-}" = --gpu ] || [ "${1:-}" = --models ]; then
