@@ -21,7 +21,13 @@ VENV=${BONSAI2_VENV:-$PWD/.venv}
 TARGET=prism-ml/Ternary-Bonsai-2-27B-mlx-2bit
 TARGET_REVISION=3f926b415992eaa2ae9dd7b573706494d6bbf787
 DRAFTER=${BONSAI2_DRAFTER:-Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5}
-DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-2a2c2c1e25e82173729bdf104379ffc50d4222c3}
+# The pinned revision belongs to the default drafter only. Another repository, such as the
+# 4-bit variant, has its own commits, so it defaults to main unless a revision is given.
+if [ -n "${BONSAI2_DRAFTER:-}" ]; then
+  DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-main}
+else
+  DRAFTER_REVISION=${BONSAI2_DRAFTER_REVISION:-2a2c2c1e25e82173729bdf104379ffc50d4222c3}
+fi
 
 (cd envs/dspark && UV_PROJECT_ENVIRONMENT="$VENV" uv sync --locked --quiet)
 
