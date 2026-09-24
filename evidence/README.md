@@ -46,8 +46,12 @@ python3 evidence/tools/verify_sanitized.py scan evidence
 ```
 
 `scan` rechecks every group's `SHA256SUMS`, fails on any file a `SHA256SUMS` does not list,
-and searches the whole tree for the patterns sanitization removes. It needs nothing but this
-directory.
+and searches the whole tree for what sanitization removes: dates, epoch seconds, home-directory
+paths and e-mail addresses. It needs nothing but this directory. Sanitization also removed the
+names of private files and directories; those names are not written into the published
+checker, because listing them there would publish them. Their keeper runs the same scan with
+`--extra-patterns FILE`, a private list of regular expressions, one per line, and the bundle
+passes it.
 
 `verify_sanitized.py pairs` is the check that proves no number changed. It walks each original
 and its sanitized copy in parallel and fails unless every number, boolean and null is

@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 """Check a sanitized evidence bundle. Standard library only.
 
-    python3 evidence/tools/verify_sanitized.py scan evidence
-    python3 evidence/tools/verify_sanitized.py pair ORIGINAL.json SANITIZED.json
+    python3 evidence/tools/verify_sanitized.py scan evidence [--extra-patterns FILE]
+    python3 evidence/tools/verify_sanitized.py pair ORIGINAL SANITIZED
     python3 evidence/tools/verify_sanitized.py pairs PAIRS.json
 
 `scan` needs only the bundle. For every directory holding a SHA256SUMS it checks that each
-listed file hashes as listed and that no file is unlisted, then searches every file for the
-patterns sanitization removes (dates, epoch seconds, home-directory paths). Exit 0 means clean.
+listed file hashes as listed and that no file is unlisted, then searches every file for what
+sanitization removes: dates, epoch seconds, home-directory paths and e-mail addresses. In a
+JSON file it reads each value in place: a number between 1e9 and 2e9 counts as epoch seconds
+unless its key names a byte count, and a date or ten-digit number inside the model's own words
+(`answer`, `reasoning`) is content the model wrote, not a record of when it ran. Exit 0 means
+clean.
+
+`--extra-patterns FILE` adds regular expressions, one per line (blank lines and lines starting
+with `#` are skipped), matched case-insensitively everywhere. The private names sanitization
+also removes are not written into this file, since publishing them here would publish them;
+their keeper passes them this way.
 
 `pair` and `pairs` need the unedited originals, which are kept privately. They walk an
 original and its sanitized copy in parallel and prove the copy changed nothing it should not:
@@ -20,6 +29,9 @@ original and its sanitized copy in parallel and prove the copy changed nothing i
 - a string may differ only if every number written inside the new string, outside the public
   names in PUBLIC_NAMES, also appears (as often) in the original string. So a path can become a
   public model name, but no figure inside a string can be changed or invented.
+
+A file that is not JSON (a text log) is compared as its list of lines under the same rules: no
+line added or removed, and no number in a rewritten line that its original line did not have.
 
 `PAIRS.json` is a list of [original, sanitized] paths.
 """
@@ -78,14 +90,18 @@ PUBLIC_NAMES = (
     "prism-ml/Ternary-Bonsai-2-27B-gguf",
     "decent-jawfish/bonsai-2-27b-mtp",
     "general.jsonl", "code.jsonl",
+    # this repository, whose name the patches print in their log lines
+    "bonsai2-drafter",
 )
 
 NUMBER = re.compile(r"\d+(?:\.\d+)?")
-#: What sanitization removes. The single-character classes such as `[-]` match exactly what
-#: the bare character would; they keep this file from matching its own scan.
-FORBIDDEN = re.compile(
-    r"20\d\d-\d\d-\d\d|\b1[67]\d{8}\b|/User[s]/|/hom[e]/[a-z]|\$HO[M]E|~[/]|experiment[-]state|"
-    r"\.cla[u]de|docs/[a-z0-9_-]+\.md|llm[-_]ctl", re.IGNORECASE)
+#: What sanitization removes, as the scan finds it. The single-character classes such as `[s]`
+#: match exactly what the bare character would; they keep this file from matching its own scan.
+TIMESTAMP = re.compile(r"20\d\d-\d\d-\d\d|\b1[67]\d{8}\b")
+LOCAL = re.compile(r"/User[s]/|/hom[e]/[a-z]|\$HO[M]E|~[/]|"
+                   r"[A-Za-z0-9._%+-]+[@][A-Za-z0-9.-]+\.[A-Za-z]{2,}", re.IGNORECASE)
+#: Keys holding the model's own words. TIMESTAMP is not applied to them.
+MODEL_TEXT = {"answer", "reasoning"}
 
 
 class Mismatch(Exception):
@@ -146,11 +162,16 @@ def _leaves(value):
     return 1
 
 
+def _load(path):
+    """A JSON file as its value; any other file as its list of lines."""
+    with open(path) as f:
+        if path.endswith(".json"):
+            return json.load(f)
+        return f.read().split("\n")
+
+
 def check_pair(original_path, sanitized_path):
-    with open(original_path) as f:
-        original = json.load(f)
-    with open(sanitized_path) as f:
-        sanitized = json.load(f)
+    original, sanitized = _load(original_path), _load(sanitized_path)
     removed = compare(original, sanitized)
     return _leaves(sanitized), removed
 
@@ -164,7 +185,46 @@ def _sums(directory):
     return listed
 
 
-def scan(root):
+def _byte_count(key):
+    return key is not None and ("bytes" in key or key.startswith("allocator"))
+
+
+def _json_hits(value, extra, key=None):
+    """Forbidden matches in a parsed JSON value, read leaf by leaf."""
+    if isinstance(value, dict):
+        hits = []
+        for k, v in value.items():
+            hits += [m.group(0) for rx in (LOCAL, *extra) for m in rx.finditer(k)]
+            hits += _json_hits(v, extra, k)
+        return hits
+    if isinstance(value, list):
+        return [hit for v in value for hit in _json_hits(v, extra, key)]
+    if isinstance(value, str):
+        patterns = (LOCAL, *extra) if key in MODEL_TEXT else (TIMESTAMP, LOCAL, *extra)
+        return [m.group(0) for rx in patterns for m in rx.finditer(value)]
+    if (isinstance(value, (int, float)) and not isinstance(value, bool)
+            and 1e9 < value < 2e9 and not _byte_count(key)):
+        return [f"{key}: {value!r} (epoch seconds?)"]
+    return []
+
+
+def _hits(path, text, extra):
+    if path.endswith(".json"):
+        try:
+            return _json_hits(json.loads(text), extra)
+        except ValueError:
+            pass
+    return [m.group(0) for rx in (TIMESTAMP, LOCAL, *extra) for m in rx.finditer(text)]
+
+
+def load_patterns(path):
+    """One regular expression per line; blank lines and `#` comments are skipped."""
+    with open(path) as f:
+        lines = [line.strip() for line in f]
+    return [re.compile(line, re.IGNORECASE) for line in lines if line and not line.startswith("#")]
+
+
+def scan(root, extra=()):
     problems = []
     covered = set()
     groups = []
@@ -188,8 +248,8 @@ def scan(root):
                 continue
             with open(path, encoding="utf-8", errors="replace") as f:
                 text = f.read()
-            for m in FORBIDDEN.finditer(text):
-                problems.append(f"{path}: forbidden pattern {m.group(0)!r}")
+            for hit in _hits(path, text, extra):
+                problems.append(f"{path}: forbidden pattern {hit!r}")
             # Anything under a directory that has a SHA256SUMS, at any depth, must be listed.
             in_group = any(path.startswith(group + os.sep) for group in groups)
             if in_group and name != "SHA256SUMS" and path not in covered:
@@ -203,6 +263,8 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("scan")
     s.add_argument("root")
+    s.add_argument("--extra-patterns", metavar="FILE",
+                   help="more regular expressions to refuse, one per line")
     p = sub.add_parser("pair")
     p.add_argument("original")
     p.add_argument("sanitized")
@@ -210,7 +272,8 @@ def main():
     ps.add_argument("spec")
     args = ap.parse_args()
     if args.cmd == "scan":
-        problems = scan(args.root)
+        extra = load_patterns(args.extra_patterns) if args.extra_patterns else ()
+        problems = scan(args.root, extra)
         for line in problems:
             print(line)
         print(f"scan: {'clean' if not problems else f'{len(problems)} problem(s)'}")
@@ -221,7 +284,8 @@ def main():
         with open(args.spec) as f:
             pairs = json.load(f)
     failed = 0
-    for original, sanitized in pairs:
+    for entry in pairs:
+        original, sanitized = entry[0], entry[1]
         try:
             leaves, removed = check_pair(original, sanitized)
             print(f"ok    {sanitized}  ({leaves} leaves kept, {removed} fields removed)")
