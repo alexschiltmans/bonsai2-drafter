@@ -1,9 +1,9 @@
 # Pre-publication screen on mlx-dspark
 
-**A screen, not a benchmark result.** Before publication, one screen ran on mlx-dspark only, to
-inform the publication decision. `BENCHMARK.md` was committed before the screen started and
-describes it under "Screens run before publication"; the benchmark re-runs every arm under the
-protocol and does not reuse these numbers. It covered:
+**A screen, not a benchmark result.** One screen ran on mlx-dspark only, to inform the
+publication decision. `BENCHMARK.md` was committed before the screen started and describes it
+in its section on screens; the benchmark re-runs every arm under the protocol and does not
+reuse these numbers. It covered:
 
 1. naklitechie's r3 fine-tune (`naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2` at
    `3fc0d6ef43e933a20f1e9ee53fac6f56402c0f83`) on the served acceptance loop, all three suites,
@@ -35,7 +35,7 @@ both spellings, the renamed and native copies ran the same loop (`../second-runt
 |---|---|
 | `acceptance/{general,code,long}-r3.json` | r3's `served_accept.py --report` records: general and code at 200 tokens, general at 1024 |
 | `screen-acceptance.json` | the six pairs (r3 against ft5 and against stock, per suite), `budgeted-prefix-identity/v2` |
-| `http/greedy-leg{1-ft5,2-r3,3-r3,4-ft5}.json`, `screen-greedy.json` | greedy HTTP legs and their pooled summary |
+| `http/greedy-leg{1-ft5,2-r3,3-r3,4-ft5}.json`, `screen-greedy.json` | greedy HTTP legs and their pooled summary. The legs were written by an unpublished version of the author's harness whose five prompts are those of `bench/throughput/bench5.py` but whose record layout differs (`../README.md`) |
 | `http/sampled-leg{1-stock,2-ft5,3-ft5,4-stock}.json`, `screen-sampled.json` | sampled HTTP legs and their pooled summary |
 | `r3-rename.json`, `r3-source.json` | the rename record and r3's Hub revision, licence, LFS sha256 and sizes |
 

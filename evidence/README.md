@@ -10,8 +10,8 @@ ft5 loses.
 
 | group | what it supports |
 |---|---|
-| [`ft5-publication-battery/`](ft5-publication-battery/) | the card's acceptance table (general chat +9.49%, paired 95% +7.25% to +11.69%; code +10.39%; 1024 tokens +7.99%), output agreement under `budgeted-prefix-identity/v2`, greedy decode +15.29%, quality 13/14 and tools 56/56 in both arms, and the `iso_seconds` drafter-by-KV grid |
-| [`prequantized-4bit/`](prequantized-4bit/) | the 4-bit card's served equivalence (`artifact-equivalence/v1`, 40/40 on every suite), throughput ratio 1.0001, no newly failing quality fixture, 56/56 tools |
+| [`ft5-publication-battery/`](ft5-publication-battery/) | the card's acceptance table (general chat +9.49%, paired 95% +7.25% to +11.69%; code +10.39%; 1024 tokens +7.99%), output agreement under `budgeted-prefix-identity/v2`, greedy decode +15.29%, quality 13/14 and tools 56/56 in both arms, and the `iso_seconds` drafter-by-KV grid. Five of the grid's six cells are the battery and its controls; the stock/16-bit cell is a run outside the battery, in `quality-history/`. Also, from outside the battery and marked as such: the depth table (`depth/`), the quality runs behind the `iso_seconds` history (`quality-history/`) and the mlx-dspark 0.19.0 slice (`compatibility/`) |
+| [`prequantized-4bit/`](prequantized-4bit/) | the 4-bit card's served equivalence (`artifact-equivalence/v1`, 40/40 on every suite), throughput ratio 1.0001, no newly failing quality fixture, 56/56 tools, and the released files in mlx-lm's `load_model` and dflash-mlx-bonsai2, 153 tensors identical in both (`second-loaders/`) |
 | [`sampled-screen/`](sampled-screen/) | a pre-registration screen on mlx-dspark: decode at the target's published sampling, 24.07 against 26.30 tok/s (+9.3%), and r3 4.63% below ft5 there |
 | [`second-runtime/`](second-runtime/) | dflash-mlx-bonsai2: stock → ft5 +5.01% (+3.35% to +6.83%), r3 2.41% below ft5, and agreement with the target alone up to floating-point ties |
 | [`fork-probe/`](fork-probe/) | PrismML's llama.cpp fork on Metal: no drafter 20.56, MTP 11.70, DFlash 2 7.10 tok/s |
@@ -20,7 +20,30 @@ ft5 loses.
 Each group's README lists its files, quotes the claims they support, gives the commands that
 reproduce those claims on a CPU with `bench/analysis/analyse_served_accept.py` (standard library
 only), and says what was stripped and what was left out. The prompt corpora are identified by
-sha256 in `BENCHMARK.md`; they are not part of this bundle.
+sha256 in `BENCHMARK.md`; they are not part of this bundle, and are published as the dataset
+[`Schiltmans/bonsai2-drafter-eval`](https://huggingface.co/datasets/Schiltmans/bonsai2-drafter-eval).
+
+## Which programs wrote these records
+
+- The per-prompt acceptance reports: on mlx-dspark, `served_accept.py --report`, in development
+  versions of the script this repository publishes as `bench/drafter/served_accept.py` (the
+  publication battery's reports lack the `round_lengths` field it writes); on
+  dflash-mlx-bonsai2, `bench/adapters/dflash_mlx_bonsai2.py` (`second-runtime/`). The published
+  analyser, `bench/analysis/analyse_served_accept.py`, reads both.
+- The HTTP throughput legs, the quality and tool records and the depth records: an unpublished
+  version of the author's measurement harness. Its throughput runner asks the same five
+  prompts as the public `bench/throughput/bench5.py` (the records number them 1 to 5, in the
+  order of that file's `PROMPTS`) at the same 400 tokens, but its record layout differs: it
+  writes `mode`, `reps`, `pooled_decode_tps`, `pooled_e2e_tps`, `per_rep_decode_tps`,
+  `requests` and `provenance`, where the public runner writes `runner`, `label`, `server`,
+  `per_rep` and `clean`. Its quality battery (`quality.py`), tool battery (`tool_battery.py`)
+  and depth runner are not in this repository, so those batteries cannot be rerun from it. What
+  their records keep is enough to recompute every figure quoted from them: each quality task's
+  prompt, the model's answer and reasoning and the grade; each tool request's expected tool,
+  the model's text and calls and the verdict; each HTTP or depth request's tokens and timings;
+  and the depth runs' needle answers (not their filler text).
+- Anything else (the second-runtime analysis extras, the 4-bit loader checks, the fork probe's
+  summaries) is described in its group's README.
 
 ## How these files were sanitized
 
@@ -30,8 +53,10 @@ date-prefixed file names, which were renamed to descriptive ones such as
 `http/greedy-leg1-stock.json`); every local path, which became the public name of what it
 pointed at (a drafter directory became `Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5`, a Hub
 cache path became `org/name@revision/file`, a launcher became `python bin/mlx-dspark-patched`);
-the private development repository's revision, the host process list, a server log path,
-calibration cache keys that named a local directory, a local API key and a local build commit.
+the private development repository's revision and name, the host process list, a server log
+path, calibration cache keys that named a local directory, a local API key and a local build
+commit. One file is a text log (`ft5-publication-battery/compatibility/mlx-dspark-0.19.0.txt`);
+it was rewritten line by line, paths only, with no line added or removed.
 Durations were kept: they are measurements. **No number was changed.** Where a source file was
 mostly private machinery (supervisor status files, manifests keyed by local paths, server
 logs), it was left out, and the group's README says so.
@@ -58,8 +83,9 @@ and its sanitized copy in parallel and fails unless every number, boolean and nu
 identical in type and value at the same place, every list keeps its length, every deleted field
 is one of the listed timestamp, path or provenance fields holding the kind of value that field
 holds, and every rewritten string carries no number the original string did not (digits inside
-a public model name excepted). It needs the originals, so only their keeper can run it; it was
-run on all 111 JSON files in this bundle, and all 111 passed. It is published so the rules it
+a public model name excepted). It compares the text log line by line under the same rules. It
+needs the originals, so only their keeper can run it; it was run on all 130 data files in this
+bundle (129 JSON files and the text log), and all 130 passed. It is published so the rules it
 enforces can be read, and so anyone given an original can rerun it.
 
 The Markdown files were written for this bundle. `ft5-publication-battery/reanalysis-v2/NOTES.md`
