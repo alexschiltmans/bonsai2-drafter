@@ -1,0 +1,35 @@
+# Weekly check of PrismML's llama.cpp fork for DFlash 2 support. The repository has issues turned
+# off, so the signal is a failed run: GitHub emails the owner when a scheduled run fails. When it
+# fires, run ft5's GGUF on that release, update the compatibility table, then adjust this check.
+# GitHub disables scheduled workflows after 60 days without repository activity.
+name: fork watch
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Look for DFlash 2 in the fork's latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORK: PrismML-Eng/llama.cpp
+          MARKER: LLM_KV_DFLASH_SELECTOR_RANK
+        run: |
+          set -euo pipefail
+          tag=$(gh api "repos/$FORK/releases/latest" --jq .tag_name)
+          src=$(gh api "repos/$FORK/contents/src/llama-arch.cpp?ref=$tag" --jq .content | base64 -d)
+          pr=$(gh api "repos/$FORK/pulls/261" --jq '"\(.state), merged: \(.merged)"')
+          echo "Latest fork release: \`$tag\`. DFlash 2 pull request #261: $pr." >> "$GITHUB_STEP_SUMMARY"
+          if grep -q "$MARKER" <<<"$src"; then
+            echo "::error::$tag has DFlash 2 ($MARKER in src/llama-arch.cpp)."
+            echo "**$tag has DFlash 2.** Run ft5's GGUF on it and update the compatibility table." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "No DFlash 2 in \`$tag\` yet." >> "$GITHUB_STEP_SUMMARY"
