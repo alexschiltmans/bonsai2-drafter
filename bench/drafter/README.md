@@ -56,13 +56,13 @@ $PY -u bench/drafter/served_accept.py "$RUN/greedy.jsonl" "$RUN/ft5" --n 40 --ma
 python3 bench/analysis/analyse_served_accept.py "$RUN/code-stock.json" "$RUN/code-ft5.json"
 ```
 
-The served gate uses a 4-bit drafter and pinned cap 7. It is not the depth profile's
-derived-cap measurement. Keep the full logs, exit status and per-prompt reports, not
-just lines filtered for `SERVED`. A success marker belongs after a successful exit.
+The served gate uses a 4-bit drafter and pinned cap 7. It is not a run with a derived
+draft cap. Keep the full logs, exit status and per-prompt reports, not just lines
+filtered for `SERVED`. A success marker belongs after a successful exit.
 Run `bench/check.sh --models` separately, never alongside a measurement workload.
 The HTTP throughput gate (a fresh server per arm, stock and fine-tuned in ABBA order under
-like-for-like machine state) uses a runner that is not in this repository yet; BENCHMARK.md
-describes it.
+like-for-like machine state) uses `bench/throughput/bench5.py`;
+`bench/throughput/README.md` gives the ABBA procedure and BENCHMARK.md the protocol.
 
 The publication battery's reviewed evidence (the raw acceptance reports with their
 output token arrays, the hashes and the versioned reanalysis) is in this repository under
