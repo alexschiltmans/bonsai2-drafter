@@ -91,6 +91,8 @@ The report format is specified in [`bench/REPORTS.md`](bench/REPORTS.md), with a
 and a standard-library validator (`bench/analysis/validate_report.py`), so an adapter for
 another runtime can be written without reading this code.
 `BENCHMARK.md` fixes how comparisons between drafters and runtimes are run and reported.
+`bench/throughput/bench5.py` takes its throughput measurements against any OpenAI-compatible
+server by URL; `bench/throughput/README.md` has the ABBA procedure.
 
 ## Train a drafter on a Mac
 
