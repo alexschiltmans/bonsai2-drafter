@@ -1,0 +1,28 @@
+{
+ "contract": "budgeted-prefix-identity/v2",
+ "purpose": "same drafter twice: the identity check's own control. No gain is expected, so the acceptance gate does not apply; only the output classes do.",
+ "pairs": {
+  "stock-repeat": {
+   "arms": ["general-1-stock", "general-4-stock"],
+   "budget": 200,
+   "output_classes": {
+    "identical": 40,
+    "boundary_overshoot": 0,
+    "prefix_divergence": 0,
+    "early_stop_mismatch": 0
+   },
+   "tokens_per_round": [2.7767955801104973, 2.7767955801104973]
+  },
+  "ft5-repeat": {
+   "arms": ["general-2-ft5", "general-3-ft5"],
+   "budget": 200,
+   "output_classes": {
+    "identical": 40,
+    "boundary_overshoot": 0,
+    "prefix_divergence": 0,
+    "early_stop_mismatch": 0
+   },
+   "tokens_per_round": [3.040290088638195, 3.040290088638195]
+  }
+ }
+}

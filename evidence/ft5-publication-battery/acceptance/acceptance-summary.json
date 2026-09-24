@@ -1,0 +1,182 @@
+{
+ "general-forward": {
+  "prompts": 40,
+  "stock_tokens_per_round": 2.7767955801104973,
+  "tuned_tokens_per_round": 3.040290088638195,
+  "relative_gain": 0.09489157589238628,
+  "paired_95_interval": [0.07252442525291825, 0.11685919281427504],
+  "output_mismatches": 17,
+  "stock_truncated": 34,
+  "tuned_truncated": 34,
+  "gate": "investigate",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage",
+  "breakdown": [
+   {
+    "field": "category",
+    "value": "explanation",
+    "prompts": 5,
+    "relative_gain": 0.05171421997238834
+   },
+   {
+    "field": "category",
+    "value": "planning",
+    "prompts": 5,
+    "relative_gain": 0.14399771884801815
+   },
+   {
+    "field": "category",
+    "value": "writing",
+    "prompts": 5,
+    "relative_gain": 0.07737595076224668
+   },
+   {
+    "field": "category",
+    "value": "summarization",
+    "prompts": 5,
+    "relative_gain": 0.10194174757281549
+   },
+   {
+    "field": "category",
+    "value": "reasoning",
+    "prompts": 5,
+    "relative_gain": 0.09442906603685741
+   },
+   {
+    "field": "category",
+    "value": "advice",
+    "prompts": 5,
+    "relative_gain": 0.1020408163265305
+   },
+   {
+    "field": "category",
+    "value": "critical_reading",
+    "prompts": 5,
+    "relative_gain": 0.1208764463729417
+   },
+   {
+    "field": "category",
+    "value": "language",
+    "prompts": 5,
+    "relative_gain": 0.07420851680508345
+   },
+   {
+    "field": "thinking",
+    "value": true,
+    "prompts": 20,
+    "relative_gain": 0.11282240888814599
+   },
+   {
+    "field": "thinking",
+    "value": false,
+    "prompts": 20,
+    "relative_gain": 0.07553969907256186
+   }
+  ]
+ },
+ "general-reverse": {
+  "prompts": 40,
+  "stock_tokens_per_round": 2.7767955801104973,
+  "tuned_tokens_per_round": 3.040290088638195,
+  "relative_gain": 0.09489157589238628,
+  "paired_95_interval": [0.07252442525291825, 0.11685919281427504],
+  "output_mismatches": 17,
+  "stock_truncated": 34,
+  "tuned_truncated": 34,
+  "gate": "investigate",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage",
+  "breakdown": [
+   {
+    "field": "category",
+    "value": "explanation",
+    "prompts": 5,
+    "relative_gain": 0.05171421997238834
+   },
+   {
+    "field": "category",
+    "value": "planning",
+    "prompts": 5,
+    "relative_gain": 0.14399771884801815
+   },
+   {
+    "field": "category",
+    "value": "writing",
+    "prompts": 5,
+    "relative_gain": 0.07737595076224668
+   },
+   {
+    "field": "category",
+    "value": "summarization",
+    "prompts": 5,
+    "relative_gain": 0.10194174757281549
+   },
+   {
+    "field": "category",
+    "value": "reasoning",
+    "prompts": 5,
+    "relative_gain": 0.09442906603685741
+   },
+   {
+    "field": "category",
+    "value": "advice",
+    "prompts": 5,
+    "relative_gain": 0.1020408163265305
+   },
+   {
+    "field": "category",
+    "value": "critical_reading",
+    "prompts": 5,
+    "relative_gain": 0.1208764463729417
+   },
+   {
+    "field": "category",
+    "value": "language",
+    "prompts": 5,
+    "relative_gain": 0.07420851680508345
+   },
+   {
+    "field": "thinking",
+    "value": true,
+    "prompts": 20,
+    "relative_gain": 0.11282240888814599
+   },
+   {
+    "field": "thinking",
+    "value": false,
+    "prompts": 20,
+    "relative_gain": 0.07553969907256186
+   }
+  ]
+ },
+ "code": {
+  "prompts": 40,
+  "stock_tokens_per_round": 3.8166485310119693,
+  "tuned_tokens_per_round": 4.213046080191502,
+  "relative_gain": 0.103860113384459,
+  "paired_95_interval": [0.07797029742283934, 0.1313481194044992],
+  "output_mismatches": 14,
+  "stock_truncated": 25,
+  "tuned_truncated": 25,
+  "gate": "investigate",
+  "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage",
+  "breakdown": [
+   {
+    "field": "category",
+    "value": "unknown",
+    "prompts": 40,
+    "relative_gain": 0.103860113384459
+   },
+   {
+    "field": "thinking",
+    "value": false,
+    "prompts": 14,
+    "relative_gain": 0.04790810329638484
+   },
+   {
+    "field": "thinking",
+    "value": true,
+    "prompts": 26,
+    "relative_gain": 0.12937556302137332
+   }
+  ]
+ }
+}
