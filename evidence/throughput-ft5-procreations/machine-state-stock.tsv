@@ -1,0 +1,17 @@
+queue-start	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-greedy-a1-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-greedy-a1-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-greedy-b1-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-greedy-b1-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-greedy-b2-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-greedy-b2-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-greedy-a2-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-greedy-a2-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-sampled-a1-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-sampled-a1-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-sampled-b1-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-sampled-b1-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-sampled-b2-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-ft5-sampled-b2-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-sampled-a2-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dspark-stock-sampled-a2-after	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0

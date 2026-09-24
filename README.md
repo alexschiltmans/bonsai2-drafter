@@ -22,11 +22,14 @@ below produced the same tokens from both drafters within the output budget.
 | acceptance, general chat, 200 tokens | 2.7768 | 3.0403 tokens a round | **+9.49%**, paired 95% +7.25% to +11.69% |
 | acceptance, general chat, 1024 tokens | 2.8149 | 3.0399 | +7.99%, +6.75% to +9.24% |
 | acceptance, held-out code, 200 tokens | 3.8166 | 4.2130 | +10.39%, +7.80% to +13.13% (this suite chose the training iteration, so it does not decide) |
-| decode, greedy, HTTP, ABBA | 25.09 | 28.93 tok/s | **+15.3%** |
-| decode at the target's published sampling (temperature 1.0), ABBA | 24.07 | 26.30 tok/s | +9.3% (a screen: reps overlap) |
+| decode, greedy, HTTP, ABBA | 25.15 | 28.98 tok/s | **+15.2%** |
+| decode at the target's published sampling (temperature 1.0), ABBA | 24.41 | 26.05 tok/s | +6.7% |
 
 The acceptance intervals are a stratified, paired prompt bootstrap over 40 frozen prompts per
-suite. Truncated answers are prefixes, not complete responses. Figures come from one machine.
+suite. The decode rows are `BENCHMARK.md`'s measurements 2 and 3
+(`evidence/throughput-ft5-procreations/`); the publication battery's greedy arms agree within 0.3%,
+and an earlier screen at the target's sampling found +9.3%. Truncated answers are prefixes, not
+complete responses. Figures come from one machine.
 
 ## Use it
 

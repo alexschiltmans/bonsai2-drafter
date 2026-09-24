@@ -1,0 +1,9 @@
+dflash-pc-greedy-a1-before	pressure=1	swap_used=3034.00M	power=AC Power	inference_procs=0
+dflash-pc-greedy-a1-after	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+dflash-ft5-greedy-b1-before	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+dflash-ft5-greedy-b1-after	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+dflash-ft5-greedy-b2-before	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+dflash-ft5-greedy-b2-after	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+dflash-pc-greedy-a2-before	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+dflash-pc-greedy-a2-after	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0
+queue-end	pressure=1	swap_used=3026.00M	power=AC Power	inference_procs=0

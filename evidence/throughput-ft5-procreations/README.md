@@ -1,4 +1,4 @@
-# Throughput: ft5 against ProCreations on mlx-dspark
+# Throughput on mlx-dspark: ft5 against ProCreations, r3 and the stock drafter
 
 `BENCHMARK.md` version 1, measurements 2 and 3, for the two fine-tunes that accept the most:
 ft5 (`Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5`, weights sha256 `63399215…`) and
@@ -17,6 +17,7 @@ prompts at 400 tokens, three repetitions greedy and five at the target's publish
 | `records/{ft5,pc}-{greedy,sampled}-{a1,a2,b1,b2}.json` | the eight `bench5` records, unchanged: per request, tokens, decode and end-to-end seconds, rounds and finish reason |
 | `machine-state.tsv` | memory pressure, swap, power source and competing inference processes before and after every leg |
 | `records-r3/{ft5,r3}-{greedy,sampled}-{a1,a2,b1,b2}.json`, `machine-state-r3.tsv` | a second ABBA group, ft5 against naklitechie's r3 (`naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2`, its two codebook keys renamed to z-lab's names for mlx-dspark's strict loader; `second-runtime/` shows the renamed copy serves the identical loop) |
+| `records-stock/dspark-{stock,ft5}-{greedy,sampled}-{a1,a2,b1,b2}.json`, `machine-state-stock.tsv` | a third ABBA group, the stock drafter (`z-lab/Qwen3.8-27B-DFlash2@50307d4c`, loaded unchanged) against ft5; each file is named after the record's own label |
 
 ## Claims and how to reproduce them
 
@@ -60,9 +61,34 @@ done
 Every leg reads `"clean": true`; truncation is 24 of 30 in both greedy arms, and 36 and 38 of 50
 sampled. ft5's greedy rate in this group is within 0.6% of its rate in the group above.
 
+## Against the stock drafter
+
+```sh
+R=evidence/throughput-ft5-procreations/records-stock
+for m in greedy sampled; do
+  python3 bench/throughput/pool.py $R/dspark-stock-$m-a1.json $R/dspark-stock-$m-a2.json -- $R/dspark-ft5-$m-b1.json $R/dspark-ft5-$m-b2.json
+done
+```
+
+| | stock | ft5 | ft5 / stock |
+|---|---|---|---|
+| greedy, pooled decode tok/s | 25.150 (legs 25.140, 25.160) | 28.981 (legs 28.947, 29.015) | **1.1523** |
+| sampled, pooled decode tok/s | 24.410 (legs 24.517, 24.303) | 26.052 (legs 26.343, 25.780) | **1.0673** |
+
+Every leg reads `"clean": true`. Greedy truncation is 24 of 30 in both arms; sampled, 42 and 40 of
+50. Both drafters cost the same per round (127.1 ms greedy, 130.6 and 130.5 ms sampled), and ft5
+commits more tokens a round (3.683 against 3.197 greedy, 3.399 against 3.188 sampled), ahead on
+each of the five prompts in both modes. The publication battery's greedy arms (25.0918 and
+28.9295, `ft5-publication-battery/`) agree with this group within 0.3%. The sampled gain is smaller
+than the +9.3% of `sampled-screen/`, a screen run before the protocol whose per-repetition rates
+overlapped; this group is the protocol result. The machine carried about 3.0 GB of swap
+throughout.
+
 ## Notes
 
 A first launch of this queue stopped before any server started: it was started from an x86_64
 shell, and the quickstart's architecture check refused to run. No measurement was taken; the
 queue was relaunched unchanged from a native shell. Nothing here was edited: the records are
-`bench5`'s output as written, and `bench5` writes no timestamps, host names or paths.
+`bench5`'s output as written, and `bench5` writes no timestamps, host names or paths. The stock
+group ran in one queue with `second-runtime-throughput/records-pc/`; `machine-state-stock.tsv` keeps
+that queue's rows for this group, unchanged, and the rest are in `machine-state-pc.tsv` there.

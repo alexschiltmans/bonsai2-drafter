@@ -2,7 +2,7 @@
 
 I fine-tuned a DFlash 2 drafter for PrismML's Ternary-Bonsai-2-27B on one Mac. It's called ft5, and
 it drops in wherever z-lab's stock drafter does. On the runtime I trained it for, it raises
-acceptance on general chat by 9.49% and greedy decode speed by 15.3%. On a second runtime that
+acceptance on general chat by 9.49% and decode speed by 15.2% greedy. On a second runtime that
 shares none of that code, the acceptance gain is 5.01%. An independent fine-tune by ProCreations,
 measured the same way, accepts more than ft5 on general chat and matches it on code. On the Metal
 path of PrismML's llama.cpp fork, at the head I tested, no DFlash 2 drafter can speed up the
@@ -135,7 +135,8 @@ the deciding rule. The mlx-dspark row pairs it with reports from before the prot
 matched comparison rather than a protocol result. On code, the suite ft5 was selected on, the two
 are level. None of my evaluation prompts appears in the training corpus ProCreations publishes.
 Decode speed tells the other half: on the protocol's five code prompts, ft5 decodes faster on
-mlx-dspark (ProCreations / ft5 0.949 greedy, 0.982 sampled), at the same cost per round.
+mlx-dspark (ProCreations / ft5 0.949 greedy, 0.982 sampled), at the same cost per round, and
+slightly faster on dflash-mlx-bonsai2 (0.984 greedy, end to end).
 
 Three independent fine-tunes against the ternary target beat the stock drafter on both runtimes,
 and mine is not the best of them on general chat. That the gain reproduces across trainers and
@@ -154,12 +155,16 @@ Throughput, on mlx-dspark only (it is never compared across runtimes):
 
 | comparison | legs, ABBA, tok/s | pooled |
 | --- | --- | --- |
-| greedy, three reps a leg | 25.087, 28.925, 28.934, 25.097 | 25.0918 → 28.9295, +15.29% |
-| temperature 1.0, top-p 0.95, top-k 20, five reps a leg (a screen) | 23.71, 26.43, 26.17, 24.43 | 24.07 → 26.30, +9.3% |
+| greedy, three reps a leg, `BENCHMARK.md` measurement 2 | 25.140, 28.947, 29.015, 25.160 | 25.150 → 28.981, +15.23% |
+| temperature 1.0, top-p 0.95, top-k 20, five reps a leg, measurement 3 | 24.517, 26.343, 25.780, 24.303 | 24.410 → 26.052, +6.73% |
+| greedy, publication battery | 25.087, 28.925, 28.934, 25.097 | 25.0918 → 28.9295, +15.29% |
+| sampled as above, a screen before the protocol | 23.71, 26.43, 26.17, 24.43 | 24.07 → 26.30, +9.3% |
 
-Under sampling the two arms produce different text, so that row isn't paired. Its per-rep rates
-overlap (22.5–27.1 stock, 25.0–27.1 ft5), which is why I call it a screen. The gain is smaller
-than greedy's because sampling lowers acceptance for both drafters.
+The two drafters cost the same per round, so the gain is acceptance: 3.68 against 3.20 tokens a
+round greedy, 3.40 against 3.19 sampled. Under sampling the two arms produce different text, so
+the sampled rows aren't paired, and the gain is smaller because sampling lowers acceptance for
+both drafters. The screen's per-rep rates overlapped (22.5–27.1 stock, 25.0–27.1 ft5); the
+protocol's measurement 3 is the figure to quote.
 
 ## A derivative of the target
 

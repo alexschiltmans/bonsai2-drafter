@@ -19,6 +19,7 @@ so a sampled leg would compare two identical plain-decoding arms.
 | `records/{stock,ft5}-greedy-{a1,a2,b1,b2}.json` | the four `bench5` records, unchanged |
 | `machine-state.tsv` | memory pressure, swap and power before and after every leg |
 | `records-r3/{r3,ft5}-greedy-{a1,a2,b1,b2}.json`, `machine-state-r3.tsv` | a second ABBA group, naklitechie's r3 (`naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2`, loaded unchanged) against ft5, with the runtime's on-disk prefix cache cleared before every leg |
+| `records-pc/dflash-{pc,ft5}-greedy-{a1,a2,b1,b2}.json`, `machine-state-pc.tsv` | a third ABBA group, ProCreations' fine-tune (`ProCreations/Ternary-Bonsai-2-27B-DFlash2` at `4cfb6ad0`, bf16 weights sha256 `708e141b…`, loaded unchanged) against ft5, the prefix cache cleared before every leg; each file is named after the record's own label |
 
 ## Claims and how to reproduce them
 
@@ -45,7 +46,22 @@ python3 bench/throughput/pool.py $R/r3-greedy-a1.json $R/r3-greedy-a2.json -- $R
 |---|---|---|---|
 | greedy, pooled end to end, tok/s | 23.484 (legs 23.482, 23.485) | 24.782 (legs 24.788, 24.776) | **1.0553** |
 
-ft5's legs in the two groups agree within 0.1% (24.787 and 24.789; 24.788 and 24.776).
+Against ProCreations:
+
+```sh
+R=evidence/second-runtime-throughput/records-pc
+python3 bench/throughput/pool.py $R/dflash-pc-greedy-a1.json $R/dflash-pc-greedy-a2.json -- $R/dflash-ft5-greedy-b1.json $R/dflash-ft5-greedy-b2.json
+```
+
+| | ProCreations | ft5 | ft5 / ProCreations |
+|---|---|---|---|
+| greedy, pooled end to end, tok/s | 24.375 (legs 24.376, 24.374) | 24.776 (legs 24.773, 24.779) | **1.0164** |
+
+That is ProCreations / ft5 0.9838, against 0.9494 on mlx-dspark (`throughput-ft5-procreations/`).
+Truncation is 24 of 30 in both arms.
+
+ft5's legs in the three groups agree within 0.1% (24.787 and 24.789; 24.788 and 24.776; 24.773
+and 24.779).
 
 **The metric differs from version 1's wording.** The server, built on `mlx_lm.server`, reports no
 decode timer, so every response lands in `bench5`'s end-to-end pool and none in its decode pool.
@@ -57,4 +73,6 @@ that survives a restart, so the later legs could restore prompts the first one w
 move the result: the stock drafter's first leg, which ran cold, and its last agree within 0.2%
 (23.15 and 23.112), and the prompts are short.
 
-The records are `bench5`'s output as written; nothing in this group was edited.
+The records are `bench5`'s output as written; nothing in this group was edited. The ProCreations
+group ran in one queue with `throughput-ft5-procreations/records-stock/`; `machine-state-pc.tsv`
+keeps that queue's rows for this group, unchanged, with about 3.0 GB of swap throughout.
