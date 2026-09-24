@@ -25,6 +25,9 @@ run "test_report_schema"          python3 bench/tests/test_report_schema.py
 run "test_dflash_prequantized"    python3 bench/tests/test_dflash_prequantized.py
 run "test_bench5"                 python3 bench/tests/test_bench5.py
 run "test_pool"                   python3 bench/tests/test_pool.py
+# Published files carry no timestamps (a regenerated uv.lock writes upload-time fields: strip them).
+run "no timestamps outside evidence" python3 scripts/check-no-timestamps.py
+run "evidence scan"               python3 evidence/tools/verify_sanitized.py scan evidence
 run "rename-codebooks --self-test" python3 scripts/rename-codebooks.py --self-test
 run "dflash-mlx adapter --self-test" python3 bench/adapters/dflash_mlx_bonsai2.py --self-test
 if [ "${1:-}" = --gpu ] || [ "${1:-}" = --models ]; then
