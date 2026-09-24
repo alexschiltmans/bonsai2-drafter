@@ -4,9 +4,15 @@ ft5 against the stock drafter (and naklitechie's r3 fine-tune) on an independent
 [dflash-mlx-bonsai2](https://github.com/NakliTechie/dflash-mlx-bonsai2) at
 `223e0f3a9cb4806da0cdc5190f9191b545d1f60b` (dflash-mlx 0.1.10, MLX 0.32.2, mlx-lm 0.31.3), same
 target pack `prism-ml/Ternary-Bonsai-2-27B-mlx-2bit@3f926b41`, greedy, one Apple M4 Pro with
-48 GB. The reports were written by this repository's `bench/adapters/dflash_mlx_bonsai2.py`.
-The runtime clamps DFlash 2 to a block of five, so cap 4; drafters quantized to 4 bits at load
-(`w4`, group 64) unless marked bf16; KV cache unquantized (the runtime's default).
+48 GB. The reports were written by this repository's `bench/adapters/dflash_mlx_bonsai2.py` as
+published in v0.2.0. The runtime clamps DFlash 2 to a block of five, so cap 4; drafters
+quantized to 4 bits at load (`w4`, group 64) unless marked bf16; KV cache unquantized (the
+runtime's default).
+
+**Protocol status.** This ran under `BENCHMARK.md` version 1, with its no-drafter baseline (the
+target alone) and three of its four DFlash 2 arms: stock, ft5 and r3. The fourth,
+`ProCreations/Ternary-Bonsai-2-27B-DFlash2`, was not part of this run, and no ProCreations
+result is in this bundle.
 
 ## Files
 
@@ -19,6 +25,28 @@ The runtime clamps DFlash 2 to a block of five, so cap 4; drafters quantized to 
 | `analysis/*-identity-target-vs-*.json` | each drafter arm against the target alone, with every divergence named |
 | `analysis/*-tie-margins.json` | the target's logit margin between its top two tokens at each divergence position |
 | `analysis/general200-bf16-stock-to-ft5.json`, `general200-equivalence-r3-native-vs-r3z.json`, `summary.json` | the bf16 pair, the loader equivalence check, and all of the above in one file |
+
+**Which program wrote which analysis file.** Not all of `analysis/` came from the published
+analyser, `bench/analysis/analyse_served_accept.py`:
+
+- `general200-equivalence-r3-native-vs-r3z.json` is its `--equivalence` output, unchanged.
+- The nine pair files (`*-stock-to-ft5.json`, `*-stock-to-r3.json`, `*-ft5-to-r3.json`) and
+  `general200-bf16-stock-to-ft5.json` hold its `compare` output, to which the author's separate
+  analysis scripts added `baseline_arm` and `candidate_arm` and, in the nine pair files,
+  `runtime_counting_sensitivity`: the same stratified bootstrap over the runtime's own count
+  (committed tokens over verify passes).
+- The identity files (`*-identity-target-vs-*.json`) were written by those scripts from the
+  analyser's `compare` against the target-alone arm (its output classes and mismatch counts),
+  plus the first divergent token position of each divergent prompt. `summary.json`, also
+  theirs, collects the arms, pairs and identity results in one file.
+- The tie-margin files were written by a diagnostic script that loads the target and reads its
+  logits for the two competing tokens at each divergence, on three evaluation paths: prefill
+  of the whole context, a one-row decode step, and a five-row verify step.
+
+None of these scripts is in this repository. The core numbers match a rerun of the published
+analyser on the reports here: every field it writes in the nine pair files, the bf16 pair and
+the equivalence file is reproduced exactly, and so are the output classes and mismatch counts
+of all nine identity files and every pair's rate, gain and interval in `summary.json`.
 
 ## Claims and how to reproduce them
 
@@ -55,16 +83,18 @@ equal.
 **Output agreement.** Against the target alone, the drafter arms differ at the same prompts and
 positions whichever drafter runs: general@200 34 identical and 6 prefix divergences, code@200
 36 and 4, general@1024 21 and 19 (`analysis/*-identity-target-vs-*.json`). Every one of those
-29 positions is a floating-point tie in the target's own logits, with a top-two margin of 0 or
-one fp16 step (0.0156) on the prefill or one-row path and at most 0.0096 on the verify path
-(`analysis/*-tie-margins.json`): the verify kernel and the one-token decode kernel break the
-tie differently. That is the card's "logit margins ≤ 0.016".
+29 positions is a floating-point tie in the target's own logits (`analysis/*-tie-margins.json`).
+On the prefill and one-row paths the top-two margin is 0 or one fp16 step: 0.0156 for logits
+between 16 and 32, and 0.0078 in the one prefill case whose logits sit just below 16 (about
+14.33). On the verify path it is at most 0.0096. Prefill gives 0 at 21 positions, 0.0078 at
+one and 0.0156 at seven; the one-row path 0 at 23 and 0.0156 at six. The verify kernel and the
+one-token decode kernel break the tie differently. That is the card's "logit margins ≤ 0.016".
 
 ## What was stripped
 
 Local paths to the target snapshot and the drafter directories (`arm.target_path`,
 `arm.drafter_path`, `arm.draft_meta.resolved_model_ref`), and, in the tie-margin files, the
-directory part of the report paths (they now read `reports/...`). Everything else is as the
+directory part of the report paths (they read `reports/...`). Everything else is as the
 adapter wrote it: settings, package versions, the runtime commit, drafter and config hashes,
 every per-request measurement. `../tools/verify_sanitized.py` proved every number unchanged.
 
@@ -73,6 +103,8 @@ every per-request measurement. `../tools/verify_sanitized.py` proved every numbe
 The run's queue and chain scripts, the per-arm logs, smoke-test reports, an aborted first start
 of the general@200 target arm (killed within 40 seconds because it ran before the adapter
 recorded the runtime commit, and replaced before any analysis), and the runtime's package
-freeze (its versions are in each report's `settings`). The adapter that produced the reports
-is `bench/adapters/dflash_mlx_bonsai2.py`; after the runs its docstring was edited, not its
-code.
+freeze (its versions are in each report's `settings`). The reports came from the adapter as
+published in v0.2.0, `bench/adapters/dflash_mlx_bonsai2.py`. Versions after v0.2.0 add two
+refusals: a prompt whose `decode_seconds` is not positive stops the run, and a corpus row whose
+`category` is not a string is refused. They affect no published report: all 600 requests here
+have a positive `decode_seconds` and a string category.
