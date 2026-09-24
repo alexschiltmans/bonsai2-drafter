@@ -10,6 +10,7 @@ on mlx-dspark.
 | **Drop-in for** | `z-lab/Qwen3.8-27B-DFlash2`: the same 81 tensor names, dtypes, shapes and `config.json`. Any runtime that loads the stock drafter loads this one unchanged |
 | **Measured on** | one Apple M4 Pro with 48 GB, mlx-dspark 0.18.0 with the patches below, 8-bit KV cache, drafter quantized to 4 bits at load, draft cap 7 |
 | **Protocol** | [`BENCHMARK.md`](BENCHMARK.md), registered before the comparisons it governs |
+| **Write-up** | [One drafter, several runtimes, two methods](docs/one-drafter-several-runtimes.md): how ft5 was made and measured, and how it compares with the other drafters |
 
 ## What it changes
 
