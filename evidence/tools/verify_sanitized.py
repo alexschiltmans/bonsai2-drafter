@@ -9,7 +9,7 @@
 listed file hashes as listed and that no file is unlisted, then searches every file for what
 sanitization removes: dates, epoch seconds, home-directory paths and e-mail addresses. In a
 JSON file it reads each value in place: a number between 1e9 and 2e9 counts as epoch seconds
-unless its key names a byte count or a byte range, and a date or ten-digit number inside the model's own words
+unless its key names a byte count, a byte range or a seed, and a date or ten-digit number inside the model's own words
 (`answer`, `reasoning`) is content the model wrote, not a record of when it ran. Exit 0 means
 clean.
 
@@ -62,9 +62,11 @@ def _revision(value):
 #: The fields sanitization may delete, by key name, each with the only kind of value it may
 #: hold. A key of the same name holding anything else (a measurement block, say) may not go.
 REMOVABLE = {
-    # timestamps: an ISO time, an epoch second, and the clock time in `uptime`'s output line
+    # timestamps: an ISO time, an epoch second (also an OpenAI response's `created`), and the
+    # clock time in `uptime`'s output line
     "when": _text,
     "at": _epoch,
+    "created": _epoch,
     "uptime": _text,
     # private provenance: the private repository's revision and worktree flag
     "git": _revision,
@@ -186,8 +188,10 @@ def _sums(directory):
 
 
 def _byte_count(key):
-    # `range` is a tensor's [start, end) byte offsets inside a model file
-    return key is not None and ("bytes" in key or key.startswith("allocator") or key == "range")
+    # `range` is a tensor's [start, end) byte offsets inside a model file; a `seed` is a sampler's
+    # random seed. Neither is a time, whatever its size.
+    return key is not None and ("bytes" in key or key.startswith("allocator") or key == "range"
+                                or "seed" in key)
 
 
 def _json_hits(value, extra, key=None):
