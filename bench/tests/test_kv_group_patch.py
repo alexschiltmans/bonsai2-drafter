@@ -130,7 +130,7 @@ setenv(None)
 check("explicit 128 with no override -> argument wins", layout(explicit=128), 128)
 check("...and the key is stock, which is a KNOWN GAP: a caller that passes a non-stock",
       tag(), "")
-print("        group directly would go untagged. No such caller exists in mlx-dspark today")
+print("        group directly would go untagged. No such caller exists in mlx-dspark 0.18.0")
 print("        (the only construction site uses the default), so this is recorded rather")
 print("        than fixed -- fixing it needs the key to be derived from the built cache.")
 

@@ -20,7 +20,7 @@ Four groups, in the order the library's claims are made:
    3.9 GB drafter in the HuggingFace cache.
 
 Also a round trip of checkpoint save/load on a tiny stand-in module, since the resume path
-is what a paused overnight run depends on.
+is what a paused long run depends on.
 """
 
 from __future__ import annotations
