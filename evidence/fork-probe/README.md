@@ -1,27 +1,37 @@
 # Fork probe: DFlash 2 and MTP on PrismML's llama.cpp fork (Metal)
 
 A feasibility probe, run once, behind the card's compatibility row "PrismML llama.cpp fork,
-Metal: no speedup possible today". Three arms on one Apple M4 Pro with 48 GB, each an ABBA pair
-of `bench5.py` legs (three repetitions of five prompts at 400 tokens, fresh server per leg), in
-two contiguous groups:
+Metal: no speedup possible at fork head `0324c665`". Three arms on one Apple M4 Pro with 48 GB,
+each an ABBA pair of HTTP throughput legs (three repetitions of five prompts at 400 tokens,
+fresh server per leg), in two contiguous groups:
 
 1. **Unmodified fork**: no drafter against MTP.
 2. **Fork with upstream DFlash 2 patched in**: no drafter against the stock DFlash 2 drafter.
 
-The predeclared gate: DFlash 2 must beat both no drafter and MTP by more than `bench5.py`'s
+The predeclared gate: DFlash 2 must beat both no drafter and MTP by more than the runner's
 repetition spread. It failed, so no ft5 GGUF was made and none is published.
+
+**Protocol status.** This is a feasibility probe outside `BENCHMARK.md` version 1, not a result
+under it. That protocol names the fork at a named release, with this repository's DFlash 2
+patch; the probe ran the fork's branch head `0324c665` rather than a named release, and
+naklitechie's copy of the upstream patch.
+
+**Which harness wrote these records.** The legs were written by an unpublished version of the
+author's measurement harness, not by the public `bench/throughput/bench5.py`. Its five prompts
+are identical to that runner's `PROMPTS` (the records number them 1 to 5, in that order), but
+its record layout differs; `../README.md` has the details.
 
 ## What ran
 
 | | |
 | --- | --- |
 | **Fork** | [PrismML-Eng/llama.cpp](https://github.com/PrismML-Eng/llama.cpp), branch `prism`, head `0324c66521960d67aa7da8687fb1453a79a6565c`; the binary reports build `b10731-0324c665` |
-| **DFlash 2 patch** | `lab/leg9/patches/0001-spec-add-DFlash2-support-local-convolution-candidate.patch` from [NakliTechie/dflash-mlx-bonsai2](https://github.com/NakliTechie/dflash-mlx-bonsai2) at `223e0f3a9cb4806da0cdc5190f9191b545d1f60b` (sha256 `b111b88959b33a27ce38480275519dce5b431c5fc5913df1ab6deac607e99a79`). It is upstream llama.cpp commit `8f29f159cb09e94f9ddd08881535c1c88e4422e1` by Xuan-Son Nguyen (MIT), and applied cleanly to the fork head with `git apply`. The patched binary reports build `b10732-patched` (the local commit that held the applied patch was never published, so its hash is omitted). That repository's other `0001` patch (Hadamard transforms) was not stacked: the fork already carries its own version |
+| **DFlash 2 patch** | `lab/leg9/patches/0001-spec-add-DFlash2-support-local-convolution-candidate.patch` from [NakliTechie/dflash-mlx-bonsai2](https://github.com/NakliTechie/dflash-mlx-bonsai2) at `223e0f3a9cb4806da0cdc5190f9191b545d1f60b` (sha256 `b111b88959b33a27ce38480275519dce5b431c5fc5913df1ab6deac607e99a79`): naklitechie's copy, as a `git format-patch` file, of upstream llama.cpp's DFlash 2 support (MIT). Upstream landed that support as merge commit [`b10f9ca58c89`](https://github.com/ggml-org/llama.cpp/commit/b10f9ca58c89ccfc3653ac01e979dd085d582b76), [PR #27816](https://github.com/ggml-org/llama.cpp/pull/27816) by Xuan-Son Nguyen (ngxson), which re-lands [PR #27342](https://github.com/ggml-org/llama.cpp/pull/27342) by Zihan Zhang (SubSir), whose first commit is by Jian Chen (#27342 was merged into #27816's branch as `4a6ad487`). Its changes match `b10f9ca58c89`'s apart from whitespace. `8f29f159cb09e94f9ddd08881535c1c88e4422e1`, on the patch's `From` line, is the patch file's header hash, not an upstream commit: ggml-org/llama.cpp has no commit by that hash. The patch applied cleanly to the fork head with `git apply`. The patched binary reports build `b10732-patched` (the local commit that held the applied patch was never published, so its hash is omitted). That repository's other `0001` patch (Hadamard transforms) was not stacked: the fork already carries its own version |
 | **Build flags** (both builds) | `cmake -DCMAKE_BUILD_TYPE=Release -DGGML_METAL=ON -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TOOLS=ON -DLLAMA_BUILD_SERVER=ON -DLLAMA_CURL=OFF`, targets `llama-server` and `llama-cli`; the macOS arm64 defines of the fork's release workflow |
 | **Target** | `prism-ml/Ternary-Bonsai-2-27B-gguf` at `6ed5e12bf84b7a63069882c91dd9e9218647d17b`, `Ternary-Bonsai-2-27B-PQ2_0.gguf` |
 | **MTP** | `decent-jawfish/bonsai-2-27b-mtp` at `5edf5f552d45e40b81f0255a8bb443af35850722`, `Bonsai-2-27B-PQ2_0-MTP.gguf` (Apache-2.0), `--spec-type draft-mtp --spec-draft-n-max 2` |
 | **DFlash 2 drafter** | `z-lab/Qwen3.8-27B-DFlash2-GGUF` at `2d9571f8ce46e151f61c6499c99dee6079e1d610`, `Qwen3.8-27B-DFlash2-Q8_0.gguf` (Apache-2.0), `-md … --spec-type draft-dflash --spec-draft-n-max 7 -ngld 99` |
-| **Server flags** (every arm) | `-ngl 99 -fa on -c 131072 -np 1 --jinja --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0 --no-webui --metrics`, text only; each record's `provenance.launch` has the exact line. `bench5.py` requests greedy decoding, so both arms of a pair emit the same 11,412 tokens |
+| **Server flags** (every arm) | `-ngl 99 -fa on -c 131072 -np 1 --jinja --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0 --no-webui --metrics`, text only; each record's `provenance.launch` has the exact line. The runner requests greedy decoding, so both arms of a pair emit the same 11,412 tokens |
 
 ## Files
 
@@ -62,13 +72,13 @@ The round cost: a DFlash 2 leg emitted 5706 tokens with 4020 accepted drafts, so
 in 803.5 seconds of decode: about 476 ms a round, against 48.65 ms a token with no drafter, or
 9.8 single-token steps. Even a round that accepted all seven drafts (eight tokens) would then
 run at 8 / 0.476 = 16.8 tok/s, below no drafter; that is why the card says no drafter can win
-on that path yet. The trunk check: all 851 tensors of Prism's GGUF are present in the MTP GGUF
+on that path at this fork head. The trunk check: all 851 tensors of Prism's GGUF are present in the MTP GGUF
 with identical type, shape and bytes (aggregate sha256 identical); the MTP file adds 15
 `blk.64.*` tensors, and its metadata differs only in `qwen35.block_count` (64 → 65) and
 `qwen35.nextn_predict_layers` (absent → 1). So the MTP arm runs Prism's trunk.
 
-`analyse_served_accept.py` does not apply here: `bench5.py` records per-request totals over
-HTTP, not per-prompt token arrays, and no acceptance claim is made from this probe beyond the
+`analyse_served_accept.py` does not apply here: the HTTP records hold per-request totals, not
+per-prompt token arrays, and no acceptance claim is made from this probe beyond the
 counts above.
 
 ## Reading the records
@@ -84,7 +94,7 @@ default llama.cpp pin, not the binary under test; the binary is identified by
 Run timestamps, including the clock time in the machine's uptime line; the private repository
 revision; the host process list; dated labels and date-prefixed file names (records are named
 by group, arm and leg); the local path parts of the server binary, model and drafter paths
-(model files now read `org/name@revision/file`, matching the Hub); the local API key; and the
+(model files read `org/name@revision/file`, matching the Hub); the local API key; and the
 local commit hash of the patched build. Every number is unchanged;
 `../tools/verify_sanitized.py` proved it pair by pair.
 
