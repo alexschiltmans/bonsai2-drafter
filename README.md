@@ -113,8 +113,9 @@ lets the block see the target's row at the anchor looks better on a proxy and se
 
 ## About this code
 
-The measurements on the model card were taken with this code. The evidence behind them will be
-published here under `evidence/`.
+The measurements on the model card were taken with this code. The evidence behind them is under
+[`evidence/`](evidence/README.md): the raw reports with full token arrays, sanitized of timestamps and
+local details, with a verifier and checksums, and the commands that reproduce every published number.
 
 Checks: `bench/check.sh` (lint, types, no-GPU tests), `--gpu` and `--models` for the rest.
 

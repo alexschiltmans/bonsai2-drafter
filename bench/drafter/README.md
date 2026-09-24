@@ -65,8 +65,8 @@ like-for-like machine state) uses a runner that is not in this repository yet; B
 describes it.
 
 The publication battery's reviewed evidence (the raw acceptance reports with their
-output token arrays, the hashes and the versioned reanalysis) will be published in this
-repository under `evidence/`. Until then, its tables are on the model card.
+output token arrays, the hashes and the versioned reanalysis) is in this repository under
+`evidence/ft5-publication-battery/`, with the commands that reproduce its tables.
 
 ## Non-Code Gate
 
