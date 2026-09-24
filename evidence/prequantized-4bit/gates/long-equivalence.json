@@ -1,0 +1,135 @@
+{
+ "general-long": {
+  "contract": "artifact-equivalence/v1",
+  "identity_contract": "budgeted-prefix-identity/v2",
+  "prompts": 40,
+  "budget": 1024,
+  "block": 8,
+  "equal_prompts": 40,
+  "differing_prompts": 0,
+  "field_mismatches": {
+   "response_ids": 0,
+   "finish": 0,
+   "tokens": 0,
+   "rounds": 0,
+   "round_lengths": 0
+  },
+  "differences": [],
+  "output_classes": {
+   "identical": 40,
+   "boundary_overshoot": 0,
+   "prefix_divergence": 0,
+   "early_stop_mismatch": 0
+  },
+  "max_overshoot_tokens": 7,
+  "before_tokens_per_round": 3.039876923076923,
+  "after_tokens_per_round": 3.039876923076923,
+  "gate": "pass",
+  "scope": "exact per-prompt equality of tokens, finish reason, round count and round lengths; decode durations are not compared and no speed claim follows from this. A pass says the two packagings ran the same loop on this fixed prompt suite, not that they are equal in general.",
+  "improvement_analysis_for_reference": {
+   "contract": "budgeted-prefix-identity/v2",
+   "prompts": 40,
+   "budget": 1024,
+   "block": 8,
+   "stock_tokens_per_round": 3.039876923076923,
+   "tuned_tokens_per_round": 3.039876923076923,
+   "relative_gain": 0.0,
+   "paired_95_interval": [0.0, 0.0],
+   "output_classes": {
+    "identical": 40,
+    "boundary_overshoot": 0,
+    "prefix_divergence": 0,
+    "early_stop_mismatch": 0
+   },
+   "max_overshoot_tokens": 7,
+   "output_mismatches": 0,
+   "stock_truncated": 13,
+   "tuned_truncated": 13,
+   "acceptance_variants": {
+    "whole_rounds": {
+     "stock": 3.039876923076923,
+     "tuned": 3.039876923076923,
+     "relative_gain": 0.0,
+     "note": "the headline metric: every committed token over every round"
+    },
+    "budget_trimmed_numerator": {
+     "stock": 3.035076923076923,
+     "tuned": 3.035076923076923,
+     "relative_gain": 0.0,
+     "note": "trimmed numerator over whole rounds; a mixed metric, sensitivity only"
+    },
+    "complete_rounds_within_budget": {
+     "stock": [3.036607913225687, 3.036607913225687],
+     "tuned": [3.036607913225687, 3.036607913225687],
+     "relative_gain": [0.0, 0.0],
+     "exact": true,
+     "note": "crossing round dropped; an envelope unless round_lengths were recorded"
+    }
+   },
+   "breakdown": [
+    {
+     "field": "category",
+     "value": "explanation",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "planning",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "writing",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "summarization",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "reasoning",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "advice",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "critical_reading",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "category",
+     "value": "language",
+     "prompts": 5,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "thinking",
+     "value": true,
+     "prompts": 20,
+     "relative_gain": 0.0
+    },
+    {
+     "field": "thinking",
+     "value": false,
+     "prompts": 20,
+     "relative_gain": 0.0
+    }
+   ],
+   "gate": "investigate",
+   "scope": "fixed prompt suite, stratified paired bootstrap; not population coverage. Truncated responses are not complete answers: read stock_truncated."
+  }
+ }
+}

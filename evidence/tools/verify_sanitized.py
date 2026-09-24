@@ -34,7 +34,7 @@ import sys
 REMOVABLE = {
     # timestamps
     "when", "started", "finished", "updated", "created", "time", "timestamp", "started_at",
-    "finished_at", "date", "uptime", "generated", "mtime",
+    "finished_at", "date", "uptime", "generated", "mtime", "at",
     # private provenance: repository revision and worktree state, host process table
     "git", "top_rss", "revision", "dirty", "worktree", "source_commit",
     # paths and private machinery

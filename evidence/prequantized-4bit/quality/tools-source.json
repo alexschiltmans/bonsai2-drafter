@@ -1,0 +1,2581 @@
+{
+ "provenance": {
+  "versions": {
+   "mlx": "0.32.2",
+   "mlx-dspark": "0.18.0",
+   "mlx-lm": "0.31.3",
+   "mlx-metal": "0.32.2",
+   "llama-prism": "prism-b10709-9a9394a"
+  },
+  "health": {
+   "status": "ok",
+   "model": "Ternary-Bonsai-2-27B-mlx-2bit",
+   "mode": "dflash",
+   "target": "prism-ml/Ternary-Bonsai-2-27B-mlx-2bit",
+   "drafter": "Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5",
+   "max_draft": "7",
+   "lookup_drafts": true,
+   "confidence_threshold": 0.0,
+   "race_arm_confidence": true,
+   "small_m": true,
+   "sdpa_split": true,
+   "cpu_split": null,
+   "warmup": true,
+   "context_window": 131072,
+   "kv_bits": 8,
+   "warnings": [
+    {
+     "code": "memory_guard",
+     "level": "attention",
+     "message": "Memory guard freed 0.6 GB when macOS reported WARN pressure — the prefix cache was trimmed (rungs dropped; conversations kept).",
+     "action": "Free memory (close apps, lower the context window, smaller quant) so it stops recurring."
+    }
+   ],
+   "memory_guard": {
+    "enabled": true,
+    "level": "normal",
+    "pending": null,
+    "last_shed": {
+     "level": "warn",
+     "freed_bytes": 688097136,
+     "allocator_before": 10352737586,
+     "allocator_after": 9664640450,
+     "action": "rungs dropped, slots kept",
+     "prefix_bytes_freed": 153944064,
+     "slots_dropped": 0,
+     "rungs_dropped": 1
+    },
+    "sheds": 1,
+    "rearm_s": 120.0,
+    "defer_s": 60.0
+   },
+   "max_output_tokens": 32768,
+   "supports_reasoning_effort": true,
+   "thinking_default": "on",
+   "reasoning_effort": null
+  },
+  "kv_cache": {
+   "kv_bits": 8,
+   "kv_group_size": 64
+  },
+  "server": {
+   "model": "Ternary-Bonsai-2-27B-mlx-2bit",
+   "mode": "dflash",
+   "requests_before": 15,
+   "memory": {
+    "available": true,
+    "active_bytes": 9298989594,
+    "peak_bytes": 12438542866,
+    "cache_bytes": 888969507
+   },
+   "system": {
+    "total_bytes": 51539607552,
+    "pressure": "normal",
+    "pressure_level": 1,
+    "free_percent": 72,
+    "swap_used_bytes": 281149440,
+    "swap_total_bytes": 1073741824,
+    "wired_limit_mb": null
+   },
+   "prefix_cache": {
+    "enabled": true,
+    "mode": "checkpoint",
+    "cached_tokens": 86,
+    "slots": [
+     {
+      "tokens": 86,
+      "spilled": false,
+      "kind": "checkpoint"
+     },
+     {
+      "tokens": 89,
+      "spilled": false,
+      "kind": "checkpoint"
+     }
+    ],
+    "hits": 13,
+    "partial_hits": 13,
+    "reused_tokens": 585,
+    "l2": false
+   },
+   "memory_guard": {
+    "enabled": true,
+    "level": "normal",
+    "pending": null,
+    "last_shed": {
+     "level": "warn",
+     "freed_bytes": 688097136,
+     "allocator_before": 10352737586,
+     "allocator_after": 9664640450,
+     "action": "rungs dropped, slots kept",
+     "prefix_bytes_freed": 153944064,
+     "slots_dropped": 0,
+     "rungs_dropped": 1
+    },
+    "sheds": 1,
+    "rearm_s": 120.0,
+    "defer_s": 60.0
+   }
+  },
+  "launch": "python bin/mlx-dspark-patched serve --model prism-ml/Ternary-Bonsai-2-27B-mlx-2bit --mode dflash --api-key REDACTED --drafter Schiltmans/Ternary-Bonsai-2-27B-DFlash2-ft5 --drafter-bits 4 --kv-bits 8 --cpu-split 0 --default-temperature 1.0 --default-top-p 0.95 --default-top-k 20 --context-window 131072 --host 127.0.0.1 --port 8088",
+  "served_sampling": "1.0",
+  "machine": {
+   "power": "Now drawing from 'AC Power'",
+   "thermal": "Note: No thermal warning level has been recorded Note: No performance warning level has been recorded Note: No CPU power status has been recorded",
+   "swap": "total = 1024.00M  used = 268.12M  free = 755.88M  (encrypted)",
+   "pressure": "System-wide memory free percentage: 72%"
+  }
+ },
+ "depths": [2500, 13000],
+ "reps": 4,
+ "thinking": false,
+ "mode": "greedy",
+ "tally": {
+  "correct": 56,
+  "wrong_tool": 0,
+  "wrong_argument": 0,
+  "bad_schema": 0,
+  "no_call": 0,
+  "http_error": 0
+ },
+ "by_depth": {
+  "2500": {
+   "correct": 28,
+   "wrong_tool": 0,
+   "wrong_argument": 0,
+   "bad_schema": 0,
+   "no_call": 0,
+   "http_error": 0
+  },
+  "13000": {
+   "correct": 28,
+   "wrong_tool": 0,
+   "wrong_argument": 0,
+   "bad_schema": 0,
+   "no_call": 0,
+   "http_error": 0
+  }
+ },
+ "requests": [
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": false,
+   "prompt_tokens": 2504,
+   "cached": 765,
+   "wall": 15.153027083999405,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.25,
+    "tokens_per_sec": 2.6,
+    "decode_tokens_per_sec": 22.4,
+    "target_forwards": 13,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 765,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 13.41,
+    "decode_seconds": 1.738,
+    "ttft_seconds": 13.41,
+    "prefill_tokens_per_sec": 129.7,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.78
+   },
+   "tool_calls": [
+    {
+     "id": "call_84d333996afe4cb38bd67671",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": false,
+   "prompt_tokens": 2506,
+   "cached": 765,
+   "wall": 14.372809082999083,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.429,
+    "tokens_per_sec": 2.2,
+    "decode_tokens_per_sec": 29.5,
+    "target_forwards": 8,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 765,
+    "completion_tokens": 31,
+    "context_tokens": 2537,
+    "prefill_seconds": 13.315,
+    "decode_seconds": 1.052,
+    "ttft_seconds": 13.315,
+    "prefill_tokens_per_sec": 130.8,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.024
+   },
+   "tool_calls": [
+    {
+     "id": "call_e19e37ef90ae441395fc5646",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.2842280829991068,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.143,
+    "tokens_per_sec": 22.7,
+    "decode_tokens_per_sec": 30.6,
+    "target_forwards": 8,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 29,
+    "context_tokens": 2535,
+    "prefill_seconds": 0.332,
+    "decode_seconds": 0.948,
+    "ttft_seconds": 0.332,
+    "prefill_tokens_per_sec": 54.3,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.063
+   },
+   "tool_calls": [
+    {
+     "id": "call_ce517b84ddf74b9b861f7121",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 2.0964046670014795,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.0,
+    "tokens_per_sec": 18.7,
+    "decode_tokens_per_sec": 22.2,
+    "target_forwards": 14,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.335,
+    "decode_seconds": 1.756,
+    "ttft_seconds": 0.335,
+    "prefill_tokens_per_sec": 47.7,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.772
+   },
+   "tool_calls": [
+    {
+     "id": "call_a6311df0715645fabd04f7c8",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5571903749987541,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.889,
+    "tokens_per_sec": 22.6,
+    "decode_tokens_per_sec": 28.7,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 35,
+    "context_tokens": 2542,
+    "prefill_seconds": 0.332,
+    "decode_seconds": 1.219,
+    "ttft_seconds": 0.332,
+    "prefill_tokens_per_sec": 57.2,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.997
+   },
+   "tool_calls": [
+    {
+     "id": "call_49a87538df754c97a754accd",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.6851307090000773,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.2,
+    "tokens_per_sec": 25.0,
+    "decode_tokens_per_sec": 31.1,
+    "target_forwards": 11,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 42,
+    "context_tokens": 2548,
+    "prefill_seconds": 0.329,
+    "decode_seconds": 1.35,
+    "ttft_seconds": 0.329,
+    "prefill_tokens_per_sec": 54.6,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.081
+   },
+   "tool_calls": [
+    {
+     "id": "call_601995d7d4414d9dab02862a",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 1,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5585430840001209,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.444,
+    "tokens_per_sec": 25.8,
+    "decode_tokens_per_sec": 32.8,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 40,
+    "context_tokens": 2547,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.22,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 57.1,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.139
+   },
+   "tool_calls": [
+    {
+     "id": "call_a367f2fff8c64c2c85606443",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 1.9596829160000198,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.25,
+    "tokens_per_sec": 20.0,
+    "decode_tokens_per_sec": 24.0,
+    "target_forwards": 13,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.327,
+    "decode_seconds": 1.627,
+    "ttft_seconds": 0.327,
+    "prefill_tokens_per_sec": 49.0,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.833
+   },
+   "tool_calls": [
+    {
+     "id": "call_97c002c3cd6241c7aa9cde7d",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2505,
+   "wall": 1.1400220830000762,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.875,
+    "tokens_per_sec": 27.4,
+    "decode_tokens_per_sec": 28.7,
+    "target_forwards": 9,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2505,
+    "completion_tokens": 31,
+    "context_tokens": 2537,
+    "prefill_seconds": 0.053,
+    "decode_seconds": 1.08,
+    "ttft_seconds": 0.053,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.997
+   },
+   "tool_calls": [
+    {
+     "id": "call_86780c517e504f13b20adf0f",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.2958563330012112,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.143,
+    "tokens_per_sec": 22.5,
+    "decode_tokens_per_sec": 30.2,
+    "target_forwards": 8,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 29,
+    "context_tokens": 2535,
+    "prefill_seconds": 0.331,
+    "decode_seconds": 0.959,
+    "ttft_seconds": 0.331,
+    "prefill_tokens_per_sec": 54.3,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.051
+   },
+   "tool_calls": [
+    {
+     "id": "call_0e2117d133c9479ab5cb4393",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 2.0905164170017088,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.0,
+    "tokens_per_sec": 18.7,
+    "decode_tokens_per_sec": 22.2,
+    "target_forwards": 14,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.327,
+    "decode_seconds": 1.758,
+    "ttft_seconds": 0.327,
+    "prefill_tokens_per_sec": 48.9,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.771
+   },
+   "tool_calls": [
+    {
+     "id": "call_094a81b025ca47609b94d08d",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.564998125000784,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.889,
+    "tokens_per_sec": 22.4,
+    "decode_tokens_per_sec": 28.5,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 35,
+    "context_tokens": 2542,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.227,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 57.1,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.991
+   },
+   "tool_calls": [
+    {
+     "id": "call_1dac48d1e4694ba48f1eb0db",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.685332125000059,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.2,
+    "tokens_per_sec": 25.0,
+    "decode_tokens_per_sec": 31.1,
+    "target_forwards": 11,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 42,
+    "context_tokens": 2548,
+    "prefill_seconds": 0.33,
+    "decode_seconds": 1.35,
+    "ttft_seconds": 0.33,
+    "prefill_tokens_per_sec": 54.6,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.081
+   },
+   "tool_calls": [
+    {
+     "id": "call_5c0fc4c702f2427e9bf22a1f",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 2,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5591518749988609,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.444,
+    "tokens_per_sec": 25.7,
+    "decode_tokens_per_sec": 32.8,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 40,
+    "context_tokens": 2547,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.22,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 57.0,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.139
+   },
+   "tool_calls": [
+    {
+     "id": "call_0a016c7938b54842a1f92461",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 1.9902330839995557,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.25,
+    "tokens_per_sec": 19.6,
+    "decode_tokens_per_sec": 23.8,
+    "target_forwards": 13,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.344,
+    "decode_seconds": 1.641,
+    "ttft_seconds": 0.344,
+    "prefill_tokens_per_sec": 46.5,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.826
+   },
+   "tool_calls": [
+    {
+     "id": "call_a62b9f7a786f42ecb1f0e0eb",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2505,
+   "wall": 1.1337171670002135,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.875,
+    "tokens_per_sec": 27.4,
+    "decode_tokens_per_sec": 28.7,
+    "target_forwards": 9,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2505,
+    "completion_tokens": 31,
+    "context_tokens": 2537,
+    "prefill_seconds": 0.051,
+    "decode_seconds": 1.078,
+    "ttft_seconds": 0.051,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.999
+   },
+   "tool_calls": [
+    {
+     "id": "call_f21115a0a3f844b4afeb1917",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.2843168750005134,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.143,
+    "tokens_per_sec": 22.7,
+    "decode_tokens_per_sec": 30.6,
+    "target_forwards": 8,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 29,
+    "context_tokens": 2535,
+    "prefill_seconds": 0.331,
+    "decode_seconds": 0.948,
+    "ttft_seconds": 0.331,
+    "prefill_tokens_per_sec": 54.4,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.063
+   },
+   "tool_calls": [
+    {
+     "id": "call_7803233479204b97b1ac348e",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 2.100186208001105,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.0,
+    "tokens_per_sec": 18.6,
+    "decode_tokens_per_sec": 22.1,
+    "target_forwards": 14,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.327,
+    "decode_seconds": 1.768,
+    "ttft_seconds": 0.327,
+    "prefill_tokens_per_sec": 49.0,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.767
+   },
+   "tool_calls": [
+    {
+     "id": "call_e30605c1ba834b2ca63230dd",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5613602909998008,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.889,
+    "tokens_per_sec": 22.5,
+    "decode_tokens_per_sec": 28.6,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 35,
+    "context_tokens": 2542,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.224,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 57.1,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.994
+   },
+   "tool_calls": [
+    {
+     "id": "call_eeb6fdb6a6134357884299a8",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.6886365419995855,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.2,
+    "tokens_per_sec": 25.0,
+    "decode_tokens_per_sec": 31.0,
+    "target_forwards": 11,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 42,
+    "context_tokens": 2548,
+    "prefill_seconds": 0.329,
+    "decode_seconds": 1.354,
+    "ttft_seconds": 0.329,
+    "prefill_tokens_per_sec": 54.7,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.078
+   },
+   "tool_calls": [
+    {
+     "id": "call_8b663b8650774f0b8bd9e417",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 3,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5635188749984081,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.444,
+    "tokens_per_sec": 25.7,
+    "decode_tokens_per_sec": 32.7,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 40,
+    "context_tokens": 2547,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.224,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 57.0,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.136
+   },
+   "tool_calls": [
+    {
+     "id": "call_452722cdfa6f4b7e96939e42",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 1.9600529999988794,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.25,
+    "tokens_per_sec": 20.0,
+    "decode_tokens_per_sec": 24.0,
+    "target_forwards": 13,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.327,
+    "decode_seconds": 1.628,
+    "ttft_seconds": 0.327,
+    "prefill_tokens_per_sec": 49.0,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.833
+   },
+   "tool_calls": [
+    {
+     "id": "call_cc637c3ed23743ae83aaf51b",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2505,
+   "wall": 1.1531222909998178,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.875,
+    "tokens_per_sec": 27.0,
+    "decode_tokens_per_sec": 28.3,
+    "target_forwards": 9,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2505,
+    "completion_tokens": 31,
+    "context_tokens": 2537,
+    "prefill_seconds": 0.052,
+    "decode_seconds": 1.095,
+    "ttft_seconds": 0.052,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.984
+   },
+   "tool_calls": [
+    {
+     "id": "call_15730d4e07b545b1a87fceb1",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.2857052910003404,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.143,
+    "tokens_per_sec": 22.6,
+    "decode_tokens_per_sec": 30.5,
+    "target_forwards": 8,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 29,
+    "context_tokens": 2535,
+    "prefill_seconds": 0.331,
+    "decode_seconds": 0.949,
+    "ttft_seconds": 0.331,
+    "prefill_tokens_per_sec": 54.4,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.061
+   },
+   "tool_calls": [
+    {
+     "id": "call_ebf6cce57e44466dbdefc80c",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2504,
+   "cached": 2488,
+   "wall": 2.118072957999175,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.0,
+    "tokens_per_sec": 18.5,
+    "decode_tokens_per_sec": 21.9,
+    "target_forwards": 14,
+    "cap": 7,
+    "prompt_tokens": 2504,
+    "cached_tokens": 2488,
+    "completion_tokens": 39,
+    "context_tokens": 2543,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.78,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 48.0,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.762
+   },
+   "tool_calls": [
+    {
+     "id": "call_0d5fa3945970488aa50619b1",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5732384590010042,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 3.889,
+    "tokens_per_sec": 22.3,
+    "decode_tokens_per_sec": 28.6,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 35,
+    "context_tokens": 2542,
+    "prefill_seconds": 0.344,
+    "decode_seconds": 1.225,
+    "ttft_seconds": 0.344,
+    "prefill_tokens_per_sec": 55.3,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 0.993
+   },
+   "tool_calls": [
+    {
+     "id": "call_5a8ada27b8934daf8244f4f6",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2506,
+   "cached": 2488,
+   "wall": 1.6888758330005658,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.2,
+    "tokens_per_sec": 24.9,
+    "decode_tokens_per_sec": 31.0,
+    "target_forwards": 11,
+    "cap": 7,
+    "prompt_tokens": 2506,
+    "cached_tokens": 2488,
+    "completion_tokens": 42,
+    "context_tokens": 2548,
+    "prefill_seconds": 0.33,
+    "decode_seconds": 1.354,
+    "ttft_seconds": 0.33,
+    "prefill_tokens_per_sec": 54.6,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.078
+   },
+   "tool_calls": [
+    {
+     "id": "call_b40d03c2e88a48dfa9aad980",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 2500,
+   "rep": 4,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 2507,
+   "cached": 2488,
+   "wall": 1.5586514999995416,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 4.444,
+    "tokens_per_sec": 25.7,
+    "decode_tokens_per_sec": 32.8,
+    "target_forwards": 10,
+    "cap": 7,
+    "prompt_tokens": 2507,
+    "cached_tokens": 2488,
+    "completion_tokens": 40,
+    "context_tokens": 2547,
+    "prefill_seconds": 0.333,
+    "decode_seconds": 1.221,
+    "ttft_seconds": 0.333,
+    "prefill_tokens_per_sec": 57.1,
+    "ceiling_tokens_per_sec": 28.8,
+    "roofline_ratio": 1.139
+   },
+   "tool_calls": [
+    {
+     "id": "call_147e375451854f0f989194eb",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": false,
+   "prompt_tokens": 13038,
+   "cached": 0,
+   "wall": 104.30014420800035,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.167,
+    "tokens_per_sec": 0.4,
+    "decode_tokens_per_sec": 18.9,
+    "target_forwards": 19,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 0,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 102.228,
+    "decode_seconds": 2.062,
+    "ttft_seconds": 102.228,
+    "prefill_tokens_per_sec": 127.5,
+    "swap_delta_bytes": -8388608,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.69
+   },
+   "tool_calls": [
+    {
+     "id": "call_1da6aa3fb5744005ad5f512a",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": false,
+   "prompt_tokens": 13040,
+   "cached": 8192,
+   "wall": 40.82478991700009,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.818,
+    "tokens_per_sec": 0.8,
+    "decode_tokens_per_sec": 23.9,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 8192,
+    "completion_tokens": 31,
+    "context_tokens": 13071,
+    "prefill_seconds": 39.51,
+    "decode_seconds": 1.3,
+    "ttft_seconds": 39.51,
+    "prefill_tokens_per_sec": 122.7,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.87
+   },
+   "tool_calls": [
+    {
+     "id": "call_def24549a7c147dbadbf24bc",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 1.5728319999998348,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.636,
+    "tokens_per_sec": 18.6,
+    "decode_tokens_per_sec": 24.6,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 29,
+    "context_tokens": 13069,
+    "prefill_seconds": 0.376,
+    "decode_seconds": 1.181,
+    "ttft_seconds": 0.376,
+    "prefill_tokens_per_sec": 47.9,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.896
+   },
+   "tool_calls": [
+    {
+     "id": "call_0493fb445fcc4c20a57e5f20",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 2.2207874999985506,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.294,
+    "tokens_per_sec": 17.8,
+    "decode_tokens_per_sec": 21.5,
+    "target_forwards": 18,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.373,
+    "decode_seconds": 1.817,
+    "ttft_seconds": 0.373,
+    "prefill_tokens_per_sec": 42.9,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.783
+   },
+   "tool_calls": [
+    {
+     "id": "call_5f6419098d1d44e1a9d71797",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.812662416999956,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.692,
+    "tokens_per_sec": 19.5,
+    "decode_tokens_per_sec": 24.7,
+    "target_forwards": 14,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 35,
+    "context_tokens": 13076,
+    "prefill_seconds": 0.382,
+    "decode_seconds": 1.415,
+    "ttft_seconds": 0.382,
+    "prefill_tokens_per_sec": 49.7,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.902
+   },
+   "tool_calls": [
+    {
+     "id": "call_57be063751be42cf81c5484e",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 2.0864282090005872,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.625,
+    "tokens_per_sec": 20.3,
+    "decode_tokens_per_sec": 24.7,
+    "target_forwards": 17,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 42,
+    "context_tokens": 13082,
+    "prefill_seconds": 0.374,
+    "decode_seconds": 1.698,
+    "ttft_seconds": 0.374,
+    "prefill_tokens_per_sec": 48.1,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.903
+   },
+   "tool_calls": [
+    {
+     "id": "call_a54e04c8a35c4c4a9248e732",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 1,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.9142682499987131,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.857,
+    "tokens_per_sec": 21.1,
+    "decode_tokens_per_sec": 26.4,
+    "target_forwards": 15,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 40,
+    "context_tokens": 13081,
+    "prefill_seconds": 0.382,
+    "decode_seconds": 1.517,
+    "ttft_seconds": 0.382,
+    "prefill_tokens_per_sec": 49.8,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.962
+   },
+   "tool_calls": [
+    {
+     "id": "call_b8e4a1b17bc44d71b2a62661",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 1.9811582499987708,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.6,
+    "tokens_per_sec": 19.8,
+    "decode_tokens_per_sec": 24.4,
+    "target_forwards": 16,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.367,
+    "decode_seconds": 1.599,
+    "ttft_seconds": 0.367,
+    "prefill_tokens_per_sec": 43.6,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.89
+   },
+   "tool_calls": [
+    {
+     "id": "call_f74ae451a0cf40118a8d5bc6",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13039,
+   "wall": 1.2932676659984281,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.818,
+    "tokens_per_sec": 24.2,
+    "decode_tokens_per_sec": 25.5,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13039,
+    "completion_tokens": 31,
+    "context_tokens": 13071,
+    "prefill_seconds": 0.062,
+    "decode_seconds": 1.217,
+    "ttft_seconds": 0.062,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.929
+   },
+   "tool_calls": [
+    {
+     "id": "call_185ae20e35714f69a84618c6",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 1.558177999999316,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.636,
+    "tokens_per_sec": 18.8,
+    "decode_tokens_per_sec": 24.8,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 29,
+    "context_tokens": 13069,
+    "prefill_seconds": 0.376,
+    "decode_seconds": 1.168,
+    "ttft_seconds": 0.376,
+    "prefill_tokens_per_sec": 47.9,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.906
+   },
+   "tool_calls": [
+    {
+     "id": "call_def10b350ddf4b40a4c47f4f",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 2.1950305420014047,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.294,
+    "tokens_per_sec": 17.9,
+    "decode_tokens_per_sec": 21.5,
+    "target_forwards": 18,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.369,
+    "decode_seconds": 1.811,
+    "ttft_seconds": 0.369,
+    "prefill_tokens_per_sec": 43.3,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.786
+   },
+   "tool_calls": [
+    {
+     "id": "call_d15662ba6e18499cb16acadf",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.8107892500011076,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.692,
+    "tokens_per_sec": 19.5,
+    "decode_tokens_per_sec": 24.7,
+    "target_forwards": 14,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 35,
+    "context_tokens": 13076,
+    "prefill_seconds": 0.381,
+    "decode_seconds": 1.415,
+    "ttft_seconds": 0.381,
+    "prefill_tokens_per_sec": 49.8,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.903
+   },
+   "tool_calls": [
+    {
+     "id": "call_97a6f7ab3b7e4a3c8d98f4c9",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 2.0781437500008906,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.625,
+    "tokens_per_sec": 20.4,
+    "decode_tokens_per_sec": 24.8,
+    "target_forwards": 17,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 42,
+    "context_tokens": 13082,
+    "prefill_seconds": 0.371,
+    "decode_seconds": 1.692,
+    "ttft_seconds": 0.371,
+    "prefill_tokens_per_sec": 48.5,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.906
+   },
+   "tool_calls": [
+    {
+     "id": "call_0518bd060d7243cfb0bb2cb5",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 2,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.9128552089987352,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.857,
+    "tokens_per_sec": 21.1,
+    "decode_tokens_per_sec": 26.4,
+    "target_forwards": 15,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 40,
+    "context_tokens": 13081,
+    "prefill_seconds": 0.382,
+    "decode_seconds": 1.516,
+    "ttft_seconds": 0.382,
+    "prefill_tokens_per_sec": 49.8,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.963
+   },
+   "tool_calls": [
+    {
+     "id": "call_faa5b71efc564f97aad7f2a4",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 1.9686527499998192,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.6,
+    "tokens_per_sec": 20.0,
+    "decode_tokens_per_sec": 24.6,
+    "target_forwards": 16,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.366,
+    "decode_seconds": 1.588,
+    "ttft_seconds": 0.366,
+    "prefill_tokens_per_sec": 43.8,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.896
+   },
+   "tool_calls": [
+    {
+     "id": "call_52e362caae4e4f5ea3dd1a44",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13039,
+   "wall": 1.288493791998917,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.818,
+    "tokens_per_sec": 24.3,
+    "decode_tokens_per_sec": 25.6,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13039,
+    "completion_tokens": 31,
+    "context_tokens": 13071,
+    "prefill_seconds": 0.063,
+    "decode_seconds": 1.212,
+    "ttft_seconds": 0.063,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.933
+   },
+   "tool_calls": [
+    {
+     "id": "call_e4aed1ed062747baa1112557",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 1.5465801250011282,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.636,
+    "tokens_per_sec": 18.9,
+    "decode_tokens_per_sec": 25.1,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 29,
+    "context_tokens": 13069,
+    "prefill_seconds": 0.374,
+    "decode_seconds": 1.157,
+    "ttft_seconds": 0.374,
+    "prefill_tokens_per_sec": 48.1,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.914
+   },
+   "tool_calls": [
+    {
+     "id": "call_c7eaa90335b04c78aa9177cb",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 2.1827930830004334,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.294,
+    "tokens_per_sec": 18.0,
+    "decode_tokens_per_sec": 21.7,
+    "target_forwards": 18,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.368,
+    "decode_seconds": 1.8,
+    "ttft_seconds": 0.368,
+    "prefill_tokens_per_sec": 43.5,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.791
+   },
+   "tool_calls": [
+    {
+     "id": "call_72ad49472d5c49b0abbc08f0",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.7990823750005802,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.692,
+    "tokens_per_sec": 19.6,
+    "decode_tokens_per_sec": 24.9,
+    "target_forwards": 14,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 35,
+    "context_tokens": 13076,
+    "prefill_seconds": 0.38,
+    "decode_seconds": 1.404,
+    "ttft_seconds": 0.38,
+    "prefill_tokens_per_sec": 50.0,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.909
+   },
+   "tool_calls": [
+    {
+     "id": "call_c046f008a4c7480d94530f76",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 2.0721167499996227,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.625,
+    "tokens_per_sec": 20.4,
+    "decode_tokens_per_sec": 24.9,
+    "target_forwards": 17,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 42,
+    "context_tokens": 13082,
+    "prefill_seconds": 0.372,
+    "decode_seconds": 1.686,
+    "ttft_seconds": 0.372,
+    "prefill_tokens_per_sec": 48.4,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.909
+   },
+   "tool_calls": [
+    {
+     "id": "call_3a72a82076bc404888a08c8f",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 3,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.9136220420004975,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.857,
+    "tokens_per_sec": 21.1,
+    "decode_tokens_per_sec": 26.3,
+    "target_forwards": 15,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 40,
+    "context_tokens": 13081,
+    "prefill_seconds": 0.379,
+    "decode_seconds": 1.519,
+    "ttft_seconds": 0.379,
+    "prefill_tokens_per_sec": 50.1,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.961
+   },
+   "tool_calls": [
+    {
+     "id": "call_e328deb97c324bae873df65e",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "read_file",
+   "want": {
+    "path": "/srv/ratchet/etc/manifest.d/edge-07.toml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 1.9726656659986475,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.6,
+    "tokens_per_sec": 19.9,
+    "decode_tokens_per_sec": 24.5,
+    "target_forwards": 16,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.365,
+    "decode_seconds": 1.592,
+    "ttft_seconds": 0.365,
+    "prefill_tokens_per_sec": 43.8,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.894
+   },
+   "tool_calls": [
+    {
+     "id": "call_3893530834ae4c1dab417bbd",
+     "type": "function",
+     "function": {
+      "name": "read_file",
+      "arguments": "{\"path\": \"/srv/ratchet/etc/manifest.d/edge-07.toml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "bind_port",
+   "want": {
+    "port": 47318
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13039,
+   "wall": 1.2939856670000154,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.818,
+    "tokens_per_sec": 24.2,
+    "decode_tokens_per_sec": 25.5,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13039,
+    "completion_tokens": 31,
+    "context_tokens": 13071,
+    "prefill_seconds": 0.062,
+    "decode_seconds": 1.218,
+    "ttft_seconds": 0.062,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.929
+   },
+   "tool_calls": [
+    {
+     "id": "call_756fe7cae57d423ea3200b2d",
+     "type": "function",
+     "function": {
+      "name": "bind_port",
+      "arguments": "{\"port\": 47318}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "search_files",
+   "want": {
+    "glob": "src/**/*.probe.yaml"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 1.5574085839998588,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.636,
+    "tokens_per_sec": 18.8,
+    "decode_tokens_per_sec": 24.8,
+    "target_forwards": 12,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 29,
+    "context_tokens": 13069,
+    "prefill_seconds": 0.375,
+    "decode_seconds": 1.168,
+    "ttft_seconds": 0.375,
+    "prefill_tokens_per_sec": 48.1,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.906
+   },
+   "tool_calls": [
+    {
+     "id": "call_c60fe32360bc4448bc74bce5",
+     "type": "function",
+     "function": {
+      "name": "search_files",
+      "arguments": "{\"glob\": \"src/**/*.probe.yaml\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "record_trace",
+   "want": {
+    "token": "QF7731ZAK-4408"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13038,
+   "cached": 13022,
+   "wall": 2.1946513749990118,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.294,
+    "tokens_per_sec": 17.9,
+    "decode_tokens_per_sec": 21.5,
+    "target_forwards": 18,
+    "cap": 2,
+    "prompt_tokens": 13038,
+    "cached_tokens": 13022,
+    "completion_tokens": 39,
+    "context_tokens": 13077,
+    "prefill_seconds": 0.369,
+    "decode_seconds": 1.81,
+    "ttft_seconds": 0.369,
+    "prefill_tokens_per_sec": 43.3,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.786
+   },
+   "tool_calls": [
+    {
+     "id": "call_770e688db9284c6d9b0a692a",
+     "type": "function",
+     "function": {
+      "name": "record_trace",
+      "arguments": "{\"token\": \"QF7731ZAK-4408\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "pin_version",
+   "want": {
+    "version": "2.19.4-rc3"
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.8093831659989519,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.692,
+    "tokens_per_sec": 19.5,
+    "decode_tokens_per_sec": 24.8,
+    "target_forwards": 14,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 35,
+    "context_tokens": 13076,
+    "prefill_seconds": 0.381,
+    "decode_seconds": 1.413,
+    "ttft_seconds": 0.381,
+    "prefill_tokens_per_sec": 49.8,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.904
+   },
+   "tool_calls": [
+    {
+     "id": "call_37f7ab6c023645b1b8d84813",
+     "type": "function",
+     "function": {
+      "name": "pin_version",
+      "arguments": "{\"version\": \"2.19.4-rc3\"}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "jump_to",
+   "want": {
+    "file": "core/barrier.rs",
+    "line": 918
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13040,
+   "cached": 13022,
+   "wall": 2.083951667000292,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.625,
+    "tokens_per_sec": 20.3,
+    "decode_tokens_per_sec": 24.8,
+    "target_forwards": 17,
+    "cap": 2,
+    "prompt_tokens": 13040,
+    "cached_tokens": 13022,
+    "completion_tokens": 42,
+    "context_tokens": 13082,
+    "prefill_seconds": 0.372,
+    "decode_seconds": 1.697,
+    "ttft_seconds": 0.372,
+    "prefill_tokens_per_sec": 48.4,
+    "swap_delta_bytes": -8388608,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.903
+   },
+   "tool_calls": [
+    {
+     "id": "call_930634b65b744c15a81afe21",
+     "type": "function",
+     "function": {
+      "name": "jump_to",
+      "arguments": "{\"file\": \"core/barrier.rs\", \"line\": 918}"
+     }
+    }
+   ],
+   "text": ""
+  },
+  {
+   "depth": 13000,
+   "rep": 4,
+   "tool": "set_flag",
+   "want": {
+    "name": "eager_shed",
+    "enabled": false
+   },
+   "verdict": "correct",
+   "detail": "",
+   "warm": true,
+   "prompt_tokens": 13041,
+   "cached": 13022,
+   "wall": 1.9065082919987617,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 2.857,
+    "tokens_per_sec": 21.1,
+    "decode_tokens_per_sec": 26.4,
+    "target_forwards": 15,
+    "cap": 2,
+    "prompt_tokens": 13041,
+    "cached_tokens": 13022,
+    "completion_tokens": 40,
+    "context_tokens": 13081,
+    "prefill_seconds": 0.379,
+    "decode_seconds": 1.513,
+    "ttft_seconds": 0.379,
+    "prefill_tokens_per_sec": 50.1,
+    "ceiling_tokens_per_sec": 27.4,
+    "roofline_ratio": 0.965
+   },
+   "tool_calls": [
+    {
+     "id": "call_03ccaf535018409184723ab3",
+     "type": "function",
+     "function": {
+      "name": "set_flag",
+      "arguments": "{\"name\": \"eager_shed\", \"enabled\": false}"
+     }
+    }
+   ],
+   "text": ""
+  }
+ ]
+}

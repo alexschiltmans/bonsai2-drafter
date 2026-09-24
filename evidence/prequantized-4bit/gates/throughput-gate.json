@@ -1,0 +1,22 @@
+{
+ "pooled": {
+  "source": {
+   "completion_tokens": 11460,
+   "decode_seconds": 397.501,
+   "decode_tps": 28.830116150651197,
+   "legs": ["http-1-source", "http-4-source"],
+   "per_leg_pooled_decode_tps": [28.870280238217603, 28.790063659704465]
+  },
+  "artifact": {
+   "completion_tokens": 11460,
+   "decode_seconds": 397.446,
+   "decode_tps": 28.834105765311513,
+   "legs": ["http-2-artifact", "http-3-artifact"],
+   "per_leg_pooled_decode_tps": [28.825547584791376, 28.842669029114486]
+  }
+ },
+ "ratio": 1.0001383835791526,
+ "threshold": 0.95,
+ "gate": "pass",
+ "scope": "a practical release screen on one machine in ABBA order, not statistical proof that the two packagings decode at the same rate"
+}

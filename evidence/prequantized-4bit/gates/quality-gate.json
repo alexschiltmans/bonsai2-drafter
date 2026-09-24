@@ -1,0 +1,25 @@
+{
+ "newly_failing": [],
+ "newly_passing": [],
+ "failing_in_both": ["executable::Write a Python function `iso_seconds(s)` that parses an ISO-8601 duration containing only day, hour, minute and second components (for example P3DT4H5M) and returns the total number of seconds as an int."],
+ "tools": {
+  "source": {
+   "correct": 56,
+   "wrong_tool": 0,
+   "wrong_argument": 0,
+   "bad_schema": 0,
+   "no_call": 0,
+   "http_error": 0
+  },
+  "artifact": {
+   "correct": 56,
+   "wrong_tool": 0,
+   "wrong_argument": 0,
+   "bad_schema": 0,
+   "no_call": 0,
+   "http_error": 0
+  }
+ },
+ "gate": "pass",
+ "note": "the aggregate quality score is not the gate: the iso_seconds failure at KV8 is disclosed and is expected to fail in both arms"
+}
