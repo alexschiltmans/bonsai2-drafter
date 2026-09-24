@@ -1,6 +1,8 @@
 #!/bin/bash
-# Lint, types and tests in one command. The GPU tiers need the pinned dspark environment
-# (envs/dspark/) and Apple Silicon.
+# Lint, types and tests in one command. mypy and the GPU tiers need the pinned dspark
+# environment (envs/dspark/), and the GPU tiers need Apple Silicon. They use $PY if it is set,
+# else ./.venv/bin/python if it exists (scripts/serve-bonsai2.sh builds the environment there),
+# else $HOME/.venv-dspark/bin/python.
 #
 #     bench/check.sh            ruff, mypy, the tests that need no GPU
 #     bench/check.sh --gpu      plus the GPU tests
@@ -10,7 +12,9 @@
 # exported artifact. bench/drafter/README.md has the command.
 set -u
 cd "$(dirname "$0")/.." || exit 1
-PY=${PY:-$HOME/.venv-dspark/bin/python}
+if [ -z "${PY:-}" ]; then
+  if [ -x .venv/bin/python ]; then PY=$PWD/.venv/bin/python; else PY=$HOME/.venv-dspark/bin/python; fi
+fi
 rc=0
 run() { printf '%-44s' "$1"; shift; out=$("$@" 2>&1); r=$?; if [ $r = 0 ]; then echo ok; else echo FAIL; echo "$out" | tail -15; rc=1; fi; }
 run "ruff"                        uvx ruff check .

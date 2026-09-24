@@ -31,7 +31,7 @@ new local run directory and create it before starting. These are the successful 
 commands, not the old drivers' fallback generation command (which omitted greedy sampling):
 
 ```bash
-PY=$HOME/.venv-dspark/bin/python
+PY=.venv/bin/python   # the environment built from envs/dspark/ (scripts/serve-bonsai2.sh builds it in .venv)
 STOCK=z-lab/Qwen3.8-27B-DFlash2
 $PY -u bench/drafter/gen_data.py "$RUN/greedy.jsonl" --n 300 --eval 40 --seed 7 --temperature 0
 $PY -u bench/drafter/train_drafter.py "$RUN/greedy.jsonl" "$RUN/ft5" --ckpt-every 10 --lr 1e-4 --epochs 2 --anchor-mode served --eval-mode served
@@ -124,7 +124,7 @@ so this one is a proposal: mlx-lm's quantization block, with the codebooks named
 because other DFlash 2 ports model them as quantizable `nn.Embedding` modules.
 
 ```bash
-PY=$HOME/.venv-dspark/bin/python
+PY=.venv/bin/python   # the environment built from envs/dspark/
 SOURCE=$HOME/models/Ternary-Bonsai-2-27B-DFlash2-ft5  # the bf16 drafter
 ARTIFACT=$RUN/ft5-4bit                       # must not exist; the exporter never replaces one
 
