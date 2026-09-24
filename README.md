@@ -87,6 +87,9 @@ under the contract `budgeted-prefix-identity/v2`. A generator can overshoot its 
 draft block, and that passes. A difference inside the budget is a finding. `served_accept.py`
 writes those reports for mlx-dspark, and `bench/adapters/dflash_mlx_bonsai2.py` writes them for
 dflash-mlx-bonsai2; any runtime that can emit the same fields can be compared.
+The report format is specified in [`bench/REPORTS.md`](bench/REPORTS.md), with a JSON Schema
+and a standard-library validator (`bench/analysis/validate_report.py`), so an adapter for
+another runtime can be written without reading this code.
 `BENCHMARK.md` fixes how comparisons between drafters and runtimes are run and reported.
 
 ## Train a drafter on a Mac
