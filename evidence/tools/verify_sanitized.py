@@ -9,7 +9,7 @@
 listed file hashes as listed and that no file is unlisted, then searches every file for what
 sanitization removes: dates, epoch seconds, home-directory paths and e-mail addresses. In a
 JSON file it reads each value in place: a number between 1e9 and 2e9 counts as epoch seconds
-unless its key names a byte count, and a date or ten-digit number inside the model's own words
+unless its key names a byte count or a byte range, and a date or ten-digit number inside the model's own words
 (`answer`, `reasoning`) is content the model wrote, not a record of when it ran. Exit 0 means
 clean.
 
@@ -186,7 +186,8 @@ def _sums(directory):
 
 
 def _byte_count(key):
-    return key is not None and ("bytes" in key or key.startswith("allocator"))
+    # `range` is a tensor's [start, end) byte offsets inside a model file
+    return key is not None and ("bytes" in key or key.startswith("allocator") or key == "range")
 
 
 def _json_hits(value, extra, key=None):
