@@ -1,0 +1,818 @@
+{
+ "digest": {
+  "fc.weight": [
+   "mlx.core.uint32",
+   [5120, 3200],
+   "75c4e237e6691313f74600a4d8e19ef4a2e143aab5b037efecb8d0dce10e7200"
+  ],
+  "fc.scales": [
+   "mlx.core.bfloat16",
+   [5120, 400],
+   "4f7cf47d4f057e6a9c8757e0f1a6f2c7d4d8f9fcc4467a10d5bda4e0c3cd845f"
+  ],
+  "fc.biases": [
+   "mlx.core.bfloat16",
+   [5120, 400],
+   "905f7fac8d72e2db6ada625d771172b8950ea93d6c7e72591ef6e6d44ca7b7ea"
+  ],
+  "hidden_norm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "998ae0570db09ee6b5549d9a35296a2ba8e4adfa5898135534646dede1a91693"
+  ],
+  "layers.0.self_attn.q_proj.weight": [
+   "mlx.core.uint32",
+   [4096, 640],
+   "ebdc48c6c19db155994f2454364e5f8bc174945a5e62edc73567d63e143c8d9d"
+  ],
+  "layers.0.self_attn.q_proj.scales": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "f18384e55ac34c84acc0e17de34ef3ceeb04c330fd7032e5f94a4a203f0ad9bc"
+  ],
+  "layers.0.self_attn.q_proj.biases": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "789f38998ccb62b981c5b934765d71c524de81eff11a81136086c1dfddd09d4c"
+  ],
+  "layers.0.self_attn.k_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "ddf21fb7eac31588c761e0b0a8fde65e2db6496411e6f07ffa4246f8dfbc4fa8"
+  ],
+  "layers.0.self_attn.k_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "fb52118a44bac1c7fe1bb570cc28db46a9f03451c239429e986d060700334d69"
+  ],
+  "layers.0.self_attn.k_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "3887b3089e75562ed91f3f776b1f0cc3d7cfc29f40f1ccafb66f052e4f19d559"
+  ],
+  "layers.0.self_attn.v_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "aea047786b358097e680c6f584ff89f14f5dd4bf86ee68a68f423e9863101297"
+  ],
+  "layers.0.self_attn.v_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "4f294534845ef358412f617b7a3d9d6d00bdb697d21febb21e6be259ac61c1cc"
+  ],
+  "layers.0.self_attn.v_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "fb264170bbb5b31ef8460c8d0afb78ad4e3b8be482511fb895707619d5240e5d"
+  ],
+  "layers.0.self_attn.o_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 512],
+   "4c40a7097ce9706c420903f264c7987678843ae10569025981b607f08cc1b47b"
+  ],
+  "layers.0.self_attn.o_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "8b2d8d884ce13f932445d68bb44c15171ebc05c84a6b4462c10766c80bbb5662"
+  ],
+  "layers.0.self_attn.o_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "bf1a3108a12acb34546c7fb28e1efb8551745e4af4a0cdb15e944e5527696139"
+  ],
+  "layers.0.self_attn.q_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "585f2b3355717c45da8aec3b24fa74c02365840d7aeab210778042dfb99a4ff5"
+  ],
+  "layers.0.self_attn.k_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "48f9dc189ece3153d140423af7378195160a308137d02d3b708437dbe9a94f51"
+  ],
+  "layers.0.mlp.gate_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "f2cccf3eb9f518d7a1a596110e07b9b124f20f03ee98711177fffa285a33991e"
+  ],
+  "layers.0.mlp.gate_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "2825ded3829fe284ba817d0bcbb748792349998f0aca4e41ff66b1dfd2439b84"
+  ],
+  "layers.0.mlp.gate_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "a3fd4a877e454dbce80a627e40c178fcf25ad2804fc0744bc2c9226bc8ccb830"
+  ],
+  "layers.0.mlp.down_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 2176],
+   "d931e5b828ed3fcfd9701a7ac7674ddeba5e99cc6c672cbc67db9f829e81367a"
+  ],
+  "layers.0.mlp.down_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "30c19514d31f6a6bc9d1e7e5c1c6ad02d637a7833ed934d803e3b6189bf45c1b"
+  ],
+  "layers.0.mlp.down_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "9b70833fb92bb5221cf023a48c56100e7bef263b2e369b0ced005bfd3d941cdc"
+  ],
+  "layers.0.mlp.up_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "0f76a3bb7f4086f79c8fe97eb0d83b39b11d0dc2eb4385edf624db4df7f54052"
+  ],
+  "layers.0.mlp.up_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "aff9a92e67152deedefd3800d04bf033ceeb3835bee9076cdfafe398d00c5be5"
+  ],
+  "layers.0.mlp.up_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "c83604eb7ebddced37e8c0444287f43104b87d40b30ad9326c033b9d23f387f5"
+  ],
+  "layers.0.input_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "79ffd1e01a2b614c3ce7a4e5b9a2d9ee844090620330b429d5b1172c19fd3bd5"
+  ],
+  "layers.0.post_attention_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "2ff54ab16f8b1c72a6894bd824fd9bf0815803b294ae56d962824788cb548af2"
+  ],
+  "layers.0.attention_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "03b6ba4f1ca1f6a91677e46dead2b1fd043ed744ad7fb20c3df9f8408faf5e6a"
+  ],
+  "layers.0.attention_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "9a7edb2897de3c7a6fe49b5db4f67e9dfc8a49ccc1526fe87f363337bd998569"
+  ],
+  "layers.0.mlp_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "e39a1916a16009c2f82c7c9260dcd63f8428b48ed117a7eae41e054b88a4dccf"
+  ],
+  "layers.0.mlp_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "0eafc9ebdc9ac03f50b53f6d853168c5622df80419c61005ee417a6345ffb5cb"
+  ],
+  "layers.1.self_attn.q_proj.weight": [
+   "mlx.core.uint32",
+   [4096, 640],
+   "db704e4a1fc9c73f246183c03703bcddd1c7f7af0d4df41717f27083e22958c0"
+  ],
+  "layers.1.self_attn.q_proj.scales": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "c12a1812740f4c2c793797ef8cad758a3c8e5990eecde746dafa5ab0a8bbb625"
+  ],
+  "layers.1.self_attn.q_proj.biases": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "ca51dd7bb525e184caf143971e048e32aedd78033a503356bce8daca3bb9c1bd"
+  ],
+  "layers.1.self_attn.k_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "60e0f834f3d449b614e0bd5aca553ecfe9251a93f3fe179e0cb6bf3efdb2826f"
+  ],
+  "layers.1.self_attn.k_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "0385aa769543203359db4ebf040c114bf9829e06a70799b80212ea8028f0dc4b"
+  ],
+  "layers.1.self_attn.k_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "7e85ae823b59a8a4339cf846d9c0497589e352b9de95e3e3b78cee196c8c819e"
+  ],
+  "layers.1.self_attn.v_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "fc9704349681b75d1a221a251a38e287477f787bb4a2c431ac25bc6b11f7754f"
+  ],
+  "layers.1.self_attn.v_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "bb3603c736cc65792a9478045484477d3b511e66f3a07ebfc3b94dba19102d66"
+  ],
+  "layers.1.self_attn.v_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "53045783ddb2c3e5d35ddb32548e5d2d7c20ef4e35b8fbf41bc5efd889e7f9e7"
+  ],
+  "layers.1.self_attn.o_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 512],
+   "19d50caa9b2a7ec00289144ceb3e9eeb522f3bb5af24e2457c72b6e3a67f347a"
+  ],
+  "layers.1.self_attn.o_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "b57808dda86dde4eaec464da43b0665d0c569b2859b516bed8aa70404fd4efff"
+  ],
+  "layers.1.self_attn.o_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "58da861a427462dd44ae9c53e3046135c478b3f177000d932c21d265508bf52f"
+  ],
+  "layers.1.self_attn.q_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "a6df4723df929225a2687a92df61b2b7a6766574f93708f4d6488ae668817a60"
+  ],
+  "layers.1.self_attn.k_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "0e2a70cd25dcdeb9e2e3b05bded8b1b599c09a76d3726833e147663c23eefac1"
+  ],
+  "layers.1.mlp.gate_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "9ddd54a9386193cf03a727c8d2ce73e235cb9f0758d73633d6e2930e271a7131"
+  ],
+  "layers.1.mlp.gate_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "2238c941335267bb03b16ae599ac2e62737185fc59354f7e6031aed877f6b102"
+  ],
+  "layers.1.mlp.gate_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "197984d1d1679d92d92b2d9044b7f38d97d5d4e5182b960aae7902c9eceee35f"
+  ],
+  "layers.1.mlp.down_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 2176],
+   "5f13a030a83fe1776875d6d1920df577a46da84a1953c5a932fe032d1baa1b54"
+  ],
+  "layers.1.mlp.down_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "2585003baa88fa4147536a9030ea496ab3d40cd0a7b2d292142be43dd1fd43f1"
+  ],
+  "layers.1.mlp.down_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "4003a9e1f38fa9b62b92fa948768b663b3f0ca05027aec6fb2e1cec764d9df8c"
+  ],
+  "layers.1.mlp.up_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "bf8df7bdcae94dadeb66c04bb24144c3d0a10eb043d20b59974f40811c1cc7cb"
+  ],
+  "layers.1.mlp.up_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "6f2c6815a0d3f3e93196b0ff64fc9695e48e173f2bf18fe93889edd9aa300a2b"
+  ],
+  "layers.1.mlp.up_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "850e4596d562f3f9a69753b8473df3a4be969dbc5fca0a00fcf3d1f0693d7261"
+  ],
+  "layers.1.input_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "12c8d725f1e0922ac66c8b2ef34f7b57060c5fd357d7363910e03092f56a79c0"
+  ],
+  "layers.1.post_attention_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "5fbd9d0e35b2c7cde8e8931e818d055e9515abcf44f1a72f1df2135a736465d0"
+  ],
+  "layers.1.attention_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "3937a02df01c6cc4857194f35e7c71e3a2aaedb7cf2fbcd2bfade22ea61956d7"
+  ],
+  "layers.1.attention_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "f91fabe8a23014d0d4640c0ce5671eb8b7481d055d446b4a89e0052ab95d5f08"
+  ],
+  "layers.1.mlp_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "73e4d4a455f141bfd5a3733058486455288e49aeb52e16a14f5be9f016b5fecd"
+  ],
+  "layers.1.mlp_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "087c7b28d3741f000b4c4728b383c389c72e370f40484b20137f7ff74af51b4e"
+  ],
+  "layers.2.self_attn.q_proj.weight": [
+   "mlx.core.uint32",
+   [4096, 640],
+   "a15a2d08cc7c837bf59ddb4d5ba89c3a5198e98cee568892eebaf9987320a42d"
+  ],
+  "layers.2.self_attn.q_proj.scales": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "c94b13b397db3fee237f32801867c2ef7eadc739be70ea1933b60e509992a8f6"
+  ],
+  "layers.2.self_attn.q_proj.biases": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "947f75a2eed9ef95c51569a260cdc2d7af220fabef9855e5bfc0098e43705fea"
+  ],
+  "layers.2.self_attn.k_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "7f7a2aeb7a6471ee3af507590ccaaaeaf4e4e74b45e25ca54a14457a23b814f6"
+  ],
+  "layers.2.self_attn.k_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "85a108fadfe3bfa2cef1793de909b4b97466a82c9e99bf208f0044e0f406710a"
+  ],
+  "layers.2.self_attn.k_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "9765aca29fbcf57ae8b8a72e82c6ec6ff496ad9ce2c4d3fe93f610f43100553b"
+  ],
+  "layers.2.self_attn.v_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "9eee3a555426ae693841c1bbb6c1e2ee38eca1627d207941e5684624c5f74852"
+  ],
+  "layers.2.self_attn.v_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "002f316b3b5d43d598c274e5d27275fd5c41e8c14739b7cc9f4b8a342cfbf8ac"
+  ],
+  "layers.2.self_attn.v_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "4d3778dfe36933a645cd42a8893886e072dcc3dd2fc96c694e600dd0a095f4f1"
+  ],
+  "layers.2.self_attn.o_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 512],
+   "9a8557439eba542f15e388de746edf0c890e5c0587625e1e2efcf67ba24d5cb8"
+  ],
+  "layers.2.self_attn.o_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "fd56e5f962f8c8f8fe418085fb0050ba3ee21eb63b59e7a396a8f3da9987be27"
+  ],
+  "layers.2.self_attn.o_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "77dc79c0ff2b4b7820d83c77152b54ae62f5cad5cd6a8fc916d265854750b4c5"
+  ],
+  "layers.2.self_attn.q_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "7c5f569d8fbdda56acc18606a4c5fa3e2493fd8c7e20a852b64da199b190ae61"
+  ],
+  "layers.2.self_attn.k_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "20e8572d4363420f61c2a4dd4180fc021a8e848ef6e8d2ef9a4308824f53e183"
+  ],
+  "layers.2.mlp.gate_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "d4eb0da89645fbef123c7cd6c4155e3b82cefb51456a679816459e7e349b2a5d"
+  ],
+  "layers.2.mlp.gate_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "7814a3db20f7a4069e1b7d293a8acded91c2768e85d883e6183d74bf201cfa5c"
+  ],
+  "layers.2.mlp.gate_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "a1c41db9057c8bebd4749b3625e2f92dd9a0589c1bd121c3f0e622d3450e4d2a"
+  ],
+  "layers.2.mlp.down_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 2176],
+   "3a68091afa9275498baf3714d9778f89757f4fb4ce4514a4399baed6b0026f98"
+  ],
+  "layers.2.mlp.down_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "d6baf6aafbc04ac1bc4a619f4ae1904f11275f02c4bfc331b5bdf3a49647494d"
+  ],
+  "layers.2.mlp.down_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "ba3842ddf77e9b92a1d3874eb373051ff3ce333c9735c5fcd2ac218b396db539"
+  ],
+  "layers.2.mlp.up_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "71baded45a7a1e90a3fcbc8c703e60fb410aae995fffa6b538ec786c49338078"
+  ],
+  "layers.2.mlp.up_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "80dd5a2fef6267fb81b5fbf249b6a567f7db4d175422d0339502b1edbe9a279b"
+  ],
+  "layers.2.mlp.up_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "e29c3ea4262522ab26cdd584036593b8c9bd797f51eb9b72ad2ed391ad372f09"
+  ],
+  "layers.2.input_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "63c9b93004c8211b941c89291d600b4d1da580a1b6a2db8f07f352143f3840bf"
+  ],
+  "layers.2.post_attention_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "0aac61f7dee4e95ab70b5e116d75461a31981b71980281cc73e11322ec944810"
+  ],
+  "layers.2.attention_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "c371e1896e88395902cc68de5af17541ec282ebe21847d96d41c671c6d5a42de"
+  ],
+  "layers.2.attention_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "44aa936b3c3d3dda19d7b88ab2cfc898070c7cf1e1120c766aaf584ad252bb58"
+  ],
+  "layers.2.mlp_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "0e69560af3eaf128b094c6d655fbd84cc19ba0fa3786ce66298d5f81be395de9"
+  ],
+  "layers.2.mlp_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "a3a1d47ab0a4b58e828b490719a0f152bcdd11d555b4befe766af471a18d3f05"
+  ],
+  "layers.3.self_attn.q_proj.weight": [
+   "mlx.core.uint32",
+   [4096, 640],
+   "9911023d4d8968ff8426749b3a2fd9b454b6a6e44cc288618a4d997b0d3eabd7"
+  ],
+  "layers.3.self_attn.q_proj.scales": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "2e11e9b08313c57184daf63cf265c2e5eadc9b14300923767a887359f79ca089"
+  ],
+  "layers.3.self_attn.q_proj.biases": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "c0e4f046a1173b1281e1be98a71e81199bc6febf8d7ced6f66e01b9e77d5fd56"
+  ],
+  "layers.3.self_attn.k_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "e96e21ba55b28b47984c5d5b5bd6e99853a5c98378d305a223e5c0be9e5a16bd"
+  ],
+  "layers.3.self_attn.k_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "3974ae818e19a7a073d09d33d313462e70c1e10f6fe0f99d8a7503d3dfe47620"
+  ],
+  "layers.3.self_attn.k_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "f1dc71bc89daab521b557e8e0479211da0d9d2f10b228f3580b9d779d6891d58"
+  ],
+  "layers.3.self_attn.v_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "ab0d38d48cda300a024151d0c85788147bac626b612742b5244a108b625d8964"
+  ],
+  "layers.3.self_attn.v_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "d67a203983a3b1a2b45f35f24abe3d931859156662372774a421dd487a7bbea0"
+  ],
+  "layers.3.self_attn.v_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "bd624e7c362795a74fbfdff5d600a64bd45a7f21a3a0e77b2393804afe6629ac"
+  ],
+  "layers.3.self_attn.o_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 512],
+   "8829ab06aef248479c9ec818e2284943af805c54b1ae51c7e81afb540b3fcf1d"
+  ],
+  "layers.3.self_attn.o_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "ee0774ffb61a02718f61c23b49dcb0f11254c4fe6f6074ac10b07dfa0e66bfad"
+  ],
+  "layers.3.self_attn.o_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "1d4b46659a5bd2945dad93320848fafb31895aceb14fadea92e51ee1bb468144"
+  ],
+  "layers.3.self_attn.q_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "44e76c602b3ab0061775ccb948ac572e3436429a0870f9aff4c46a92fb4f3ed3"
+  ],
+  "layers.3.self_attn.k_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "4fa4496a9505b1a05ec10760dfeedcb551ba8a4ef5131b0b2a60c717038be1c1"
+  ],
+  "layers.3.mlp.gate_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "989576d56a5b18feb5ccf1cedc038787b0a666ad887535fd1273918fd3715d95"
+  ],
+  "layers.3.mlp.gate_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "fc7d99b0e349a53f3dfcb26680c00a7ef5e3ce38259b685feb29966b9644d138"
+  ],
+  "layers.3.mlp.gate_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "9895345c9a3c832212f80b408cee3141af8afe6dde190e28f6a12ca8716673d9"
+  ],
+  "layers.3.mlp.down_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 2176],
+   "4798b72fcec5ac6b6b34eac98323678d5586b1df0020e912187ba0751cf55bce"
+  ],
+  "layers.3.mlp.down_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "591c4fb284c671993820455e3fe98f4b69dc555259bbb92cff4afcb6fc2964d9"
+  ],
+  "layers.3.mlp.down_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "ffb9e3fb2172acdfb35a951e87c7abdee170077b7411e54496403650efe9f37f"
+  ],
+  "layers.3.mlp.up_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "6bebcca841889d3fdac0833f58d4aec6d810b2f675534bc901680e464f663874"
+  ],
+  "layers.3.mlp.up_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "4738ac2605e26516ff4eb4156a5c880cac88ba72d0216fe0915ceb8ff079d85c"
+  ],
+  "layers.3.mlp.up_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "9d020850d52cb8bc5e2bda4e5c713dbeff274b4db26d9dafc1ae49edee27004d"
+  ],
+  "layers.3.input_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "b5a2bd5b747665b4ae5fa81327bbea5f3ab4725cc004b29254c8f5687dda6a8e"
+  ],
+  "layers.3.post_attention_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "a5d7481e3e2386642660afe3e7dee0da98b2d597b8e52f165265b36fb3019e4b"
+  ],
+  "layers.3.attention_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "8603058c019f4828246ade8d76d1714a6e7d2e5e030120ef91f1e2e97d357347"
+  ],
+  "layers.3.attention_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "73338963cdcc0c131d2d0f2c108d071f7beeb75ec650dc514ad09f9b0216a62e"
+  ],
+  "layers.3.mlp_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "af60ac3b5c08dd5f6c6e7a200d28c4fce905e38c1673f80698ca3a4586993204"
+  ],
+  "layers.3.mlp_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "897e21db07a8771ff5225ec15d36e62a7fad03b9f198b9bc74a8c430c160d5cb"
+  ],
+  "layers.4.self_attn.q_proj.weight": [
+   "mlx.core.uint32",
+   [4096, 640],
+   "854059f4131d9d2231e38d52bc74b0b159e5132e0efb3d7358408d01e571c0d6"
+  ],
+  "layers.4.self_attn.q_proj.scales": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "8c0f4ba8e0fed3932b631c5ea6b3c646b9dde929d3dddbc23d76c97143e554b1"
+  ],
+  "layers.4.self_attn.q_proj.biases": [
+   "mlx.core.bfloat16",
+   [4096, 80],
+   "0ad207485913cc4646a3dfe244462ecacc603e78266b51659866f874ff1840e3"
+  ],
+  "layers.4.self_attn.k_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "8b0315bc9552b958ff63276563bfe2b9d1be03bff4e43ddf060f90589e8f38e2"
+  ],
+  "layers.4.self_attn.k_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "203be644838cdb1812c4ee4aaa23487b2e07e988e5843d6b68d4fa917703a3e6"
+  ],
+  "layers.4.self_attn.k_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "c214338f9285eb68cdb4ff6a29d20bb4e61c0510e533d477b849d91bf9c13bf8"
+  ],
+  "layers.4.self_attn.v_proj.weight": [
+   "mlx.core.uint32",
+   [1024, 640],
+   "33bf29182788cb22078d1de2b78dab0e8912f233f87dbe1c9e98d2a9c8cd55d0"
+  ],
+  "layers.4.self_attn.v_proj.scales": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "0de83981a7d06c32ddca38e072fd9d403ae9ba018abb02573e9aa6407ba4fd1b"
+  ],
+  "layers.4.self_attn.v_proj.biases": [
+   "mlx.core.bfloat16",
+   [1024, 80],
+   "b377467868839969a5d1e0c35a4eab7013e43c5568b04703088dd4673f435a2a"
+  ],
+  "layers.4.self_attn.o_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 512],
+   "5e473e6a1cdac118c6cd5a569fe471ebd9107f5ebef1068a4fba56ac8dc6eea3"
+  ],
+  "layers.4.self_attn.o_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "3b4e0a23b5dde1063ab0657dadc897de16885e181c69b9c50e6c4055f604a322"
+  ],
+  "layers.4.self_attn.o_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 64],
+   "78cd27c91240361d4964175a2487a84351e7ee8447202b3f134ff27fc7c08c3f"
+  ],
+  "layers.4.self_attn.q_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "bcf7be92967c66eb91b2b601bd62004fb443e6235f5c5d9257a9e2d0a0899ef2"
+  ],
+  "layers.4.self_attn.k_norm.weight": [
+   "mlx.core.bfloat16",
+   [128],
+   "04396c72894be9c8bf6f189bf377b83661d9e3c412af46d7c345e920415e8589"
+  ],
+  "layers.4.mlp.gate_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "ae4982c74b612b13434365857e4f959b09080d111d3bbff446e3d975eba33e4b"
+  ],
+  "layers.4.mlp.gate_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "b7ba15dd3b1328c30b03657bcace2c24a50e34f4fa2fd3a611353815c3d19792"
+  ],
+  "layers.4.mlp.gate_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "53e53db83de567dea181d946f13855ac3b2e04bd05c30062f02117b146308424"
+  ],
+  "layers.4.mlp.down_proj.weight": [
+   "mlx.core.uint32",
+   [5120, 2176],
+   "a03a62cd18facbc65935808a86dded3400b4fccd24337adf53c215397925d103"
+  ],
+  "layers.4.mlp.down_proj.scales": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "aa3d207918a51db29d03d7ab032ee1302d058e95e4b4ba382d2f7051140a78a7"
+  ],
+  "layers.4.mlp.down_proj.biases": [
+   "mlx.core.bfloat16",
+   [5120, 272],
+   "8bcf370fc5286f154bb645c01e4cc7264d418a3e32a372368c0651e1126d5008"
+  ],
+  "layers.4.mlp.up_proj.weight": [
+   "mlx.core.uint32",
+   [17408, 640],
+   "cf3f9a5ec04bd6d4dd1c48431f59916b98059cc54712846b838020e22308bfba"
+  ],
+  "layers.4.mlp.up_proj.scales": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "a936cff0ac06cc51ac25d6a1353fd2ece2fa1c30b9570f177a2587b692b1916e"
+  ],
+  "layers.4.mlp.up_proj.biases": [
+   "mlx.core.bfloat16",
+   [17408, 80],
+   "2fb5c5dfbbd8b18dee57c7f2c5353627fe142cca9f62a7ae1c5609a08769053d"
+  ],
+  "layers.4.input_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "3eda34484590995e51443e4c17615a65d6ddd5c98312a77281823ec96dfbb9e3"
+  ],
+  "layers.4.post_attention_layernorm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "06560a4965ba4eed3b871dc87fe69ceb19fae1df46e0e503e2f6959a8313d036"
+  ],
+  "layers.4.attention_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "5dcc8ff1ea18226dd73adba8595004e0b158924e5f152d5c7d946d05b7bde5be"
+  ],
+  "layers.4.attention_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "c55856808dd80fc904582f01cb95ded9e84cb6217121974a54178be328b6e395"
+  ],
+  "layers.4.mlp_conv.base_kernel": [
+   "mlx.core.bfloat16",
+   [2, 2, 5120],
+   "5446c824be996cffed97e0b0aeb63795e298de94c20a0feb14fec19d719c577a"
+  ],
+  "layers.4.mlp_conv.kernel_projection.weight": [
+   "mlx.core.bfloat16",
+   [1280, 5120],
+   "b19ba28ead45ff3f452545236010d69b9e42a46daa7e705384f164fbd70dcf71"
+  ],
+  "norm.weight": [
+   "mlx.core.bfloat16",
+   [5120],
+   "4718610fff45fc79bc9b967b79f305f07fb73df860fe3feb5bb0e18c891c7e5f"
+  ],
+  "candidate_selector.predecessor_codebook": [
+   "mlx.core.bfloat16",
+   [248320, 256],
+   "c312a8351a6be74e9ddeb944aad7288c4f9025cd9b2224379063d5ab5427813b"
+  ],
+  "candidate_selector.successor_codebook": [
+   "mlx.core.bfloat16",
+   [248320, 256],
+   "783e22212a2eb510e27ff007c6967f3f6f947c2e007d76ff7d1f57e3fcac6b92"
+  ],
+  "candidate_selector.hidden_projection.weight": [
+   "mlx.core.bfloat16",
+   [256, 5120],
+   "550834e24f86bd2c9ae9505390637560f47e2e5072c9b94de179285d1a6748f8"
+  ]
+ },
+ "modules": {
+  "candidate_selector.hidden_projection": ["Linear"],
+  "layers.4.mlp_conv.kernel_projection": ["Linear"],
+  "layers.4.attention_conv.kernel_projection": ["Linear"],
+  "layers.4.mlp.up_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.4.mlp.down_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.4.mlp.gate_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.4.self_attn.o_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.4.self_attn.v_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.4.self_attn.k_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.4.self_attn.q_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.mlp_conv.kernel_projection": ["Linear"],
+  "layers.3.attention_conv.kernel_projection": ["Linear"],
+  "layers.3.mlp.up_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.mlp.down_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.mlp.gate_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.self_attn.o_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.self_attn.v_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.self_attn.k_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.3.self_attn.q_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.mlp_conv.kernel_projection": ["Linear"],
+  "layers.2.attention_conv.kernel_projection": ["Linear"],
+  "layers.2.mlp.up_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.mlp.down_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.mlp.gate_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.self_attn.o_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.self_attn.v_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.self_attn.k_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.2.self_attn.q_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.mlp_conv.kernel_projection": ["Linear"],
+  "layers.1.attention_conv.kernel_projection": ["Linear"],
+  "layers.1.mlp.up_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.mlp.down_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.mlp.gate_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.self_attn.o_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.self_attn.v_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.self_attn.k_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.1.self_attn.q_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.mlp_conv.kernel_projection": ["Linear"],
+  "layers.0.attention_conv.kernel_projection": ["Linear"],
+  "layers.0.mlp.up_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.mlp.down_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.mlp.gate_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.self_attn.o_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.self_attn.v_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.self_attn.k_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "layers.0.self_attn.q_proj": ["QuantizedLinear", 4, 64, "affine"],
+  "fc": ["QuantizedLinear", 4, 64, "affine"]
+ }
+}
