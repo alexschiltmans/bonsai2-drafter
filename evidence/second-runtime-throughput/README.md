@@ -38,6 +38,9 @@ decode timer, so every response lands in `bench5`'s end-to-end pool and none in 
 Both arms pay the same prefill on the same prompts, so the ratio carries the drafter's effect;
 the absolute rates include prefill. The server has no request counter either, so the legs record
 `"clean": null`; nothing else was running (`machine-state.tsv`). The machine carried about 3.6 GB
-of swap throughout, under the protocol's 4 GB limit.
+of swap throughout, under the protocol's 4 GB limit. The runtime keeps an on-disk prefix cache
+that survives a restart, so the later legs could restore prompts the first one wrote. It did not
+move the result: the stock drafter's first leg, which ran cold, and its last agree within 0.2%
+(23.15 and 23.112), and the prompts are short.
 
 The records are `bench5`'s output as written; nothing in this group was edited.
