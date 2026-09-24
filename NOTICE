@@ -6,11 +6,15 @@ Licensed under the Apache License, Version 2.0. See the LICENSE file beside this
 This is an independent project. It is not an official Prism ML, Qwen, Inco AI, z-lab or
 mlx-dspark release, and none of them have reviewed or endorsed it.
 
+Created using Bonsai by Prism ML.
+
 It works with Bonsai by Prism ML: prism-ml/Ternary-Bonsai-2-27B-mlx-2bit, copyright 2026-present
 Prism ML, Inc., Apache-2.0, built from Qwen3.8-27B, copyright 2026 Alibaba Cloud, Apache-2.0.
 `patches/bonsai_loader.py` reimplements that pack's documented on-disk format (a blockwise
 Walsh-Hadamard rotation and 2-bit, group-128 affine weights). It does not copy Prism ML's
-`runtime/` module, and no model weights are included in this repository.
+`runtime/` module, and no model weights are included in this repository. The records under
+`evidence/` do include that model's outputs: the output token ids in every report, and answer
+and reasoning text in the quality records.
 
 The patches under `patches/` modify mlx-dspark (https://github.com/ARahim3/mlx-dspark, MIT)
 at runtime, in the installed package's memory, before a model loads. They include no copy of
@@ -21,6 +25,10 @@ The trainer in `bench/drafter/` fine-tunes z-lab/Qwen3.8-27B-DFlash2 (Apache-2.0
 Inco AI's DFlash 2 release. The drafter it produced is published separately on Hugging Face,
 with its own LICENSE and NOTICE.
 
-`bench/drafter/gen_data.py` downloads prompts from sahil2801/CodeAlpaca-20k (CC BY 4.0,
-https://creativecommons.org/licenses/by/4.0/) at run time; none are included here.
-`bench/drafter/general_chat.json` was written for this project.
+`bench/drafter/gen_data.py` downloads prompts from sahil2801/CodeAlpaca-20k at run time; the
+dataset is not redistributed here. Prompt text from it does appear in the records under
+`evidence/`, because the target's responses in the code suite often quote their prompt
+verbatim. That text is from CodeAlpaca-20k by sahil2801
+(https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k), licensed under CC BY 4.0
+(https://creativecommons.org/licenses/by/4.0/). It appears as the target reproduced it in
+its responses. `bench/drafter/general_chat.json` was written for this project.

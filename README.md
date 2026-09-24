@@ -125,5 +125,11 @@ Checks: `bench/check.sh` (lint, types, no-GPU tests), `--gpu` and `--models` for
 
 ## License
 
-Apache-2.0, see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). This project works with Bonsai by
-Prism ML and is not affiliated with Prism ML, Qwen, Inco AI, z-lab or mlx-dspark.
+Apache-2.0, see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). Created using Bonsai by Prism ML.
+This project is not affiliated with Prism ML, Qwen, Inco AI, z-lab or mlx-dspark.
+
+The records under `evidence/` include the target model's outputs: the output token ids in every
+report, and answer and reasoning text in the quality records. Responses in the code suite often
+quote their prompt verbatim; that prompt text is from
+[sahil2801/CodeAlpaca-20k](https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k), licensed
+under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). `NOTICE` has the attributions.
