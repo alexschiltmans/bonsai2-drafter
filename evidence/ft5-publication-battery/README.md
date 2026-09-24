@@ -158,12 +158,12 @@ seven elsewhere in this bundle. Every run used a 16,384-token task budget.
 | `../prequantized-4bit/quality/quality-source.json` | Bonsai 2 | 8-bit | ft5 | greedy | fails | 16,389 | 13/14 |
 | `../prequantized-4bit/quality/quality-artifact.json` | Bonsai 2 | 8-bit | ft5, 4-bit export | greedy | fails | 16,389 | 13/14 |
 
-So: at 16-bit and 4-bit KV the task passes in all five runs (2,232 to 14,726 tokens). At 8-bit
-it fails in ten of eleven runs, every failure by exhausting the budget (`finish_reason`
-`length`, 16,384 to 16,391 tokens), across five target precisions (Qwen3.8-27B at MLX 4, 5, 6
+So: at 8-bit KV it fails in 10 of 11 runs, always by exhausting the budget (`finish_reason`
+`length`, 16,384 to 16,391 tokens); at 4- or 16-bit KV it passes in all 5 (2,232 to 14,726
+tokens). The runs span five target precisions (Qwen3.8-27B at MLX 4, 5, 6
 and 8 bits, and the ternary Bonsai 2 pack) and both sampled and greedy decoding; the one 8-bit
-pass is `qwen-mlx6bit-kv8-greedy.json`. Two of the eleven are the 4-bit variant's equivalence
-arms, which ran the same ft5 weights; without them it is eight of nine. Sampled means
+pass is `qwen-mlx6bit-kv8-greedy.json`. Two of the 11 are the 4-bit variant's equivalence
+arms, which ran the same ft5 weights; without them it is 8 of 9. Sampled means
 temperature 0.7, top-p 0.95, top-k 20 (each record's `mode`).
 Bonsai 2 is `prism-ml/Ternary-Bonsai-2-27B-mlx-2bit`. The quality-history records ran with the
 development tree's launcher (`python bin/mlx-dspark-patched`), whose patch set at each run is
