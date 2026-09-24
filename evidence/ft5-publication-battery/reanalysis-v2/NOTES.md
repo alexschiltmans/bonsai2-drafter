@@ -56,8 +56,9 @@ needed no rerun:
 
 The envelope crosses each arm's independent bounds, so it is wider than the difference the
 choice actually makes: holding the same assumption on both arms moves the general-forward gain
-between +9.4267% and +9.5312%. `served_accept.py` now writes `round_lengths` into `--report`,
-so later runs (the 4-bit equivalence and second-runtime groups) resolve this variant exactly.
+between +9.4267% and +9.5312%. The reports in `../../prequantized-4bit/served/` and
+`../../second-runtime/reports/` carry `round_lengths`, so for those groups this variant is
+resolved exactly.
 
 ## Reproducing this directory
 

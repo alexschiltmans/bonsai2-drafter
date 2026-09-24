@@ -1,0 +1,277 @@
+
+COMMAND ["uv", "venv", "--python", ".venv-dspark/bin/python", "venv-019"]
+Using CPython 3.12.11 interpreter at: .venv-dspark/bin/python
+Creating virtual environment at: venv-019
+Activate with: source venv-019/bin/activate
+
+COMMAND ["uv", "pip", "install", "--python", "venv-019/bin/python", "-r", "compatibility-requirements.txt"]
+Using Python 3.12.11 environment at: venv-019
+Resolved 57 packages in 1.09s
+Downloading mlx-audio (1.8MiB)
+Downloading opencv-python (46.1MiB)
+Downloading numpy (5.1MiB)
+Downloading mlx-metal (61.4MiB)
+Downloading pygments (1.2MiB)
+Downloading sentencepiece (1.3MiB)
+Downloading scipy (19.5MiB)
+Downloading transformers (11.5MiB)
+Downloading hf-xet (3.7MiB)
+Downloading mlx-vlm (2.5MiB)
+Downloading pydantic-core (1.8MiB)
+Downloading tokenizers (2.9MiB)
+Downloading llguidance (3.0MiB)
+Downloading pillow (4.6MiB)
+ Downloaded sentencepiece
+ Downloaded pydantic-core
+ Downloaded pygments
+ Downloaded tokenizers
+ Downloaded llguidance
+ Downloaded hf-xet
+ Downloaded pillow
+ Downloaded mlx-audio
+ Downloaded numpy
+ Downloaded mlx-vlm
+ Downloaded scipy
+ Downloaded transformers
+ Downloaded opencv-python
+ Downloaded mlx-metal
+Prepared 56 packages in 1.88s
+Installed 57 packages in 180ms
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.14.2
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + fastapi==0.141.1
+ + filelock==3.32.4
+ + fsspec==2026.7.0
+ + h11==0.16.0
+ + hf-xet==1.6.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.29.0
+ + idna==3.19
+ + jinja2==3.1.6
+ + llguidance==1.8.0
+ + markdown-it-py==4.2.0
+ + markupsafe==3.0.3
+ + mdurl==0.1.2
+ + miniaudio==1.71
+ + mlx==0.32.2
+ + mlx-audio==0.5.0
+ + mlx-dspark==0.19.0
+ + mlx-lm==0.31.3
+ + mlx-metal==0.32.2
+ + mlx-vlm==0.6.17
+ + numpy==2.5.2
+ + opencv-python==5.0.0.93
+ + packaging==26.3
+ + pillow==12.3.0
+ + protobuf==7.36.0
+ + pycparser==3.0
+ + pydantic==2.13.5
+ + pydantic-core==2.46.5
+ + pygments==2.21.0
+ + python-multipart==0.0.32
+ + pyyaml==6.0.3
+ + regex==2026.7.19
+ + requests==2.34.2
+ + rich==15.0.0
+ + safetensors==0.8.0
+ + scipy==1.18.1
+ + sentencepiece==0.2.2
+ + shellingham==1.5.4
+ + sounddevice==0.5.6
+ + starlette==1.6.0
+ + tokenizers==0.23.1
+ + tqdm==4.70.0
+ + transformers==5.16.1
+ + typer==0.27.2
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.7.0
+ + uvicorn==0.52.4
+ + websockets==17.1
+
+COMMAND ["uv", "pip", "check", "--python", "venv-019/bin/python"]
+Using Python 3.12.11 environment at: venv-019
+Checked 57 packages in 0.98ms
+All installed packages are compatible
+
+COMMAND ["venv-019/bin/python", "-c", "import importlib.metadata as m; print(m.version('mlx-dspark')); assert m.version('mlx-dspark') == '0.19.0'; import patches; assert len(patches.install_all()) == len(patches.registry())"]
+0.19.0
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[bonsai2-drafter] 6-bit small-M verify kernel: installed
+[bonsai2-drafter] 5-bit small-M verify kernel: installed
+[bonsai2-drafter] 2-bit group-128 small-M verify kernel: installed
+[bonsai2-drafter] dflash shrink guard: installed
+[bonsai2-drafter] kv group size from LLM_KV_GROUP_SIZE: installed
+[bonsai2-drafter] Bonsai 2 Hadamard pack loader: installed
+
+COMMAND ["venv-019/bin/python", "-u", "bench/tests/test_small_m_2bit.py"]
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+== 1. the source edit
+   ok   group index moved to 128 values
+   ok   no group-64 indexing survives
+   ok   the unpack is spliced in
+   ok   a changed upstream is refused
+== 2. the packing
+   ok   16 little-endian 2-bit values per word reproduce mx.dequantize
+== 3. the kernel
+   ok   patch installs
+   ok   registered under bits 2
+   ok   numerics within upstream's 0.02 tolerance on 4 shapes, M 6-8
+   ok   a 2-bit group-128 projection is eligible
+   ok   a 2-bit group-64 projection is not
+   ok   upstream's 4-bit group-64 rule is untouched
+   ok   N below the grid minimum is refused
+
+all checks passed
+
+COMMAND ["venv-019/bin/python", "-u", "bench/tests/test_bonsai_loader.py", "--with-models"]
+== 1. pack detection
+   ok   a Hadamard pack is recognised
+   ok   a stock checkpoint is not
+   ok   a broken config is not, and does not raise
+   ok   a missing directory is not
+== 2. the Hadamard transform
+   ok   forward then inverse is the identity
+   ok   the transform preserves the norm (orthogonal)
+   ok   a width the block does not divide is refused
+== 3. PackedLinear
+   ok   is an nn.QuantizedLinear
+   ok   carries the format the kernels read
+   ok   is frozen
+   ok   call is transform, then the affine matmul
+   ok   block 0 skips the transform
+   ok   the embedding returns [.., H] rows in the requested dtype
+== 4. the pack itself (models)
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+   ok   the cached pack is recognised
+[transformers] You are using a model of type `prism_hadamard_qwen35` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[transformers] The tokenizer you are loading from 'prism-ml/Ternary-Bonsai-2-27B-mlx-2bit@3f926b415992eaa2ae9dd7b573706494d6bbf787' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+   ok   402 packed modules installed
+   ok   the head is packed
+   ok   the embedding is packed
+   ok   the model runs in bfloat16
+   ok   greedy generation answers 17*23
+
+all checks passed
+
+COMMAND ["venv-019/bin/python", "-u", "bench/tests/test_dflash_ft.py", "--with-models"]
+== 1. anchors
+   ok   served anchors start at P and follow the commits
+   ok   an anchor past the last label position is dropped
+   ok   no round lengths, no served anchors
+   ok   max_len bounds the served anchors
+   ok   uniform anchors lie in [P, L-2]
+   ok   uniform anchors are capped by the response length
+== 2. the mask
+   ok   mask shape [n, 1, block, L + block]
+   ok   every mask entry follows the rule
+   ok   window 0 means every context row before the anchor
+   ok   the anchor's own row is never visible
+== 3. rope
+   ok   rope_at matches mx.fast.rope within a bfloat16 ulp at three offsets
+== 3b. the two accept figures
+   ok   prefix length is 1 + the run of hits from slot one
+   ok   a miss at slot one commits only the bonus token
+   ok   product of marginals: 1 + 2/3 + 2/3 + 4/9 + 4/9
+   ok   the two figures differ on correlated hits (mean prefix 3.0)
+   ok   an empty accuracy list is the bonus token alone
+== checkpoints
+   ok   adapters round-trip through a checkpoint
+   ok   state round-trips
+   ok   the RNG stream resumes where it left off
+   ok   optimizer step count round-trips
+   ok   nothing to load from an empty directory
+== 4. the batched forward against the served forward (models)
+[bonsai2-drafter] 6-bit small-M verify kernel: installed
+[bonsai2-drafter] 5-bit small-M verify kernel: installed
+[bonsai2-drafter] 2-bit group-128 small-M verify kernel: installed
+[bonsai2-drafter] dflash shrink guard: installed
+[bonsai2-drafter] kv group size from LLM_KV_GROUP_SIZE: installed
+[bonsai2-drafter] Bonsai 2 Hadamard pack loader: installed
+[transformers] You are using a model of type `prism_hadamard_qwen35` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[transformers] The tokenizer you are loading from 'prism-ml/Ternary-Bonsai-2-27B-mlx-2bit@3f926b415992eaa2ae9dd7b573706494d6bbf787' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+[bonsai2-drafter] kv cache resolved: bits=8 group=64
+   ok   top token agrees at every decisive slot of every anchor
+   ok   hidden states within bf16 noise of the served forward
+   ok   the served forward is decisive at most slots
+   ok   evaluate reports every slot
+   ok   prefix accept lies between the bonus token and the block
+
+all checks passed
+
+COMMAND ["venv-019/bin/python", "-u", "bench/tests/test_kv_group_patch.py"]
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+== 1. stock behaviour is preserved exactly
+   ok   absent variable -> stock layout                            64
+[bonsai2-drafter] calibration key: v4|Apple M4 Pro|mlx0.32.2|dflash|Target|Drafter|ctx512|kv8
+   ok   absent variable -> no key tag                              ''
+   ok   explicit stock 64 -> stock layout                          64
+   ok   explicit stock 64 -> no key tag (existing entries stay valid) ''
+
+== 2. requested layouts produce distinct keys
+   ok   32 -> layout                                               32
+[bonsai2-drafter] calibration key: v4|Apple M4 Pro|mlx0.32.2|dflash|Target|Drafter|ctx512|kv8|g32
+   ok   32 -> key tag                                              'g32'
+   ok   128 -> layout                                              128
+[bonsai2-drafter] calibration key: v4|Apple M4 Pro|mlx0.32.2|dflash|Target|Drafter|ctx512|kv8|g128
+   ok   128 -> key tag                                             'g128'
+
+== 3. native KV gets no group suffix (nothing is quantized to group)
+[bonsai2-drafter] calibration key: v4|Apple M4 Pro|mlx0.32.2|dflash|Target|Drafter|ctx512
+   ok   kv_bits None -> no key tag                                 ''
+   ok   kv_bits 0 -> no key tag                                    ''
+
+== 4. THE BUG: noncanonical spellings must not split layout from key
+   ok   '032' -> layout and key agree                              (32, 'g32')
+   ok   '+32' -> layout and key agree                              (32, 'g32')
+   ok   ' 32' -> layout and key agree                              (32, 'g32')
+   ok   '32 ' -> layout and key agree                              (32, 'g32')
+   ok   '\t32\n' -> layout and key agree                           (32, 'g32')
+
+== 5. invalid values fall back to stock, and say so
+  LLM_KV_GROUP_SIZE='48' is not one of 32/64/128; using the stock 64
+   ok   '48' -> stock layout, stock key                            (64, '')
+  LLM_KV_GROUP_SIZE='0' is not one of 32/64/128; using the stock 64
+   ok   '0' -> stock layout, stock key                             (64, '')
+  LLM_KV_GROUP_SIZE='-32' is not one of 32/64/128; using the stock 64
+   ok   '-32' -> stock layout, stock key                           (64, '')
+   ok   '' -> stock layout, stock key                              (64, '')
+   ok   '   ' -> stock layout, stock key                           (64, '')
+  LLM_KV_GROUP_SIZE='banana' is not one of 32/64/128; using the stock 64
+   ok   'banana' -> stock layout, stock key                        (64, '')
+  LLM_KV_GROUP_SIZE='32.0' is not one of 32/64/128; using the stock 64
+   ok   '32.0' -> stock layout, stock key                          (64, '')
+  LLM_KV_GROUP_SIZE='3 2' is not one of 32/64/128; using the stock 64
+   ok   '3 2' -> stock layout, stock key                           (64, '')
+
+== 6. an invalid value is REJECTED at install, not run under a wrong label
+   ok   '48' raises at install                                     'InvalidGroupSize'
+   ok   'banana' raises at install                                 'InvalidGroupSize'
+   ok   '32.0' raises at install                                   'InvalidGroupSize'
+   ok   valid value does not raise at install                      32
+
+== 7. an explicit constructor argument still loses to the override, consistently
+   ok   explicit 128 with override 32 -> override wins             32
+   ok   ...and the key describes the RESOLVED cache, not the argument 'g32'
+   ok   explicit 128 with no override -> argument wins             128
+   ok   ...and the key is stock, which is a KNOWN GAP: a caller that passes a non-stock ''
+        group directly would go untagged. No such caller exists in mlx-dspark today
+        (the only construction site uses the default), so this is recorded rather
+        than fixed -- fixing it needs the key to be derived from the built cache.
+
+== 8. repeated installation is idempotent
+   ok   Target.__init__ unchanged by a second install              True
+   ok   _cache_key unchanged by a second install                   True
+   ok   applied() is true                                          True
+
+== 9. a half-applied patch is refused rather than left in place
+   ok   applied() detects a missing key wrapper                    False
+   ok   both halves restored                                       True
+
+all checks passed

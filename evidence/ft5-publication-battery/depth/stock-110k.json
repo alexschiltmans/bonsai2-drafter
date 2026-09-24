@@ -1,0 +1,317 @@
+{
+ "provenance": {
+  "versions": {
+   "mlx": "0.32.2",
+   "mlx-dspark": "0.18.0",
+   "mlx-lm": "0.31.3",
+   "mlx-metal": "0.32.2",
+   "llama-prism": "prism-b10709-9a9394a"
+  },
+  "health": {
+   "status": "ok",
+   "model": "Ternary-Bonsai-2-27B-mlx-2bit",
+   "mode": "dflash",
+   "target": "prism-ml/Ternary-Bonsai-2-27B-mlx-2bit",
+   "drafter": "z-lab/Qwen3.8-27B-DFlash2",
+   "max_draft": "7",
+   "lookup_drafts": true,
+   "confidence_threshold": 0.0,
+   "race_arm_confidence": true,
+   "small_m": true,
+   "sdpa_split": true,
+   "cpu_split": null,
+   "warmup": true,
+   "context_window": 131072,
+   "kv_bits": 8,
+   "warnings": [],
+   "memory_guard": {
+    "enabled": true,
+    "level": "normal",
+    "pending": null,
+    "last_shed": null,
+    "sheds": 0,
+    "rearm_s": 120.0,
+    "defer_s": 60.0
+   },
+   "max_output_tokens": 32768,
+   "supports_reasoning_effort": true,
+   "thinking_default": "on",
+   "reasoning_effort": null
+  },
+  "kv_cache": {
+   "kv_bits": 8,
+   "kv_group_size": 64
+  },
+  "server": {
+   "model": "Ternary-Bonsai-2-27B-mlx-2bit",
+   "mode": "dflash",
+   "requests_before": 17,
+   "memory": {
+    "available": true,
+    "active_bytes": 9453285922,
+    "peak_bytes": 12438542866,
+    "cache_bytes": 1023632954
+   },
+   "system": {
+    "total_bytes": 51539607552,
+    "pressure": "normal",
+    "pressure_level": 1,
+    "free_percent": 76,
+    "swap_used_bytes": 1674838016,
+    "swap_total_bytes": 3221225472,
+    "wired_limit_mb": null
+   },
+   "prefix_cache": {
+    "enabled": true,
+    "mode": "checkpoint",
+    "cached_tokens": 76,
+    "slots": [
+     {
+      "tokens": 76,
+      "spilled": false,
+      "kind": "checkpoint"
+     },
+     {
+      "tokens": 87,
+      "spilled": false,
+      "kind": "checkpoint",
+      "rungs": [45]
+     }
+    ],
+    "hits": 15,
+    "partial_hits": 12,
+    "reused_tokens": 766,
+    "l2": false
+   },
+   "memory_guard": {
+    "enabled": true,
+    "level": "normal",
+    "pending": null,
+    "last_shed": null,
+    "sheds": 0,
+    "rearm_s": 120.0,
+    "defer_s": 60.0
+   }
+  },
+  "launch": "python bin/mlx-dspark-patched serve --model prism-ml/Ternary-Bonsai-2-27B-mlx-2bit --mode dflash --api-key REDACTED --drafter z-lab/Qwen3.8-27B-DFlash2 --drafter-bits 4 --kv-bits 8 --cpu-split 0 --default-temperature 1.0 --default-top-p 0.95 --default-top-k 20 --context-window 131072 --host 127.0.0.1 --port 8088",
+  "served_sampling": "1.0",
+  "machine": {
+   "power": "Now drawing from 'AC Power'",
+   "thermal": "Note: No thermal warning level has been recorded Note: No performance warning level has been recorded Note: No CPU power status has been recorded",
+   "swap": "total = 3072.00M  used = 1597.25M  free = 1474.75M  (encrypted)",
+   "pressure": "System-wide memory free percentage: 76%"
+  }
+ },
+ "mode": "greedy",
+ "requested_depth": 110000,
+ "actual_prompt_tokens": 110226,
+ "cold": {
+  "wall": 1332.5443756249879,
+  "prefill_seconds": 1285.471,
+  "decode_seconds": 46.962
+ },
+ "warm_decode_tps": 8.866447192810748,
+ "served_decode_tps": 8.866447192810748,
+ "served_requests": 5,
+ "failed_requests": 0,
+ "all_e2e_tps": 8.673480284493778,
+ "miss_rate": 0.0,
+ "p50_wall": 46.84270295800525,
+ "p95_wall": 47.1174368827953,
+ "retries": 0,
+ "retry_seconds": 0.0,
+ "retry_seconds_in_measured_phase": 0.0,
+ "session_wall_seconds": 229.78088778999518,
+ "sheds_during_measured_pass": 0,
+ "sheds_during_anchor_pass": 0,
+ "needles_found": 4,
+ "needles_total": 4,
+ "needle_log": [
+  {
+   "depth_frac": 0.12,
+   "expected": "QF-7731-ZAK",
+   "hit": true,
+   "answer": "The shard identifier for the eastern replica is **QF-7731-ZAK**."
+  },
+  {
+   "depth_frac": 0.38,
+   "expected": "918442",
+   "hit": true,
+   "answer": "The rollback barrier was recorded at offset **918442**."
+  },
+  {
+   "depth_frac": 0.64,
+   "expected": "ratchet-nine",
+   "hit": true,
+   "answer": "The verify lane named **ratchet-nine** owns the guard token."
+  },
+  {
+   "depth_frac": 0.9,
+   "expected": "40961",
+   "hit": true,
+   "answer": "The final commit rung for this fragment is **40961**."
+  }
+ ],
+ "restore_declines": 8,
+ "requests": [
+  {
+   "warm": true,
+   "wall": 46.82688829100516,
+   "decode_seconds": 45.353,
+   "completion_tokens": 400,
+   "cached": 110186,
+   "prompt_tokens": 110226,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 1.702,
+    "tokens_per_sec": 8.6,
+    "decode_tokens_per_sec": 8.8,
+    "target_forwards": 236,
+    "cap": 1,
+    "prompt_tokens": 110226,
+    "cached_tokens": 110186,
+    "completion_tokens": 400,
+    "context_tokens": 110626,
+    "prefill_seconds": 1.352,
+    "decode_seconds": 45.353,
+    "ttft_seconds": 1.352,
+    "prefill_tokens_per_sec": 29.6,
+    "decay_ratio": 0.7735,
+    "ceiling_tokens_per_sec": 19.0,
+    "roofline_ratio": 0.463
+   }
+  },
+  {
+   "warm": true,
+   "wall": 41.95226587499201,
+   "decode_seconds": 40.917,
+   "completion_tokens": 393,
+   "cached": 110186,
+   "prompt_tokens": 110213,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 1.845,
+    "tokens_per_sec": 9.4,
+    "decode_tokens_per_sec": 9.6,
+    "target_forwards": 214,
+    "cap": 1,
+    "prompt_tokens": 110213,
+    "cached_tokens": 110186,
+    "completion_tokens": 393,
+    "context_tokens": 110606,
+    "prefill_seconds": 0.913,
+    "decode_seconds": 40.917,
+    "ttft_seconds": 0.913,
+    "prefill_tokens_per_sec": 29.6,
+    "decay_ratio": 0.8924,
+    "ceiling_tokens_per_sec": 19.0,
+    "roofline_ratio": 0.505
+   }
+  },
+  {
+   "warm": true,
+   "wall": 46.84270295800525,
+   "decode_seconds": 46.475,
+   "completion_tokens": 400,
+   "cached": 110211,
+   "prompt_tokens": 110212,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 1.681,
+    "tokens_per_sec": 8.6,
+    "decode_tokens_per_sec": 8.6,
+    "target_forwards": 239,
+    "cap": 1,
+    "prompt_tokens": 110212,
+    "cached_tokens": 110211,
+    "completion_tokens": 400,
+    "context_tokens": 110612,
+    "prefill_seconds": 0.247,
+    "decode_seconds": 46.475,
+    "ttft_seconds": 0.247,
+    "decay_ratio": 0.7677,
+    "ceiling_tokens_per_sec": 19.0,
+    "roofline_ratio": 0.452
+   }
+  },
+  {
+   "warm": true,
+   "wall": 47.01631274999818,
+   "decode_seconds": 45.934,
+   "completion_tokens": 400,
+   "cached": 110186,
+   "prompt_tokens": 110214,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 1.674,
+    "tokens_per_sec": 8.5,
+    "decode_tokens_per_sec": 8.7,
+    "target_forwards": 240,
+    "cap": 1,
+    "prompt_tokens": 110214,
+    "cached_tokens": 110186,
+    "completion_tokens": 400,
+    "context_tokens": 110614,
+    "prefill_seconds": 0.96,
+    "decode_seconds": 45.934,
+    "ttft_seconds": 0.96,
+    "prefill_tokens_per_sec": 29.2,
+    "decay_ratio": 0.8688,
+    "ceiling_tokens_per_sec": 19.0,
+    "roofline_ratio": 0.458
+   }
+  },
+  {
+   "warm": true,
+   "wall": 47.14271791599458,
+   "decode_seconds": 46.101,
+   "completion_tokens": 400,
+   "cached": 110186,
+   "prompt_tokens": 110215,
+   "spec": {
+    "mode": "dflash",
+    "accept_len": 1.674,
+    "tokens_per_sec": 8.5,
+    "decode_tokens_per_sec": 8.7,
+    "target_forwards": 240,
+    "cap": 1,
+    "prompt_tokens": 110215,
+    "cached_tokens": 110186,
+    "completion_tokens": 400,
+    "context_tokens": 110615,
+    "prefill_seconds": 0.918,
+    "decode_seconds": 46.101,
+    "ttft_seconds": 0.918,
+    "prefill_tokens_per_sec": 31.6,
+    "decay_ratio": 0.9224,
+    "ceiling_tokens_per_sec": 19.0,
+    "roofline_ratio": 0.456
+   }
+  }
+ ],
+ "failures": [],
+ "memory": {
+  "available": true,
+  "active_bytes": 17532688930,
+  "peak_bytes": 37112912478,
+  "cache_bytes": 8613053843
+ },
+ "system": {
+  "total_bytes": 51539607552,
+  "pressure": "normal",
+  "pressure_level": 1,
+  "free_percent": 67,
+  "swap_used_bytes": 1523777536,
+  "swap_total_bytes": 3221225472,
+  "wired_limit_mb": null
+ },
+ "memory_guard": {
+  "enabled": true,
+  "level": "normal",
+  "pending": null,
+  "last_shed": null,
+  "sheds": 0,
+  "rearm_s": 120.0,
+  "defer_s": 60.0
+ }
+}
