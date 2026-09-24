@@ -18,6 +18,7 @@ so a sampled leg would compare two identical plain-decoding arms.
 |---|---|
 | `records/{stock,ft5}-greedy-{a1,a2,b1,b2}.json` | the four `bench5` records, unchanged |
 | `machine-state.tsv` | memory pressure, swap and power before and after every leg |
+| `records-r3/{r3,ft5}-greedy-{a1,a2,b1,b2}.json`, `machine-state-r3.tsv` | a second ABBA group, naklitechie's r3 (`naklitechie/Qwen3.8-27B-DFlash2-ternary-bonsai2`, loaded unchanged) against ft5, with the runtime's on-disk prefix cache cleared before every leg |
 
 ## Claims and how to reproduce them
 
@@ -32,6 +33,19 @@ python3 bench/throughput/pool.py $R/stock-greedy-a1.json $R/stock-greedy-a2.json
 
 Truncation is 24 of 30 in both arms. The acceptance gain on this runtime is +5.01% on general
 chat (`second-runtime/`); these five prompts are code.
+
+Against r3, on r3's own runtime:
+
+```sh
+R=evidence/second-runtime-throughput/records-r3
+python3 bench/throughput/pool.py $R/r3-greedy-a1.json $R/r3-greedy-a2.json -- $R/ft5-greedy-b1.json $R/ft5-greedy-b2.json
+```
+
+| | r3 | ft5 | ft5 / r3 |
+|---|---|---|---|
+| greedy, pooled end to end, tok/s | 23.484 (legs 23.482, 23.485) | 24.782 (legs 24.788, 24.776) | **1.0553** |
+
+ft5's legs in the two groups agree within 0.1% (24.787 and 24.789; 24.788 and 24.776).
 
 **The metric differs from version 1's wording.** The server, built on `mlx_lm.server`, reports no
 decode timer, so every response lands in `bench5`'s end-to-end pool and none in its decode pool.

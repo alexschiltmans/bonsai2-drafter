@@ -1,0 +1,8 @@
+r3-greedy-a1-before	pressure=1	swap=3586.06M	power=AC Power
+r3-greedy-a1-after	pressure=1	swap=3586.06M
+ft5-greedy-b1-before	pressure=1	swap=3586.06M	power=AC Power
+ft5-greedy-b1-after	pressure=1	swap=3578.06M
+ft5-greedy-b2-before	pressure=1	swap=3578.06M	power=AC Power
+ft5-greedy-b2-after	pressure=1	swap=3578.06M
+r3-greedy-a2-before	pressure=1	swap=3578.06M	power=AC Power
+r3-greedy-a2-after	pressure=1	swap=3578.06M
