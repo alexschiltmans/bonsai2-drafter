@@ -37,7 +37,7 @@ class ComparisonTests(unittest.TestCase):
             {"prompt_sha256": str(i), "thinking": bool(i % 2), "category": "general",
              "tokens": tokens, "rounds": rounds, "decode_seconds": 1, "finish": "length",
              "response_ids": list(range(tokens)), "round_lengths": lengths} for i in range(4)],
-            "settings": {"max_new": BUDGET, "cap": CAP}}
+            "settings": {"max_new": BUDGET, "cap": CAP, "temperature": 0}}
         self.tuned = copy.deepcopy(self.stock)
         tokens, rounds, lengths = history(4, 3)             # the same 8 tokens over 2 rounds
         for row in self.tuned["requests"]:
@@ -148,7 +148,8 @@ class ComparisonTests(unittest.TestCase):
         self.assertEqual([low, high], [(11 - 8 + 24) / 8, (11 - 4 + 24) / 8])
 
     def test_refusals(self):
-        for key, value in (("complete", False), ("settings", {"max_new": BUDGET, "cap": 3}),
+        for key, value in (("complete", False),
+                           ("settings", {"max_new": BUDGET, "cap": 3, "temperature": 0}),
                            ("requests", [])):
             with self.subTest(key=key):
                 bad = copy.deepcopy(self.tuned)
@@ -179,7 +180,7 @@ class ComparisonTests(unittest.TestCase):
         # cap 3 is a four-token block, so eight tokens in two rounds is not a run this
         # contract describes -- most likely two arms compared at different caps.
         for arm in (self.stock, self.tuned):
-            arm["settings"] = {"max_new": BUDGET, "cap": 3}
+            arm["settings"] = {"max_new": BUDGET, "cap": 3, "temperature": 0}
             for row in arm["requests"]:
                 row.pop("round_lengths")
         self.tuned["requests"][0]["rounds"] = 1
@@ -204,7 +205,7 @@ class EquivalenceTests(unittest.TestCase):
             {"prompt_sha256": str(i), "thinking": bool(i % 2), "category": "general",
              "tokens": tokens, "rounds": rounds, "decode_seconds": 1.5, "finish": "length",
              "response_ids": list(range(tokens)), "round_lengths": lengths} for i in range(4)],
-            "settings": {"max_new": BUDGET, "cap": CAP}}
+            "settings": {"max_new": BUDGET, "cap": CAP, "temperature": 0}}
         self.artifact = copy.deepcopy(self.source)
 
     def test_an_identical_pair_passes_where_the_improvement_gate_investigates(self):
@@ -276,7 +277,8 @@ class EquivalenceTests(unittest.TestCase):
     def test_it_refuses_exactly_what_the_improvement_gate_refuses(self):
         for name, spoil in (
                 ("incomplete arm", lambda arm: arm.update(complete=False)),
-                ("settings differ", lambda arm: arm.update(settings={"max_new": BUDGET, "cap": 3})),
+                ("settings differ", lambda arm: arm.update(
+                    settings={"max_new": BUDGET, "cap": 3, "temperature": 0})),
                 ("no requests", lambda arm: arm.update(requests=[])),
                 ("unknown finish", lambda arm: arm["requests"][0].update(finish="filtered")),
                 ("zero rounds", lambda arm: arm["requests"][0].update(rounds=0)),
@@ -308,7 +310,7 @@ class RoundHistoryTests(unittest.TestCase):
             {"prompt_sha256": "p", "thinking": False, "category": "general",
              "tokens": tokens, "rounds": rounds, "decode_seconds": 1.0, "finish": finish,
              "response_ids": list(range(tokens)), "round_lengths": lengths}],
-            "settings": {"max_new": BUDGET, "cap": CAP}}
+            "settings": {"max_new": BUDGET, "cap": CAP, "temperature": 0}}
 
     def assertRefused(self, report):
         """Refused by BOTH gates: they share the validator, and both promise to use it."""
@@ -366,6 +368,93 @@ class RoundHistoryTests(unittest.TestCase):
                          "investigate")     # zero gain, but admitted rather than refused
         with self.assertRaises(ValueError):
             analysis.equivalence(report, copy.deepcopy(report))
+
+
+class FieldTypeTests(unittest.TestCase):
+    """The per-field rules of bench/report.schema.json that the analyser enforces itself.
+
+    Arithmetic and Python's equality accept a float or a bool where a count, a stratum or a
+    token id belongs, so each of those is refused by name instead of being compared.
+    """
+
+    def setUp(self):
+        self.arm = {"complete": True,
+                    "settings": {"max_new": BUDGET, "cap": CAP, "temperature": 0},
+                    "requests": [{"prompt_sha256": "p", "thinking": False, "category": "general",
+                                  "tokens": 8, "rounds": 2, "decode_seconds": 1.0,
+                                  "finish": "length", "response_ids": list(range(8)),
+                                  "round_lengths": [4, 3]}]}
+
+    def assertRefused(self, first, message, second=None):
+        """Refused by BOTH gates, with a message that says why."""
+        second = copy.deepcopy(first) if second is None else second
+        with self.assertRaisesRegex(ValueError, message):
+            analysis.equivalence(first, second)
+        with self.assertRaisesRegex(ValueError, message):
+            analysis.compare(first, second, 100)
+
+    def spoiled(self, **fields):
+        bad = copy.deepcopy(self.arm)
+        bad["requests"][0].update(fields)
+        return bad
+
+    def test_the_fixture_is_admitted_at_either_spelling_of_zero(self):
+        for temperature in (0, 0.0):        # both writers record 0.0
+            self.arm["settings"]["temperature"] = temperature
+            self.assertEqual(analysis.equivalence(self.arm, copy.deepcopy(self.arm))["gate"],
+                             "pass")
+
+    def test_budget_and_cap_are_integer_counts(self):
+        for key, value in (("max_new", 8.0), ("max_new", True), ("cap", 7.0), ("cap", True)):
+            with self.subTest(key=key, value=value):
+                bad = copy.deepcopy(self.arm)
+                bad["settings"][key] = value
+                self.assertRefused(bad, f"settings.{key} is not an integer count")
+
+    def test_decoding_must_be_greedy(self):
+        for value in (0.7, 1, -1.0, False, None, "0"):
+            with self.subTest(value=value):
+                bad = copy.deepcopy(self.arm)
+                bad["settings"]["temperature"] = value
+                self.assertRefused(bad, "greedy decoding at temperature 0")
+
+    def test_the_three_settings_are_required(self):
+        for key in ("max_new", "cap", "temperature"):
+            with self.subTest(key=key):
+                bad = copy.deepcopy(self.arm)
+                del bad["settings"][key]
+                self.assertRefused(bad, f"settings has no '{key}'")
+
+    def test_strata_are_typed(self):
+        for change, message in (({"category": None}, "category is not a string"),
+                                ({"category": 3}, "category is not a string"),
+                                ({"thinking": 0}, "thinking is not a boolean"),
+                                ({"thinking": "false"}, "thinking is not a boolean")):
+            with self.subTest(change=change):
+                self.assertRefused(self.spoiled(**change), message)
+
+    def test_a_stratum_that_only_compares_equal_does_not_pair(self):
+        # `1 == True` in Python, so the pairing test alone would have admitted this pair.
+        self.arm["requests"][0]["thinking"] = True
+        self.assertRefused(self.arm, "thinking is not a boolean: 1", self.spoiled(thinking=1))
+
+    def test_token_ids_are_integers(self):
+        for ids in ([0.0, *range(1, 8)], [False, *range(1, 8)], ["0", *range(1, 8)],
+                    "01234567", tuple(range(8))):
+            with self.subTest(ids=ids):
+                self.assertRefused(self.spoiled(response_ids=ids),
+                                   "response_ids is not a list of integer token ids")
+
+    def test_float_ids_that_equal_the_other_arm_do_not_pair(self):
+        # `[0.0, 1, ...] == [0, 1, ...]`, so without the check this pair classed as identical.
+        self.assertRefused(self.arm, "response_ids",
+                           self.spoiled(response_ids=[0.0, *range(1, 8)]))
+
+    def test_decode_seconds_is_a_positive_number(self):
+        for value in (0, 0.0, -1.0, float("nan"), True, "1.0", None):
+            with self.subTest(value=value):
+                self.assertRefused(self.spoiled(decode_seconds=value),
+                                   "decode_seconds is not a positive number")
 
 
 if __name__ == "__main__":

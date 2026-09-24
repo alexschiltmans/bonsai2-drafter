@@ -159,7 +159,7 @@ class BrokenReportTests(unittest.TestCase):
             report = minimal()
             del report["requests"][0][field]
             self.assertRejected(report, f"missing required field {field!r}")
-        for field in ("max_new", "cap"):
+        for field in ("max_new", "cap", "temperature"):
             report = minimal()
             del report["settings"][field]
             self.assertRejected(report, f"missing required field {field!r}")
@@ -177,9 +177,44 @@ class BrokenReportTests(unittest.TestCase):
                             analyser_refuses=False)
 
     def test_sampled_decoding_is_not_a_report(self) -> None:
+        for value in (1.0, 1, False, "0"):
+            with self.subTest(value=value):
+                report = minimal()
+                report["settings"]["temperature"] = value
+                self.assertRejected(report, "$.settings.temperature")
+
+    def test_budget_and_cap_are_integer_literals(self) -> None:
+        for key, value in (("max_new", 8.0), ("max_new", True), ("cap", 3.0), ("cap", True)):
+            with self.subTest(key=key, value=value):
+                report = minimal()
+                report["settings"][key] = value
+                self.assertRejected(report, f"$.settings.{key}: expected integer")
+
+    def test_strata_and_token_ids_are_typed(self) -> None:
+        for fields, message in (({"category": None}, "$.requests[0].category: expected string"),
+                                ({"thinking": 1}, "$.requests[0].thinking: expected boolean"),
+                                ({"response_ids": [0.0, *range(1, 8)]},
+                                 "$.requests[0].response_ids[0]: expected integer"),
+                                ({"response_ids": [True, *range(1, 8)]},
+                                 "$.requests[0].response_ids[0]: expected integer")):
+            with self.subTest(fields=fields):
+                self.assertRejected(self.broken(**fields), message)
+
+    def test_decode_seconds_is_a_positive_number(self) -> None:
+        self.assertRejected(self.broken(decode_seconds=True), "expected number")
+        self.assertRejected(self.broken(decode_seconds=0), "must be greater than 0")
+        # NaN passes the schema's exclusiveMinimum, which compares false, but not the analyser.
+        self.assertRejected(self.broken(decode_seconds=math.nan), "not a positive number")
+
+    def test_the_analysers_settings_check_backs_the_schema(self) -> None:
+        # With the schema's rule removed, the analyser's own check still rejects the report.
+        schema = validate.load_schema()
+        schema["$defs"]["settings"]["properties"]["temperature"] = {}
         report = minimal()
-        report["settings"]["temperature"] = 1.0
-        self.assertRejected(report, "$.settings.temperature", analyser_refuses=False)
+        report["settings"]["temperature"] = 0.5
+        errors = validate.report_errors(report, schema)
+        self.assertTrue(any(line.startswith("$.settings: settings.temperature is 0.5")
+                            for line in errors), errors)
 
     def test_a_non_positive_budget_or_cap(self) -> None:
         report = minimal()

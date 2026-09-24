@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Served-acceptance report",
-  "description": "One arm of a served-acceptance measurement: one drafter (or none) on one runtime, one prompt corpus, one budget. bench/REPORTS.md is the specification; this schema covers the per-field rules. The cross-field rules (token accounting, round chronology, unique prompts, a complete arm) are in REPORTS.md and are enforced by bench/analysis/validate_report.py and by the analyser. Counts must be JSON integer literals: the analyser refuses 4.0 and true where it expects a count, so 'integer' here means an integer literal, not any integral number.",
+  "description": "One arm of a served-acceptance measurement: one drafter (or none) on one runtime, one prompt corpus, one budget. bench/REPORTS.md is the specification; this schema covers the per-field rules. The cross-field rules (token accounting, round chronology, unique prompts, a complete arm) are in REPORTS.md and are enforced by bench/analysis/validate_report.py and by the analyser. Counts must be JSON integer literals: the analyser refuses 4.0 and true where it expects a count, so 'integer' here means an integer literal, not any integral number. The analyser also enforces these per-field rules itself: integer max_new and cap of at least 1, temperature 0, a string category, a boolean thinking, integer response_ids and a positive decode_seconds.",
   "type": "object",
   "required": ["drafter", "settings", "complete", "requests"],
   "properties": {
@@ -55,7 +55,7 @@
           "minimum": 1
         },
         "temperature": {
-          "description": "Both contracts assume greedy decoding. The analyser does not read this key; both writers always record 0.",
+          "description": "Both contracts assume greedy decoding. The analyser refuses a report without this key or with any other value (0.0 is the same number; false is not); both writers record 0.0.",
           "const": 0
         },
         "target": {"description": "Label of the target model, with its revision where known.", "type": "string"},

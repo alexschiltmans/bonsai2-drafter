@@ -7,9 +7,11 @@ Two passes per report. The first checks `bench/report.schema.json` with a small 
 for the subset of JSON Schema that file uses; a keyword outside that subset is an error in
 the schema, not something to skip. The second checks what a schema cannot say: a complete
 arm with at least one record, prompts unique by `prompt_sha256`, and every record against
-the token accounting of the loop that produced it. That last check is the analyser's own
-`_check_row`, imported rather than restated, so this file and the analyser cannot disagree
-about which records are admissible.
+the token accounting of the loop that produced it. The settings and record checks there are
+the analyser's own `_settings` and `_check_row`, imported rather than restated, so this file
+and the analyser cannot disagree about which reports are admissible. Some of their rules
+(integer counts, a temperature of 0, the types of the strata and the token ids) are in the
+schema as well, and the first pass reports them; the second backs it up.
 
 It checks one report at a time. Whether two reports can be paired (equal `settings`, the same
 prompts in the same order) is the analyser's to decide; see bench/REPORTS.md.
@@ -133,17 +135,20 @@ def load_schema(path: Path = SCHEMA_PATH) -> dict[str, Any]:
     return dict(schema)
 
 
-def _load_check_row() -> Callable[[dict[str, Any], int, int], None]:
+def _load_analyser() -> Any:
     spec = importlib.util.spec_from_file_location("analyse_served_accept", ANALYSER_PATH)
     if spec is None or spec.loader is None:
         raise ImportError(f"cannot load {ANALYSER_PATH}")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    check: Callable[[dict[str, Any], int, int], None] = module._check_row
-    return check
+    return module
 
 
-_check_row = _load_check_row()
+_analyser = _load_analyser()
+#: (budget, block) from a report's settings, or ValueError.
+_settings: Callable[[dict[str, Any]], tuple[int, int]] = _analyser._settings
+#: One record against the loop that produced it, or ValueError.
+_check_row: Callable[[dict[str, Any], int, int], None] = _analyser._check_row
 
 
 def report_errors(report: Any, schema: dict[str, Any] | None = None) -> list[str]:
@@ -162,7 +167,10 @@ def report_errors(report: Any, schema: dict[str, Any] | None = None) -> list[str
         first = seen.setdefault(row["prompt_sha256"], index)
         if first != index:
             errors.append(f"$.requests[{index}].prompt_sha256: duplicates requests[{first}]")
-    budget, block = report["settings"]["max_new"], report["settings"]["cap"] + 1
+    try:
+        budget, block = _settings(report)
+    except ValueError as exc:
+        return [*errors, f"$.settings: {exc}"]      # without them no record can be checked
     for index, row in enumerate(requests):
         try:
             _check_row(row, budget, block)

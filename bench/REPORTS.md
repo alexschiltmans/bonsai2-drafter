@@ -15,8 +15,9 @@ Two writers exist:
 
 `bench/report.schema.json` is the JSON Schema (draft 2020-12) for the per-field rules. The rules
 that span fields are stated below and checked by `bench/analysis/validate_report.py`, which
-imports the analyser's own record check rather than restating it. Where this file and the
-analyser disagree, the analyser is what runs, and the disagreement is a bug in this file.
+imports the analyser's own settings and record checks rather than restating them. Where this
+file and the analyser disagree, the analyser is what runs, and the disagreement is a bug in this
+file.
 
 ## A report
 
@@ -60,8 +61,9 @@ Three keys are required:
 | `cap`         | integer ≥ 1 | The most drafts one block can carry. One **block** is `cap + 1` tokens: the drafts plus the target's own token from the same verify pass. |
 | `temperature` | 0           | Both contracts assume greedy decoding. |
 
-The analyser reads `max_new` and `cap` and nothing else from `settings`, apart from the equality
-test. It does not read `temperature`. The schema requires it to be 0 anyway, because under
+The analyser reads these three keys and nothing else from `settings`, apart from the equality
+test. It refuses a report that lacks one, a `max_new` or `cap` that is not an integer literal of
+at least 1, and any temperature other than 0 (`0.0` is the same number; `false` is not). Under
 sampling the arms' outputs differ for reasons that have nothing to do with the drafter, and every
 identity class below loses its meaning.
 
@@ -100,7 +102,11 @@ reproduce those bytes, or its hashes will not pair with anyone else's.
 All counts (`tokens`, `rounds`, each round length, `max_new`, `cap`) must be JSON integer
 literals. The analyser refuses `8.0` and `true` where it expects a count, since arithmetic would
 otherwise accept both. The schema's `integer` has this narrower meaning, which is stricter than
-JSON Schema's.
+JSON Schema's. The analyser holds the other fields it reads to their types as well, since
+equality would blur them too: it refuses a `category` that is not a string, a `thinking` that
+is not a boolean (`1 == true` in Python, so two such arms would pair), a `response_ids` element
+that is not an integer literal (`[0.0, 1]` equals `[0, 1]`), and a `decode_seconds` that is not
+a positive number.
 
 `round_lengths` is optional because older mlx-dspark reports predate it. Both writers now record
 it, and a new writer should: the equivalence contract refuses records without it, and without it
@@ -172,11 +178,13 @@ The analyser pairs record *i* of one report with record *i* of the other. Under 
 it refuses the pair unless:
 
 - both reports have `complete: true`;
-- their `settings` objects are equal;
+- their `settings` objects are equal, with integer `max_new` and `cap` of at least 1 and a
+  `temperature` of 0;
 - both list the same, non-zero number of records;
 - `prompt_sha256` values are unique within the first report;
 - records at the same position agree on `prompt_sha256`, `thinking` and `category`;
-- every record in both reports passes rules 1 to 8.
+- every record in both reports passes the type checks under [Records](#records) and rules 1
+  to 8.
 
 A refusal is a message beginning `refusing comparison:` and a non-zero exit, not a verdict.
 

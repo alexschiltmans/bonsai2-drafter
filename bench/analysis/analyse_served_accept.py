@@ -75,10 +75,26 @@ EQUIVALENCE_FIELDS = ("response_ids", "finish", "tokens", "rounds", "round_lengt
 
 
 def _settings(report):
+    """(budget, block) from the settings, refusing any this file's contracts cannot read.
+
+    `aligned` has already required both arms' settings to be equal, so one speaks for both.
+    """
     settings = report["settings"]
-    budget, cap = settings["max_new"], settings["cap"]
+    for key in ("max_new", "cap", "temperature"):
+        if key not in settings:
+            raise ValueError(f"settings has no {key!r}")
+    budget = _count(settings["max_new"], "settings.max_new")
+    cap = _count(settings["cap"], "settings.cap")
     if budget <= 0 or cap <= 0:
         raise ValueError("max_new and cap must be positive")
+    # Greedy decoding is what makes the token path the target's own. Under sampling the arms
+    # differ for reasons that have nothing to do with the drafter, and every identity class
+    # loses its meaning. 0.0 is the same temperature as 0; false is not a temperature.
+    temperature = settings["temperature"]
+    if isinstance(temperature, bool) or not isinstance(temperature, int | float) \
+            or temperature != 0:
+        raise ValueError(f"settings.temperature is {temperature!r}; both contracts assume "
+                         "greedy decoding at temperature 0")
     return budget, cap + 1     # one block is the cap's drafts plus the target's own token
 
 
@@ -126,9 +142,22 @@ def _check_row(row, budget, block):
     rules below close that by checking chronology, not just totals.
     """
     rounds, tokens = _count(row["rounds"], "rounds"), _count(row["tokens"], "tokens")
-    if rounds <= 0 or tokens <= 0 or row["decode_seconds"] <= 0:
-        raise ValueError("invalid tokens, rounds or decode duration")
-    if len(row["response_ids"]) != tokens:
+    if rounds <= 0 or tokens <= 0:
+        raise ValueError("invalid tokens or rounds")
+    decode = row["decode_seconds"]
+    if isinstance(decode, bool) or not isinstance(decode, int | float) or not decode > 0:
+        raise ValueError(f"decode_seconds is not a positive number: {decode!r}")
+    # The strata and the output are compared and grouped by value, and Python's equality
+    # would pair `1` with `true` or `8.0` with `8`, so their types are held to the schema.
+    if not isinstance(row["category"], str):
+        raise ValueError(f"category is not a string: {row['category']!r}")  # noqa: TRY004
+    if not isinstance(row["thinking"], bool):
+        raise ValueError(f"thinking is not a boolean: {row['thinking']!r}")  # noqa: TRY004
+    ids = row["response_ids"]
+    if not isinstance(ids, list) or not all(
+            isinstance(t, int) and not isinstance(t, bool) for t in ids):
+        raise ValueError("response_ids is not a list of integer token ids")
+    if len(ids) != tokens:
         raise ValueError("token count disagrees with output")
     if row["finish"] not in ("length", "stop"):
         raise ValueError(f"unknown finish reason {row['finish']!r}")
@@ -265,10 +294,10 @@ def aligned(first, second):
     if len(set(ids)) != len(ids):
         raise ValueError("duplicate prompts")
     for a, b in zip(left, right, strict=True):
+        for row in (a, b):          # first, so a malformed stratum is named as one
+            _check_row(row, budget, block)
         if any(a[k] != b[k] for k in ("prompt_sha256", "thinking", "category")):
             raise ValueError("prompt order or strata differ")
-        for row in (a, b):
-            _check_row(row, budget, block)
     return left, right, budget, block
 
 
