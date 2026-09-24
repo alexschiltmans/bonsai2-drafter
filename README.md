@@ -38,8 +38,12 @@ scripts/serve-bonsai2.sh
 This builds the pinned environment in `.venv` with uv, fetches the target and the drafter at
 pinned revisions, and serves an OpenAI-compatible API at `http://127.0.0.1:8088/v1`, with the
 settings the measurements used. Any model name is accepted in requests. It needs macOS on Apple
-Silicon, uv and about 13 GB of disk; long contexts want a 48 GB machine. `BONSAI2_DRAFTER` points
-it at another drafter (a Hub repo or a local directory), and `BONSAI2_PORT` moves the port.
+Silicon, uv and about 13 GB of disk; long contexts want a 48 GB machine.
+
+Environment variables override the defaults. `BONSAI2_DRAFTER` points it at another drafter (a
+Hub repo or a local directory) and `BONSAI2_DRAFTER_REVISION` pins that repo's revision.
+Without one, the default drafter keeps its pinned revision and any other repo is fetched at
+`main`. `BONSAI2_HOST` and `BONSAI2_PORT` move the address, and `BONSAI2_VENV` the environment.
 
 `bin/mlx-dspark-patched` is mlx-dspark with this repository's patches installed first:
 
