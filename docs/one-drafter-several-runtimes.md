@@ -1,12 +1,12 @@
 # One drafter, several runtimes, two methods
 
-I fine-tuned a DFlash 2 drafter for PrismML's Ternary-Bonsai-2-27B on one Mac. It's called ft5,
-and it drops in wherever z-lab's stock drafter does. On the runtime I trained it for, it raises
+I fine-tuned a DFlash 2 drafter for PrismML's Ternary-Bonsai-2-27B on one Mac. It's called ft5, and
+it drops in wherever z-lab's stock drafter does. On the runtime I trained it for, it raises
 acceptance on general chat by 9.49% and greedy decode speed by 15.3%. On a second runtime that
 shares none of that code, the acceptance gain is 5.01%. An independent fine-tune by ProCreations,
 measured the same way, accepts more than ft5 on general chat and matches it on code. On the Metal
 path of PrismML's llama.cpp fork, at the head I tested, no DFlash 2 drafter can speed up the
-target, and MTP can't either.
+target, and MTP can't either. On the same Mac, though, MTPLX's MTP stack is faster than mine.
 
 ## What was built
 
@@ -134,6 +134,8 @@ both. On dflash-mlx-bonsai2, where every arm ran under `BENCHMARK.md`, that mean
 the deciding rule. The mlx-dspark row pairs it with reports from before the protocol, so it is a
 matched comparison rather than a protocol result. On code, the suite ft5 was selected on, the two
 are level. None of my evaluation prompts appears in the training corpus ProCreations publishes.
+Decode speed tells the other half: on the protocol's five code prompts, ft5 decodes faster on
+mlx-dspark (ProCreations / ft5 0.949 greedy, 0.982 sampled), at the same cost per round.
 
 Three independent fine-tunes against the ternary target beat the stock drafter on both runtimes,
 and mine is not the best of them on general chat. That the gain reproduces across trainers and
@@ -221,11 +223,21 @@ with ft5 (the last two are the publication battery's greedy arms). Without the k
 drafter was slower than no drafter at all; ft5's gain is measured on top of what the kernel made
 possible.
 
+MTPLX makes the same point from the other side. It runs the target with Qwen3.8's own MTP head
+on kernels of its own, and on this M4 Pro it decoded 38.89 tok/s end to end greedy against 28.13
+for mlx-dspark with ft5, and 37.44 against 25.68 at the target's sampling, in ABBA order under
+an amendment to `BENCHMARK.md` registered before the runs. It commits fewer tokens a round than
+ft5 (1.80 against 3.68) but its rounds cost a third as much (44 against 128 ms). The texts differ
+between the two stacks, since each renders the prompt its own way, so this compares stacks, not
+drafters. The next lever for DFlash 2 on a Mac is the price of a verify row, not the drafter.
+
 ## Moving it between runtimes
 
 ft5 has the same 81 tensor names, dtypes and shapes as `z-lab/Qwen3.8-27B-DFlash2`, and the same
 `config.json`; only the weight values differ. Anything that loads the stock drafter should load
-ft5. Beyond the two runtimes above, vLLM, SGLang and the rest are untested.
+ft5. Beyond the two runtimes above, vLLM, SGLang and the rest are untested. oMLX loads the
+target but refuses DFlash 2 for it; with a one-line routing change ft5 drafts there without
+changing the output, but about four times slower than oMLX without a drafter.
 
 The snag is the selector's two codebooks, which circulate under three conventions:
 
