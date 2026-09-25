@@ -41,11 +41,11 @@ both spellings, the renamed and native copies ran the same loop (`../second-runt
 
 ## Claims and how to reproduce them
 
-The card: r3 "accepted less on every suite … On general chat at 200 tokens it was … **4.63%
-lower (−6.39% to −2.72%) on mlx-dspark**", and "At the target's published sampling (a screen):
-**24.07 tok/s stock against 26.30 tok/s ft5, +9.3%**. The legs ran 23.71, 26.43, 26.17 and
-24.43, every request at cap 7 … per-rep rates 22.5–27.1 stock, 25.0–27.1 ft5". `BENCHMARK.md`'s
-measurement 3, run later, puts that gain at +6.73% (`../throughput-ft5-procreations/records-stock/`).
+The claims: on mlx-dspark, r3 accepted **4.63% less than ft5 (−6.39% to −2.72%)** on general chat
+at 200 tokens; and at the target's published sampling the screen measured **24.07 tok/s stock
+against 26.30 tok/s ft5, +9.3%**, legs 23.71, 26.43, 26.17 and 24.43, every request at cap 7,
+per-rep rates 22.5–27.1 stock, 25.0–27.1 ft5. `BENCHMARK.md`'s measurement 3, run later, puts that
+gain at +6.73% (`../throughput-ft5-procreations/records-stock/`), and the card quotes that instead.
 
 The screen paired r3 with ft5's reports from the 4-bit equivalence run (the bf16 "source" arm,
 the same drafter as the battery, with identical tokens a round) and with the battery's stock
